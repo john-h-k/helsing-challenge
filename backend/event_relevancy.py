@@ -1,27 +1,57 @@
 import json
-from openai import OpenAI
-
-client = OpenAI(
-    api_key="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"
-)
 import os
 from concurrent.futures import ThreadPoolExecutor
 import concurrent.futures
 from typing import List, Dict, Any
-
-# Set your OpenAI API key from an environment variable
+from enum import IntEnum
 
 from pydantic import BaseModel
 from openai import OpenAI
 
+# Initialize the OpenAI client
+client = OpenAI(
+    api_key="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"
+)
 
+
+# Define the Score enum.
+class Score(IntEnum):
+    not_relevant = 0
+    somewhat_relevant = 1
+    relevant = 2
+    very_relevant = 3
+
+
+# Mapping from the string score (returned by the API) to our Score enum.
+score_mapping = {
+    "not relevant": Score.not_relevant,
+    "somewhat relevant": Score.somewhat_relevant,
+    "relevant": Score.relevant,
+    "very relevant": Score.very_relevant,
+}
+
+
+def score_to_string(score: Score) -> str:
+    """
+    Converts a numeric Score to its string representation.
+    """
+    for key, val in score_mapping.items():
+        if val == score:
+            return key
+    return "not relevant"
+
+
+# Pydantic models for the response expected from the OpenAI API.
 class Event(BaseModel):
     id: str
-    relevance_score: int
+    relevancy_justification: str
+    relevance_score: str
 
 
+# Because the LLM is instructed to return a JSON array (not an object with a key),
+# we define a pydantic model with an attribute "events" to represent a list of Event.
 class ListOfRelevantEvents(BaseModel):
-    events: list[Event]
+    events: List[Event]
 
 
 def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
@@ -36,13 +66,11 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
     }
     events = []
     for code in country_codes:
-        code_upper = code
-        if code_upper in mapping:
-            filename = mapping[code_upper]
+        if code in mapping:
+            filename = mapping[code]
             try:
                 with open(filename, "r") as f:
                     file_events = json.load(f)
-                    # Optionally, filter events to ensure the region_codes list contains the code.
                     for event in file_events:
                         events.append(event)
             except Exception as e:
@@ -55,33 +83,33 @@ def batch_events(
 ) -> List[List[Dict[str, Any]]]:
     """
     Split the events list into batches of the specified size.
+    Only include events that have a "body" field.
     """
+    valid_events = [event for event in events if event.get("body")]
     return [
-        events[i : i + batch_size]
-        for i in range(0, len(events), batch_size)
-        if events[i]["body"]
+        valid_events[i : i + batch_size]
+        for i in range(0, len(valid_events), batch_size)
     ]
 
 
 def assess_events_relevancy_batch(
     events_batch: List[Dict[str, Any]], company_context: str, query: str
-) -> Dict[str, float]:
+) -> Dict[str, Score]:
     """
-    Takes a batch of events and uses a single API call to assess the relevancy for each.
-    Returns a mapping from event_id to its relevance score.
+    Takes a batch of events and uses a single API call to assess their relevancy.
+    Returns a mapping from event id to its numeric Score.
     """
-    # Build the prompt with summaries of each event.
     prompt = (
         "For each of the following events, evaluate its relevance to the company's strategic decision-making "
-        "regarding expansion, particularly in the context of regulatory risk. Use the company context and query "
-        "provided to determine a relevance score between 1 (not relevant) and 10 (extremely relevant). "
+        "particularly in the context of regulatory risk. Use the company context and query "
+        "provided to determine a relevance score as one of the following strings: 'not relevant', 'somewhat relevant', "
+        "'relevant', or 'very relevant'.\n"
         "Return only valid JSON as an array of objects in the following format:\n"
-        '[{"event_id": "E123", "relevance_score": 8.5}, ...]\n\n'
+        '[{"id": "E123", "relevancy_justification": "concise description of why this is relevant or not" "relevance_score": "relevant"}, ...]\n\n'
         f'Company Context: "{company_context}"\n'
-        f'Query: "{query}"\n\n'
+        f'Company Query: "{query}"\n\n'
         "Events:\n"
     )
-
     # Enumerate each event in the batch with its key details.
     for idx, event in enumerate(events_batch, start=1):
         prompt += (
@@ -97,27 +125,29 @@ def assess_events_relevancy_batch(
             messages=[
                 {
                     "role": "system",
-                    "content": "You are an expert in assessing regulatory risk relevance, accounting for straightforward regulatory and supply chain risks, as well as more hidden tail risks. You must assess the relevance of every event.",
+                    "content": (
+                        "You are an expert in assessing regulatory risk relevance, accounting for straightforward regulatory "
+                        "and supply chain risks, as well as more hidden tail risks. You must assess the relevance of every event."
+                    ),
                 },
                 {"role": "user", "content": prompt},
             ],
             temperature=0,
             response_format=ListOfRelevantEvents,
         )
-        response_content = response.choices[0].message.content.strip()
-        # Parse the response JSON
-        scores_list = json.loads(response_content)
-        # Build a mapping from event_id to relevance_score
+        # Get the raw text from the message content and then parse it using our Pydantic model.
+        raw_content = response.choices[0].message.content.strip()
+        parsed_response = ListOfRelevantEvents.parse_raw(raw_content)
         scores = {}
-        for item in scores_list["events"]:
-            event_id = item["id"]
-            score = item["relevance_score"]
-            if event_id and isinstance(score, (int, float)):
-                scores[event_id] = float(score)
+        for item in parsed_response.events:
+            event_id = item.id
+            score_str = item.relevance_score.strip().lower()
+            justification = item.relevancy_justification.strip()
+            numeric_score = score_mapping.get(score_str, Score.not_relevant)
+            scores[event_id] = (numeric_score, justification)
         return scores
     except Exception as e:
         print(f"Error in batched relevancy assessment: {e}")
-        # If an error occurs, return an empty mapping.
         return {}
 
 
@@ -126,17 +156,14 @@ def get_relevant_events(
 ) -> Dict[str, Any]:
     """
     Returns a dictionary with:
-      - "relevant_event_ids": an ordered list of event IDs (by relevancy),
+      - "relevant_event_ids": an ordered list of event IDs (by descending relevancy),
       - "events": the full JSON objects for the top events.
-    This function batches events to reduce the number of API calls.
     """
     events = load_events(country_codes)
     if not events:
         return {"relevant_event_ids": [], "events": []}
 
-    # Batch events (you can adjust batch_size as needed)
-    batches = batch_events(events, batch_size=100)
-    # Create a mapping for all events' scores.
+    batches = batch_events(events, batch_size=50)
     all_scores = {}
 
     with ThreadPoolExecutor() as executor:
@@ -147,20 +174,28 @@ def get_relevant_events(
                     lambda: assess_events_relevancy_batch(batch, company_context, query)
                 )
             )
-
-        for n, future in enumerate(concurrent.futures.as_completed(futures), start=1):
-            print(f"Finished batch {n}/{len(futures)}")
+        for future in concurrent.futures.as_completed(futures):
             batch_scores = future.result()
             all_scores.update(batch_scores)
 
-    # Assign scores to events (default to 0 if not scored)
+    # Attach the numeric score to each event.
     for event in events:
-        event_id = event.get("event_id", "")
-        event["relevancy_score"] = all_scores.get(event_id, 0.0)
+        event_id = event.get("id", "")
+        numeric_score, justification = all_scores.get(
+            event_id, (Score.not_relevant, None)
+        )
+        event["numeric_score"] = numeric_score
+        event["justification"] = justification
 
-    # Sort events by score in descending order
-    sorted_events = sorted(events, key=lambda x: x["relevancy_score"])
+    # Sort events by the numeric score in descending order.
+    sorted_events = sorted(events, key=lambda x: x["numeric_score"], reverse=True)
     selected_events = sorted_events[:max_events]
+
+    # Convert numeric scores back into string values for output.
+    for event in selected_events:
+        numeric_score = event.pop("numeric_score")
+        event["relevancy_score"] = score_to_string(numeric_score)
+
     result = {
         "relevant_event_ids": [e["id"] for e in selected_events],
         "events": selected_events,
@@ -169,8 +204,7 @@ def get_relevant_events(
 
 
 if __name__ == "__main__":
-    import json
-
+    # Example test using a local JSON file for company context.
     a = json.loads(open("../company_site/arrow.json").read())
     relevant_events = get_relevant_events(
         "Name: " + a["name"] + "\n\nCompany Context: " + a["summary"],
@@ -178,3 +212,4 @@ if __name__ == "__main__":
         "Arrow is expanding its IT distribution businesses and is concerned about any legal risks arising",
         10,
     )
+    print(json.dumps(relevant_events, indent=2))
