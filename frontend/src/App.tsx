@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Globe from "globe.gl";
+import mapboxgl from "mapbox-gl";
 import { ThemeProvider, createTheme } from "@mui/material";
 import styled from "@emotion/styled";
 import Navbar from "./components/Navbar";
@@ -9,6 +9,7 @@ import EventPopup from "./components/EventPopup";
 import AnalyticsTab from "./components/analytics/AnalyticsTab";
 import { generateMockEvents } from "./utils/mockDataGenerator";
 import { Event } from "./types/Event";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 const Container = styled.div`
   height: 100vh;
@@ -29,113 +30,237 @@ const darkTheme = createTheme({
   },
 });
 
-const Dashboard = ({ events, globeRef, selectedEvent, setSelectedEvent, popupPosition, setPopupPosition, countries }) => {
+const MAPBOX_TOKEN =
+  "pk.eyJ1IjoibmV1cm9kaXZlcmdlbnRzZXJpZXMiLCJhIjoiY20zenhkeWkyMmF1ejJsc2Z6dTRlaXhlYiJ9.h6MGz9q6p0T65MQK7A91lg";
+mapboxgl.accessToken = MAPBOX_TOKEN;
+
+const Dashboard = ({
+  events,
+  mapContainer,
+  selectedEvent,
+  setSelectedEvent,
+}) => {
+  const map = useRef<mapboxgl.Map | null>(null);
+  const markers = useRef<mapboxgl.Marker[]>([]);
+  const popup = useRef<mapboxgl.Popup | null>(null);
+  const hoveredMarker = useRef<string | null>(null);
+
   useEffect(() => {
-    if (!globeRef.current) return;
+    if (!mapContainer.current) return;
 
-    const globe = Globe()
-      .globeImageUrl(
-        "//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-      )
-      // Points configuration
-      .pointsData(events)
-      .pointLat((d) => (d as Event).latitude)
-      .pointLng((d) => (d as Event).longitude)
-      .pointColor((d) => {
-        const event = d as Event;
-        return event.severity === "high"
-          ? "rgba(255, 68, 68, 0.8)"
-          : event.severity === "medium"
-          ? "rgba(255, 170, 0, 0.8)"
-          : "rgba(0, 170, 0, 0.8)";
-      })
-      .pointAltitude((d) => {
-        const event = d as Event;
-        const timeDiff = Math.abs(
-          event.date.getTime() - (selectedEvent?.date.getTime() || 0)
-        );
-        return timeDiff < 86400000 ? 0.1 : 0.01; // Elevate active events
-      })
-      .pointRadius((d) => {
-        const event = d as Event;
-        const timeDiff = Math.abs(
-          event.date.getTime() - (selectedEvent?.date.getTime() || 0)
-        );
-        return timeDiff < 86400000 ? 0.5 : 0.3; // Larger radius for active events
-      })
-      .pointResolution(64)
-      // Polygon (country) configuration
-      .polygonsData(countries)
-      .polygonCapColor(() => "rgba(255, 255, 255, 0.03)")
-      .polygonSideColor(() => "rgba(255, 255, 255, 0.05)")
-      .polygonStrokeColor(() => "rgba(255, 255, 255, 0.1)")
-      .polygonAltitude(0.01)
-      .polygonsTransitionDuration(1000)
-      // Atmosphere configuration
-      .atmosphereColor("rgb(30,30,50)")
-      .atmosphereAltitude(0.1)
-      // Interaction handlers
-      .onPointClick((point, event) => {
-        const evt = point as Event;
-        setSelectedEvent(evt);
-        setPopupPosition({ x: event.x, y: event.y });
-      })
-      .polygonLabel(
-        ({ properties: d }) => `
-        <div style="
-          background-color: rgba(0, 0, 0, 0.75);
-          color: white;
-          padding: 8px;
-          border-radius: 4px;
-          font-size: 12px;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-        ">
-          ${d.ADMIN} (${d.ISO_A2})
-        </div>
-      `
-      );
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/mapbox/dark-v11",
+      center: [0, 0],
+      zoom: 1.5,
+      projection: "globe",
+    });
 
-    globe(globeRef.current);
+    map.current.on("style.load", () => {
+      map.current!.setFog({
+        color: "rgb(12, 12, 12)",
+        "high-color": "rgb(16, 16, 16)",
+        "horizon-blend": 0.2,
+        "space-color": "rgb(8, 8, 8)",
+        "star-intensity": 0.15,
+      });
+    });
 
-    // Handle window resize
-    const handleResize = () => {
-      globe.width(window.innerWidth);
-      globe.height(window.innerHeight - 64);
+    return () => {
+      markers.current.forEach((marker) => marker.remove());
+      if (popup.current) popup.current.remove();
+      map.current?.remove();
     };
+  }, []);
 
-    window.addEventListener("resize", handleResize);
-    handleResize();
+  // Update markers when events or selection changes
+  useEffect(() => {
+    if (!map.current) return;
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, [events, countries, selectedEvent]);
+    // Clear existing markers and popup
+    markers.current.forEach((marker) => marker.remove());
+    markers.current = [];
+
+    events.forEach((event) => {
+      const markerEl = document.createElement("div");
+      markerEl.className = "group";
+
+      const dot = document.createElement("div");
+      dot.className = `w-3 h-3 rounded-full transition-all duration-200
+        ${event === selectedEvent ? "scale-150 shadow-lg" : "scale-100"}
+        ${
+          event.severity === "high"
+            ? "bg-red-500"
+            : event.severity === "medium"
+            ? "bg-amber-500"
+            : "bg-emerald-500"
+        }`;
+
+      const glow = document.createElement("div");
+      glow.className = `absolute -inset-2 rounded-full opacity-30 blur transition-opacity
+        ${
+          event === selectedEvent
+            ? "opacity-50"
+            : "opacity-0 group-hover:opacity-30"
+        }`;
+      glow.style.backgroundColor =
+        event.severity === "high"
+          ? "#ef4444"
+          : event.severity === "medium"
+          ? "#f59e0b"
+          : "#10b981";
+
+      markerEl.appendChild(glow);
+      markerEl.appendChild(dot);
+
+      const marker = new mapboxgl.Marker({
+        element: markerEl,
+        anchor: "center",
+      })
+        .setLngLat([event.longitude, event.latitude])
+        .addTo(map.current);
+
+      // Reintroduce marker click to show popup
+      markerEl.addEventListener("click", () => {
+        if (popup.current) popup.current.remove();
+        setSelectedEvent(event);
+
+        const popupContent = `
+          <div class="p-4 min-w-[300px]">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-sm font-medium text-white/90">${event.title}</h3>
+              <span class="px-2 py-1 text-[11px] rounded-full font-medium
+                ${event.severity === 'high' 
+                  ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
+                  event.severity === 'medium' 
+                  ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
+                  'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                }">
+                ${event.severity.toUpperCase()}
+              </span>
+            </div>
+            <p class="text-sm text-white/70 mb-4 leading-relaxed">${event.description}</p>
+            <div class="grid grid-cols-2 gap-3 text-xs">
+              <div class="p-2 rounded-lg bg-white/5 border border-white/10">
+                <span class="block text-white/50 mb-1">Source</span>
+                <span class="text-white/90">${event.source}</span>
+              </div>
+              <div class="p-2 rounded-lg bg-white/5 border border-white/10">
+                <span class="block text-white/50 mb-1">Location</span>
+                <span class="text-white/90">${event.location}</span>
+              </div>
+            </div>
+          </div>
+        `;
+
+        popup.current = new mapboxgl.Popup({
+          closeButton: true,
+          closeOnClick: false,
+          className: 'dark-theme-popup',
+          maxWidth: '400px'
+        })
+          .setLngLat([event.longitude, event.latitude])
+          .setHTML(popupContent)
+          .addTo(map.current!);
+
+        map.current?.flyTo({
+          center: [event.longitude, event.latitude],
+          zoom: 4,
+          duration: 1500,
+        });
+      });
+
+      // Hover effect
+      markerEl.addEventListener("mouseenter", () => {
+        hoveredMarker.current = event.id;
+        dot.style.transform = "scale(1.5)";
+        glow.style.opacity = "0.5";
+      });
+
+      markerEl.addEventListener("mouseleave", () => {
+        if (event !== selectedEvent) {
+          dot.style.transform = "scale(1)";
+          glow.style.opacity = "0";
+        }
+        hoveredMarker.current = null;
+      });
+
+      markers.current.push(marker);
+    });
+  }, [events, selectedEvent]);
 
   return (
     <>
-      <GlobeContainer ref={globeRef} />
+      <div ref={mapContainer} className="h-full" />
       <Timeline
         events={events}
+        selectedEvent={selectedEvent}
         onEventClick={(event) => {
           setSelectedEvent(event);
-          const lat = event.latitude;
-          const lng = event.longitude;
-          setPopupPosition({
-            x: ((lng + 180) * window.innerWidth) / 360,
-            y: ((-lat + 90) * (window.innerHeight - 64)) / 180,
-          });
+          // Fly to event location and show popup
+          if (map.current) {
+            map.current.flyTo({
+              center: [event.longitude, event.latitude],
+              zoom: 4,
+              duration: 1500,
+            });
+            
+            // Trigger click on corresponding marker
+            const marker = markers.current.find(m => {
+              const [lng, lat] = m.getLngLat().toArray();
+              return lng === event.longitude && lat === event.latitude;
+            });
+            // Manually create and show popup here (instead of marker click listener)
+            if (marker && popup.current) popup.current.remove();
+            if (marker) {
+              const popupContent = `
+              <div class="p-4 min-w-[300px]">
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-sm font-medium text-white/90">${event.title}</h3>
+                  <span class="px-2 py-1 text-[11px] rounded-full font-medium
+                    ${event.severity === 'high' 
+                      ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
+                      event.severity === 'medium' 
+                      ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
+                      'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                    }">
+                    ${event.severity.toUpperCase()}
+                  </span>
+                </div>
+                <p class="text-sm text-white/70 mb-4 leading-relaxed">${event.description}</p>
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                  <div class="p-2 rounded-lg bg-white/5 border border-white/10">
+                    <span class="block text-white/50 mb-1">Source</span>
+                    <span class="text-white/90">${event.source}</span>
+                  </div>
+                  <div class="p-2 rounded-lg bg-white/5 border border-white/10">
+                    <span class="block text-white/50 mb-1">Location</span>
+                    <span class="text-white/90">${event.location}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+              popup.current = new mapboxgl.Popup({
+                closeButton: true,
+                closeOnClick: false,
+                className: 'dark-theme-popup',
+                maxWidth: '400px'
+              })
+                .setLngLat([event.longitude, event.latitude])
+                .setHTML(popupContent)
+                .addTo(map.current!);
+            }
+          }
         }}
       />
-      {selectedEvent && (
-        <EventPopup event={selectedEvent} position={popupPosition} />
-      )}
     </>
   );
 };
 
 function App() {
-  const globeRef = useRef<HTMLDivElement>(null);
+  const mapContainer = useRef<HTMLDivElement>(null);
   const [events] = useState<Event[]>(() => generateMockEvents(100));
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const [countries, setCountries] = useState([]);
 
   useEffect(() => {
@@ -153,39 +278,33 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route 
-            path="/dashboard" 
+          <Route
+            path="/dashboard"
             element={
-              <Dashboard 
+              <Dashboard
                 events={events}
-                globeRef={globeRef}
+                mapContainer={mapContainer}
                 selectedEvent={selectedEvent}
                 setSelectedEvent={setSelectedEvent}
-                popupPosition={popupPosition}
-                setPopupPosition={setPopupPosition}
-                countries={countries}
               />
-            } 
+            }
           />
-          <Route 
-            path="/analytics" 
-            element={<AnalyticsTab events={events} />} 
-          />
-          <Route 
-            path="/reports" 
+          <Route path="/analytics" element={<AnalyticsTab events={events} />} />
+          <Route
+            path="/reports"
             element={
               <div className="h-[calc(100vh-64px)] flex items-center justify-center text-white/50">
                 Reports Coming Soon
               </div>
-            } 
+            }
           />
-          <Route 
-            path="/settings" 
+          <Route
+            path="/settings"
             element={
               <div className="h-[calc(100vh-64px)] flex items-center justify-center text-white/50">
                 Settings Coming Soon
               </div>
-            } 
+            }
           />
         </Routes>
       </Container>

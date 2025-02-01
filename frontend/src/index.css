@@ -33,11 +33,19 @@ code {
 
 /* Mapbox popup customization */
 .mapboxgl-popup-content {
-  @apply !p-0 !rounded-lg;
+  @apply !bg-gray-900/95 !backdrop-blur-md !p-0 !rounded-lg !border !border-white/10;
+  color: white;
+}
+
+/* Make the popup tip match the popup background */
+.mapboxgl-popup-tip {
+  @apply !bg-gray-900/95;
+  border: none !important;
 }
 
 .mapboxgl-popup-close-button {
   @apply !text-white/70 !p-2 !text-lg hover:!text-white/90 !transition-colors;
+  @apply outline-none focus:outline-none;
 }
 
 .mapboxgl-ctrl-group {
