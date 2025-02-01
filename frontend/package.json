@@ -4,11 +4,13 @@
   "private": true,
   "dependencies": {
     "@emotion/styled": "^11.14.0",
+    "@mapbox/mapbox-gl-draw": "^1.5.0",
     "@mui/icons-material": "^6.4.2",
     "@mui/material": "^6.4.2",
     "@reactflow/node-resizer": "^2.2.14",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
+    "@turf/turf": "^7.2.0",
     "cra-template-typescript": "1.2.0",
     "date-fns": "^4.1.0",
     "globe.gl": "^2.39.2",
