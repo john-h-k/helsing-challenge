@@ -157,6 +157,25 @@ const generateRandomEvent = (index: number): Event => {
   };
 };
 
-export const generateMockEvents = (count: number): Event[] => {
-  return Array.from({ length: count }, (_, i) => generateRandomEvent(i));
-};
+export async function generateMockEvents(count: number): Promise<Event[]> {
+  // Simulate async delay (e.g., mimicking API call)
+  await new Promise((resolve) => setTimeout(resolve, 100));
+
+  const events: Event[] = [];
+  for (let i = 0; i < count; i++) {
+    events.push({
+      id: String(i),
+      title: `Event ${i}`,
+      description: `This is the description for event ${i}.`,
+      date: addDays(subDays(new Date(), 30), i), // Added date property
+      severity: i % 3 === 0 ? "high" : i % 3 === 1 ? "medium" : "low",
+      latitude: (Math.random() - 0.5) * 180,
+      longitude: (Math.random() - 0.5) * 360,
+      source: "system",
+      location: "Country Name",
+      objects: [],
+      decisions: [],
+    });
+  }
+  return events;
+}

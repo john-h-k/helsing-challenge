@@ -259,9 +259,17 @@ const Dashboard = ({
 
 function App() {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const [events] = useState<Event[]>(() => generateMockEvents(100));
+  // Updated state initialization for asynchronous events load
+  const [events, setEvents] = useState<Event[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [countries, setCountries] = useState([]);
+
+  // Fetch events asynchronously
+  useEffect(() => {
+    generateMockEvents(100).then((fetchedEvents) => {
+      setEvents(fetchedEvents);
+    });
+  }, []);
 
   useEffect(() => {
     // Fetch country data
