@@ -23,5 +23,3 @@ RUN uv sync --frozen
 # expose port
 EXPOSE 8000
 
-# default command
-CMD ["uv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
