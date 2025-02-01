@@ -1,11 +1,11 @@
 from openai import OpenAI
 
-client = OpenAI()
+client = OpenAI(api_key="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")
 from collections import defaultdict
 import json
 
 
-def generate_effects(policy_order, model="o1-mini", num_effects=10):
+def generate_effects(policy_order, model="o1-mini", num_effects=3):
     """
     Uses OpenAI's model to generate structured effects based on a policy order.
     """
@@ -32,7 +32,8 @@ def generate_effects(policy_order, model="o1-mini", num_effects=10):
     """
 
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="o3-mini",
+        reasoning_effort="high",
         messages=[
             {"role": "developer", "content": system_prompt},
             {
@@ -40,7 +41,7 @@ def generate_effects(policy_order, model="o1-mini", num_effects=10):
                 "content": user_prompt,
             },
         ],
-        # response_format={"type": "json_object"},
+        response_format={"type": "json_object"},
     )
 
     content = response.choices[0].message.content
@@ -78,7 +79,7 @@ def print_tree(tree, node="root", level=0):
     if node in tree:
         for effect in tree[node]:
             print("  " * level + f"- {effect['name']} (Order: {effect['order']})")
-            print("  " * level + f"    \"{effect["description"]}\"")
+            print("  " * level + f"    \"{effect['description']}\"")
 
             print_tree(tree, effect["name"], level + 1)
 
