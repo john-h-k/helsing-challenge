@@ -6,6 +6,7 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.4.2",
     "@mui/material": "^6.4.2",
+    "@reactflow/node-resizer": "^2.2.14",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "cra-template-typescript": "1.2.0",
@@ -15,6 +16,7 @@
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.5",
     "react-scripts": "5.0.1",
+    "reactflow": "^11.11.4",
     "web-vitals": "^4.2.4"
   },
   "scripts": {

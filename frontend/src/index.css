@@ -17,3 +17,33 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* React Flow customizations */
+.react-flow__node {
+  @apply backdrop-blur-sm;
+}
+
+.react-flow__controls button {
+  @apply bg-gray-900/50 border-white/5 text-white/70 hover:bg-white/10 !important;
+}
+
+.react-flow__attribution {
+  @apply hidden;
+}
+
+/* Mapbox popup customization */
+.mapboxgl-popup-content {
+  @apply !p-0 !rounded-lg;
+}
+
+.mapboxgl-popup-close-button {
+  @apply !text-white/70 !p-2 !text-lg hover:!text-white/90 !transition-colors;
+}
+
+.mapboxgl-ctrl-group {
+  @apply !bg-gray-900/90 !backdrop-blur-sm !border-white/10;
+}
+
+.mapboxgl-ctrl-group button {
+  @apply !text-white/70 hover:!text-white/90 !transition-colors;
+}
