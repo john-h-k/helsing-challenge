@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+from rag import LlamaIndexRetriever
+
 app = FastAPI()
+
+retriever = LlamaIndexRetriever()
 
 
 # Define a data model for the input using Pydantic
@@ -10,8 +14,7 @@ class TextInput(BaseModel):
 
 
 def retrieve_context(text: str) -> str:
-    # For demonstration, we just prepend a message to the input text.
-    return {1: "", 2: "", 3:""}
+    retriever.retrieve_context(text)
 
 
 @app.post("/retrieve_context")
