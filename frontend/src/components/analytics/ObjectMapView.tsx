@@ -7,6 +7,7 @@ const MAPBOX_TOKEN =
   "pk.eyJ1IjoibmV1cm9kaXZlcmdlbnRzZXJpZXMiLCJhIjoiY20zenhkeWkyMmF1ejJsc2Z6dTRlaXhlYiJ9.h6MGz9q6p0T65MQK7A91lg"; // Replace with your token
 
 interface ObjectMapViewProps {
+    
   objects: GeoObject[];
   onClose: () => void;
 }
