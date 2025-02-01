@@ -4,14 +4,13 @@ from pydantic import BaseModel
 
 
 class Article(BaseModel):
-    title: str
-    description: str
-    author: str
-    published_date: str
-    content: str
-    url: str
-    main_image_url: Optional[str]
-    source: str
+    uuid: int
+    event_name: str
+    blurb: str
+    region_codes: str
+    body: str
+    date: str
+    metadata: str
 
 
 class ArticleMetadata(BaseModel):
