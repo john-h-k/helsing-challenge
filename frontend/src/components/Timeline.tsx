@@ -1,107 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import styled from '@emotion/styled';
 import { Event } from '../types/Event';
 import { format } from 'date-fns';
-
-const TimelineContainer = styled.div`
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
-  padding: 20px;
-  border-radius: 20px;
-  width: 90%;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-`;
-
-const Controls = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 16px;
-`;
-
-const PlayButton = styled.button<{ isPlaying: boolean }>`
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: white;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
-  }
-
-  svg {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
-  }
-`;
-
-const TimelineTrack = styled.div`
-  position: relative;
-  height: 4px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.05) 100%);
-  border-radius: 2px;
-  margin: 20px 0;
-`;
-
-const Progress = styled.div<{ width: number }>`
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: ${props => props.width}%;
-  background: linear-gradient(90deg, rgba(64,156,255,0.5), rgba(64,156,255,0.8));
-  border-radius: 2px;
-  transition: width 0.3s ease;
-`;
-
-const EventDot = styled.div<{ position: number; severity: string; active: boolean }>`
-  position: absolute;
-  left: ${props => props.position}%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(${props => props.active ? 1.5 : 1});
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: ${props => 
-    props.severity === 'high' ? 'rgba(255, 68, 68, 0.9)' : 
-    props.severity === 'medium' ? 'rgba(255, 170, 0, 0.9)' : 
-    'rgba(0, 170, 0, 0.9)'};
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 20px ${props => 
-    props.severity === 'high' ? 'rgba(255, 68, 68, 0.5)' : 
-    props.severity === 'medium' ? 'rgba(255, 170, 0, 0.5)' : 
-    'rgba(0, 170, 0, 0.5)'};
-  z-index: ${props => props.active ? 2 : 1};
-
-  &:hover {
-    transform: translate(-50%, -50%) scale(1.5);
-  }
-`;
-
-const DateDisplay = styled.div`
-  text-align: center;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-bottom: 12px;
-  letter-spacing: 0.5px;
-`;
 
 interface TimelineProps {
   events: Event[];
@@ -135,14 +34,14 @@ const Timeline: React.FC<TimelineProps> = ({ events, onEventClick }) => {
     if (isPlaying) {
       intervalId = setInterval(() => {
         setCurrentTime(prevTime => {
-          const newTime = new Date(prevTime.getTime() + 86400000); // Add one day
+          const newTime = new Date(prevTime.getTime() + 86400000);
           if (newTime.getTime() > timeRange.max) {
             setIsPlaying(false);
             return new Date(timeRange.min);
           }
           return newTime;
         });
-      }, 100); // Speed of playback
+      }, 100);
     }
 
     return () => clearInterval(intervalId);
@@ -153,40 +52,85 @@ const Timeline: React.FC<TimelineProps> = ({ events, onEventClick }) => {
   }, [currentTime, getPosition]);
 
   return (
-    <TimelineContainer>
-      <DateDisplay>
-        {format(currentTime, 'MMMM d, yyyy')}
-      </DateDisplay>
+    <>
+      {/* Background gradient overlay */}
+      <div className="pointer-events-none fixed bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/80 to-transparent" />
       
-      <Controls>
-        <PlayButton 
-          isPlaying={isPlaying} 
-          onClick={() => setIsPlaying(!isPlaying)}
-        >
-          {isPlaying ? (
-            <svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-          ) : (
-            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          )}
-        </PlayButton>
-      </Controls>
+      {/* Timeline container */}
+      <div className="fixed bottom-0 left-0 right-0 pb-6 pt-12 px-8">
+        {/* Main content */}
+        <div className="max-w-7xl mx-auto">
+          {/* Date and Controls row */}
+          <div className="flex items-center justify-between mb-6">
+            {/* Date Display */}
+            <h3 className="text-lg font-medium text-white/90">
+              {format(currentTime, 'MMMM d, yyyy')}
+            </h3>
+            
+            {/* Controls */}
+            <button 
+              onClick={() => setIsPlaying(!isPlaying)}
+              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm
+                transition-all duration-200 flex items-center justify-center group"
+            >
+              {isPlaying ? (
+                <svg className="w-4 h-4 text-white/90" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                </svg>
+              ) : (
+                <svg className="w-4 h-4 text-white/90" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              )}
+            </button>
+          </div>
 
-      <TimelineTrack>
-        <Progress width={progress} />
-        {events.map(event => (
-          <EventDot
-            key={event.id}
-            position={getPosition(event.date)}
-            severity={event.severity}
-            active={isEventActive(event.date)}
-            onClick={() => {
-              onEventClick(event);
-              setCurrentTime(event.date);
-            }}
-          />
-        ))}
-      </TimelineTrack>
-    </TimelineContainer>
+          {/* Timeline Track */}
+          <div className="relative h-1 bg-white/5 rounded-full">
+            {/* Progress Bar */}
+            <div 
+              className="absolute left-0 top-0 h-full bg-gradient-to-r from-blue-500/60 to-blue-400/60 rounded-full 
+                transition-all duration-300 ease-out backdrop-blur-sm"
+              style={{ width: `${progress}%` }}
+            />
+            
+            {/* Event Dots */}
+            {events.map(event => {
+              const active = isEventActive(event.date);
+              const position = getPosition(event.date);
+              
+              const severityColor = event.severity === 'high' 
+                ? 'bg-red-500/80' 
+                : event.severity === 'medium'
+                  ? 'bg-amber-500/80'
+                  : 'bg-emerald-500/80';
+              
+              const severityGlow = event.severity === 'high'
+                ? 'shadow-red-500/30'
+                : event.severity === 'medium'
+                  ? 'shadow-amber-500/30'
+                  : 'shadow-emerald-500/30';
+
+              return (
+                <button
+                  key={event.id}
+                  onClick={() => {
+                    onEventClick(event);
+                    setCurrentTime(event.date);
+                  }}
+                  className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-2 h-2 rounded-full 
+                    ${severityColor} ${severityGlow}
+                    transition-all duration-300 hover:scale-150 backdrop-blur-sm
+                    ${active ? 'scale-150 shadow-lg z-20' : 'shadow-md z-10'}
+                  `}
+                  style={{ left: `${position}%` }}
+                />
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

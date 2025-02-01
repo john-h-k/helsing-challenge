@@ -18,6 +18,7 @@ const Container = styled.div`
 const GlobeContainer = styled.div`
   height: calc(100vh - 64px);
   width: 100%;
+  padding-bottom: 120px; // Add padding to prevent overlap with timeline
 `;
 
 const darkTheme = createTheme({
@@ -46,8 +47,9 @@ function App() {
     if (!globeRef.current) return;
 
     const globe = Globe()
-      .globeImageUrl("//unpkg.com/three-globe/example/img/earth-dark.jpg")
-      .backgroundImageUrl("//unpkg.com/three-globe/example/img/night-sky.png")
+      .globeImageUrl(
+        "//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+      )
       // Points configuration
       .pointsData(events)
       .pointLat((d) => (d as Event).latitude)
@@ -62,20 +64,24 @@ function App() {
       })
       .pointAltitude((d) => {
         const event = d as Event;
-        const timeDiff = Math.abs(event.date.getTime() - (selectedEvent?.date.getTime() || 0));
+        const timeDiff = Math.abs(
+          event.date.getTime() - (selectedEvent?.date.getTime() || 0)
+        );
         return timeDiff < 86400000 ? 0.1 : 0.01; // Elevate active events
       })
       .pointRadius((d) => {
         const event = d as Event;
-        const timeDiff = Math.abs(event.date.getTime() - (selectedEvent?.date.getTime() || 0));
+        const timeDiff = Math.abs(
+          event.date.getTime() - (selectedEvent?.date.getTime() || 0)
+        );
         return timeDiff < 86400000 ? 0.5 : 0.3; // Larger radius for active events
       })
       .pointResolution(64)
       // Polygon (country) configuration
       .polygonsData(countries)
-      .polygonCapColor(() => "rgba(200, 200, 200, 0.03)")
-      .polygonSideColor(() => "rgba(250, 0, 0, 0.2)")
-      .polygonStrokeColor(() => "rgba(255, 255, 255, 0.2)")
+      .polygonCapColor(() => "rgba(255, 255, 255, 0.03)")
+      .polygonSideColor(() => "rgba(255, 255, 255, 0.05)")
+      .polygonStrokeColor(() => "rgba(255, 255, 255, 0.1)")
       .polygonAltitude(0.01)
       .polygonsTransitionDuration(1000)
       // Atmosphere configuration
