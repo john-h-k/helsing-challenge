@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 import Timeline from "./components/Timeline";
 import EventPopup from "./components/EventPopup";
 import AnalyticsTab from "./components/analytics/AnalyticsTab";
-import { generateMockEvents } from "./utils/mockDataGenerator";
+import { getRealEvents, generateMockEvents } from "./utils/mockDataGenerator";
 import { Event } from "./types/Event";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -848,7 +848,7 @@ function App() {
 
   // Fetch events asynchronously
   useEffect(() => {
-    generateMockEvents(100).then((fetchedEvents) => {
+    getRealEvents(10).then((fetchedEvents) => {
       setEvents(fetchedEvents);
     });
   }, []);

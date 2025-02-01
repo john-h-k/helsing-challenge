@@ -29,10 +29,10 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
     Load events from JSON files corresponding to the provided country codes.
     """
     mapping = {
-        "United States": "policy/us_bills.json",
-        "United Kingdom": "policy/uk_bills.json",
-        "Singapore": "policy/sg_bills.json",
-        "India": "policy/india_bills.json",
+        "United States": "../policy/us_bills.json",
+        "United Kingdom": "../policy/uk_bills.json",
+        "Singapore": "../policy/sg_bills.json",
+        "India": "../policy/india_bills.json",
     }
     events = []
     for code in country_codes:
@@ -147,9 +147,9 @@ def get_relevant_events(
                     lambda: assess_events_relevancy_batch(batch, company_context, query)
                 )
             )
-            print("Finished batch")
 
-        for future in concurrent.futures.as_completed(futures):
+        for n, future in enumerate(concurrent.futures.as_completed(futures), start=1):
+            print(f"Finished batch {n}/{len(futures)}")
             batch_scores = future.result()
             all_scores.update(batch_scores)
 
@@ -171,7 +171,7 @@ def get_relevant_events(
 if __name__ == "__main__":
     import json
 
-    a = json.loads(open("company_site/arrow.json").read())
+    a = json.loads(open("../company_site/arrow.json").read())
     relevant_events = get_relevant_events(
         "Name: " + a["name"] + "\n\nCompany Context: " + a["summary"],
         a["location_list"],

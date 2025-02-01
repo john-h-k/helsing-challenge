@@ -157,6 +157,27 @@ const generateRandomEvent = (index: number): Event => {
   };
 };
 
+export async function getRealEvents(count: number): Promise<Event[]> {
+  let res = await fetch("localhost:5000/events", { method: "POST", body: JSON.stringify({ "context": "lebanase pagers" })});
+  let events = await res.json()
+
+  return events.map(e => ({
+    id: e.id,
+    title: e.title,
+    description: e.description,
+    latitude: 0,
+    longitude: 0,
+    date: e.date,
+    severity: e.severity,
+    // potentialEvents?: PotentialEvent[];
+    // source?: string;
+    // location?: string;
+    // decisions?: Decision[];
+    objects: []
+  }))
+}
+
+
 export async function generateMockEvents(count: number): Promise<Event[]> {
   // Simulate async delay (e.g., mimicking API call)
   await new Promise((resolve) => setTimeout(resolve, 100));
