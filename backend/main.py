@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from backend import effect_gen, decision_gen
+import effect_gen
+import decision_gen
 
 app = FastAPI()
 
