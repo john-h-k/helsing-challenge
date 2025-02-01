@@ -1,4 +1,9 @@
-export type ObjectType = 'military' | 'economic' | 'political' | 'infrastructure' | 'facility';
+export type ObjectType =
+  | "military"
+  | "economic"
+  | "political"
+  | "infrastructure"
+  | "facility";
 
 export interface GeoObject {
   id: string;
@@ -8,17 +13,17 @@ export interface GeoObject {
   latitude: number;
   longitude: number;
   countries: string[];
-  status: 'active' | 'inactive' | 'unknown';
+  status: "active" | "inactive" | "unknown";
 }
 
 export interface Event {
   id: string;
   title: string;
   description: string;
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
   date: Date;
-  severity: 'low' | 'medium' | 'high';
+  severity: "low" | "medium" | "high";
   potentialEvents?: PotentialEvent[];
   source?: string;
   location?: string;
