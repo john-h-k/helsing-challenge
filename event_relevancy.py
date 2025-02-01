@@ -125,7 +125,7 @@ def get_relevant_events(company_context: str, country_codes: List[str], query: s
         event["relevancy_score"] = all_scores.get(event_id, 0.0)
 
     # Sort events by score in descending order
-    sorted_events = sorted(events, key=lambda x: x["relevancy_score"], reverse=True)
+    sorted_events = sorted(events, key=lambda x: x["relevancy_score"], reverse=False)
     selected_events = sorted_events[:max_events]
     result = {
         "relevant_event_ids": [e["id"] for e in selected_events],
