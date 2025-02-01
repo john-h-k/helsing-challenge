@@ -1,15 +1,8 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  backend:
-    build: ./backend
-    container_name: backend
+  frontend:
+    build: ./frontend
+    container_name: frontend
     ports:
-      - "5005:5005"
-    volumes:
-      - ./backend:/app
-    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5005", "--reload"]
-
-volumes:
-  weaviate_data:
-
+      - "3000:3000"
