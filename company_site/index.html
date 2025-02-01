@@ -4,47 +4,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bob's Logistics - Global Electronics Distribution</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
-        header { background-color: #333; color: white; padding: 15px; text-align: center; }
-        .container { width: 80%; margin: auto; padding: 20px; background: white; }
-        h1, h2 { color: white; }
-        .locations { display: flex; flex-wrap: wrap; }
-        .location { flex: 1; min-width: 250px; margin: 10px; padding: 10px; background: #ddd; border-radius: 5px; }
-        footer { text-align: center; padding: 20px; background: #333; color: white; margin-top: 20px; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- <nav class="navbar">
+        <div class="nav-brand">Bob's Logistics</div>
+        <div class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="operations.html">Global Operations</a>
+            <a href="products.html">Products & Services</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav> -->
+
     <header>
         <h1>Bob's Logistics</h1>
-        <p>Shipping & Distributing Electronics Worldwide</p>
+        <p>Your Trusted Partner in Global Electronics Distribution</p>
     </header>
+
     <div class="container">
-        <h2>About Us</h2>
-        <p>Bob's Logistics is a global leader in the shipping and distribution of high-quality electronic components, specializing in batteries, integrated circuits, and power circuits. With a vast network of distributors worldwide, we ensure efficient and reliable deliveries to meet the needs of tech companies and manufacturers.</p>
-        
-        <h2>Our Global Presence</h2>
-        <div class="locations">
-            <div class="location">
-                <h3>China</h3>
-                <p>Shenzhen, Shanghai, Beijing</p>
+        <section class="hero-section">
+            <h2>Powering the Future of Electronics Distribution</h2>
+            <p class="lead">With over two decades of experience, Bob's Logistics has established itself as a cornerstone of the global electronics supply chain. Our comprehensive network spans six continents, enabling seamless movement of critical components across borders while maintaining the highest standards of quality and reliability.</p>
+            <p>In today's rapidly evolving technology landscape, we understand that timely delivery of electronic components is crucial for maintaining production schedules and meeting market demands. Our sophisticated logistics infrastructure, combined with advanced tracking systems and dedicated quality control measures, ensures that your supply chain remains robust and resilient.</p>
+        </section>
+
+        <section class="key-stats">
+            <div class="stat-box">
+                <h3>20+</h3>
+                <p>Years in Business</p>
             </div>
-            <div class="location">
-                <h3>United States</h3>
-                <p>San Francisco, New York, Dallas</p>
+            <div class="stat-box">
+                <h3>500K+</h3>
+                <p>Annual Shipments</p>
             </div>
-            <div class="location">
-                <h3>Europe</h3>
-                <p>Berlin, London, Paris</p>
+            <div class="stat-box">
+                <h3>50+</h3>
+                <p>Countries Served</p>
             </div>
-            <div class="location">
-                <h3>Japan</h3>
-                <p>Tokyo, Osaka</p>
+            <div class="stat-box">
+                <h3>99.9%</h3>
+                <p>Delivery Accuracy</p>
+            </div>
+        </section>
+
+        <section class="main-services">
+            <h2>Core Capabilities</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Component Distribution</h3>
+                    <p>Specialized in the distribution of critical electronic components including advanced batteries, integrated circuits, semiconductors, and power components from leading manufacturers. Our extensive inventory management system maintains over 500,000 unique parts, with real-time stock monitoring and automated reordering systems to prevent supply chain disruptions.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Supply Chain Solutions</h3>
+                    <p>Our end-to-end logistics management system incorporates cutting-edge technologies including AI-powered inventory forecasting, blockchain-based tracking, and automated warehousing solutions. We provide real-time visibility across your entire supply chain, from manufacturer to final destination, with predictive analytics to anticipate and prevent potential disruptions.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Quality Assurance</h3>
+                    <p>Our ISO 9001:2015 certified quality management system ensures the highest standards of component authenticity and reliability. Each facility is equipped with state-of-the-art testing laboratories, staffed by certified engineers who conduct thorough inspections using advanced testing equipment. We maintain strict compliance with international standards and offer detailed documentation for every shipment.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Custom Logistics</h3>
+                    <p>Specializing in handling sensitive electronic components, we offer temperature-controlled storage and transportation, static-protected environments, and specialized packaging solutions. Our express delivery services cater to time-critical shipments, with dedicated teams available 24/7 to handle urgent requirements and special handling needs.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="global-presence">
+            <h2>Our Global Network</h2>
+            <p class="lead">Strategic presence in key technology hubs enables us to serve our clients efficiently across all major markets.</p>
+            
+            <div class="locations">
+                <div class="location">
+                    <h3>Asia Pacific</h3>
+                    <ul>
+                        <li><strong>China:</strong> Shenzhen (HQ), Shanghai, Beijing</li>
+                        <li><strong>Japan:</strong> Tokyo, Osaka</li>
+                        <li><strong>South Korea:</strong> Seoul</li>
+                        <li><strong>Taiwan:</strong> Taipei, Hsinchu</li>
+                        <li><strong>Singapore:</strong> Central Business District</li>
+                    </ul>
+                </div>
+                <div class="location">
+                    <h3>North America</h3>
+                    <ul>
+                        <li><strong>United States:</strong> San Francisco (HQ), New York, Dallas, Boston</li>
+                        <li><strong>Canada:</strong> Toronto, Vancouver</li>
+                        <li><strong>Mexico:</strong> Mexico City, Guadalajara</li>
+                    </ul>
+                </div>
+                <div class="location">
+                    <h3>Europe</h3>
+                    <ul>
+                        <li><strong>Germany:</strong> Berlin, Munich</li>
+                        <li><strong>UK:</strong> London</li>
+                        <li><strong>France:</strong> Paris</li>
+                        <li><strong>Netherlands:</strong> Amsterdam</li>
+                        <li><strong>Ireland:</strong> Dublin</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="industry-impact">
+            <h2>Industry Leadership</h2>
+            <p class="lead">As a pioneer in electronics logistics, we're actively shaping the future of component distribution and supply chain management.</p>
+            <div class="impact-details">
+                <p>Our commitment to innovation has led to the development of proprietary tracking systems that provide unprecedented visibility into the global electronics supply chain. We've invested heavily in sustainable practices, including electric delivery vehicles and eco-friendly packaging solutions, reducing our carbon footprint while maintaining the highest standards of component protection.</p>
+                <p>Through strategic partnerships with leading manufacturers and technology providers, we're continuously expanding our capabilities to meet the evolving needs of the electronics industry. Our dedicated research team stays ahead of industry trends, ensuring we're prepared to support emerging technologies and new market demands.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: info@bobslogistics.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+            </div>
+            <div class="footer-section">
+                <h4>Headquarters</h4>
+                <p>123 Tech Plaza</p>
+                <p>San Francisco, CA 94105</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="about.html">About Us</a>
+                <a href="operations.html">Global Operations</a>
+                <a href="products.html">Products & Services</a>
             </div>
         </div>
-    </div>
-    <footer>
-        <p>&copy; 2025 Bob's Logistics. All Rights Reserved.</p>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Bob's Logistics. All Rights Reserved.</p>
+        </div>
     </footer>
 </body>
 </html>
