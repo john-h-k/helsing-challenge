@@ -3,6 +3,7 @@ import { Flipper, Flipped } from "react-flip-toolkit";
 import { Event, GeoObject } from "../../types/Event";
 import { format } from "date-fns";
 import ObjectMapView from "./ObjectMapView";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 
 interface EventsPaneProps {
   events: Event[];

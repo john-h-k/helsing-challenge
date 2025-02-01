@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import mapboxgl from "mapbox-gl";
 import { ThemeProvider, createTheme } from "@mui/material";
@@ -10,6 +10,21 @@ import AnalyticsTab from "./components/analytics/AnalyticsTab";
 import { generateMockEvents, getRealEvents } from "./utils/mockDataGenerator";
 import { Event } from "./types/Event";
 import "mapbox-gl/dist/mapbox-gl.css";
+import EventsPane from "components/analytics/EventsPane";
+
+// Add new styled component for marker animations
+const markerStyles = `
+  @keyframes pulseGlow {
+    0% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.5); opacity: 0.1; }
+    100% { transform: scale(1); opacity: 0.3; }
+  }
+`;
+
+// Add style tag to head
+const styleSheet = document.createElement("style");
+styleSheet.innerText = markerStyles;
+document.head.appendChild(styleSheet);
 
 const Container = styled.div`
   height: 100vh;
@@ -21,7 +36,6 @@ const Container = styled.div`
 const GlobeContainer = styled.div`
   height: calc(100vh - 64px);
   width: 100%;
-  padding-bottom: 120px; // Add padding to prevent overlap with timeline
 `;
 
 const Legend = styled.div`
@@ -103,6 +117,9 @@ const Dashboard = ({
   const isDrawingRef = useRef(false); // Add this ref to track drawing state
   const previewLineSource = useRef<any>(null);
   const polygonFillSource = useRef<any>(null);
+
+  // Add state for visible events
+  const [visibleEvents, setVisibleEvents] = useState<Event[]>(events);
 
   // Function to calculate polygon area (simplified version)
   const calculateArea = (points: number[][]) => {
@@ -218,6 +235,19 @@ const Dashboard = ({
     }
   };
 
+  // Add function to update visible events based on map bounds
+  const updateVisibleEvents = useCallback(() => {
+    if (!map.current) return;
+
+    const bounds = map.current.getBounds();
+    const visible = events.filter((event) => {
+      if (event.longitude == null || event.latitude == null) return false;
+      return bounds.contains([event.longitude, event.latitude]);
+    });
+
+    setVisibleEvents(visible);
+  }, [events]);
+
   useEffect(() => {
     if (!mapContainer.current) return;
 
@@ -229,102 +259,158 @@ const Dashboard = ({
       projection: "globe",
     });
 
+    // Create markers immediately after map initialization
+    const createMarkers = () => {
+      events.forEach((event) => {
+        if (event.longitude == null || event.latitude == null) return;
+
+        const markerEl = document.createElement("div");
+        markerEl.className = "relative group";
+
+        // Glow effect
+        const glow = document.createElement("div");
+        glow.className = `absolute -inset-4 rounded-full blur-md transition-opacity duration-300
+          ${
+            event === selectedEvent
+              ? "opacity-30"
+              : "opacity-0 group-hover:opacity-20"
+          }`;
+        glow.style.background = `radial-gradient(circle, ${
+          event.severity === "high"
+            ? "#ef4444"
+            : event.severity === "medium"
+            ? "#f59e0b"
+            : "#10b981"
+        }66, transparent)`;
+
+        // Pulse animation
+        const pulse = document.createElement("div");
+        pulse.className = `absolute -inset-6 rounded-full
+          ${
+            event === selectedEvent
+              ? ""
+              : "group-hover:animate-[pulseGlow_2s_ease-in-out_infinite]"
+          }`;
+        pulse.style.background = `radial-gradient(circle, ${
+          event.severity === "high"
+            ? "#ef4444"
+            : event.severity === "medium"
+            ? "#f59e0b"
+            : "#10b981"
+        }33, transparent)`;
+
+        // Main dot
+        const dot = document.createElement("div");
+        dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 relative
+          ${event === selectedEvent ? "scale-150" : "group-hover:scale-125"}
+          ring-1 ring-white/20 shadow-lg`;
+        dot.style.backgroundColor =
+          event.severity === "high"
+            ? "#ef4444"
+            : event.severity === "medium"
+            ? "#f59e0b"
+            : "#10b981";
+
+        markerEl.appendChild(pulse);
+        markerEl.appendChild(glow);
+        markerEl.appendChild(dot);
+
+        const marker = new mapboxgl.Marker({
+          element: markerEl,
+          anchor: "center",
+        })
+          .setLngLat([event.longitude, event.latitude])
+          .addTo(map.current!);
+
+        // Reintroduce marker click to show popup
+        markerEl.addEventListener("click", () => {
+          if (popup.current) popup.current.remove();
+          setSelectedEvent(event);
+
+          const popupContent = `
+            <div class="p-4 min-w-[300px]">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-sm font-medium text-white/90">${
+                  event.title
+                }</h3>
+                <span class="px-2 py-1 text-[11px] rounded-full font-medium
+                  ${
+                    event.severity === "high"
+                      ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                      : event.severity === "medium"
+                      ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                      : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                  }">
+                  ${event.severity.toUpperCase()}
+                </span>
+              </div>
+              <p class="text-sm text-white/70 mb-4 leading-relaxed">${
+                event.description
+              }</p>
+              <div class="grid grid-cols-2 gap-3 text-xs">
+                <div class="p-2 rounded-lg bg-white/5 border border-white/10">
+                  <span class="block text-white/50 mb-1">Source</span>
+                  <span class="text-white/90">${event.source}</span>
+                </div>
+                <div class="p-2 rounded-lg bg-white/5 border border-white/10">
+                  <span class="block text-white/50 mb-1">Location</span>
+                  <span class="text-white/90">${event.location}</span>
+                </div>
+              </div>
+            </div>
+          `;
+
+          popup.current = new mapboxgl.Popup({
+            closeButton: true,
+            closeOnClick: false,
+            className: "dark-theme-popup",
+            maxWidth: "400px",
+          })
+            .setLngLat([event.longitude, event.latitude])
+            .setHTML(popupContent)
+            .addTo(map.current!);
+
+          map.current?.flyTo({
+            center: [event.longitude, event.latitude],
+            zoom: 4,
+            duration: 1500,
+          });
+        });
+
+        // Hover effect
+        markerEl.addEventListener("mouseenter", () => {
+          hoveredMarker.current = event.id;
+          dot.style.transform = "scale(1.5)";
+          glow.style.opacity = "0.5";
+        });
+
+        markerEl.addEventListener("mouseleave", () => {
+          if (event !== selectedEvent) {
+            dot.style.transform = "scale(1)";
+            glow.style.opacity = "0";
+          }
+          hoveredMarker.current = null;
+        });
+
+        markers.current.push(marker);
+      });
+    };
+
     map.current.on("style.load", () => {
       // Set fog
       map.current!.setFog({
-        color: "rgb(12, 12, 12)",
-        "high-color": "rgb(16, 16, 16)",
+        color: "rgb(12, 12, 12)", // Darker fog
+        "high-color": "rgb(12, 12, 12)",
         "horizon-blend": 0.2,
         "space-color": "rgb(8, 8, 8)",
         "star-intensity": 0.15,
       });
 
-      // Initialize countries layers if data is available
-      if (countries && countries.length > 0) {
-        // Add countries source
-        map.current!.addSource("countries-source", {
-          type: "geojson",
-          data: {
-            type: "FeatureCollection",
-            features: countries,
-          },
-        });
+      // Remove country layers code block
+      // We're not adding the countries-source and related layers anymore
 
-        // Add country layers
-        map.current!.addLayer({
-          id: "countries-base",
-          type: "fill",
-          source: "countries-source",
-          paint: {
-            "fill-color": "#627BC1",
-            "fill-opacity": 0.2,
-          },
-        });
-
-        map.current!.addLayer({
-          id: "countries-hover",
-          type: "fill",
-          source: "countries-source",
-          paint: {
-            "fill-color": "#627BC1",
-            "fill-opacity": [
-              "case",
-              ["boolean", ["feature-state", "hover"], false],
-              0.7,
-              0,
-            ],
-          },
-        });
-
-        map.current!.addLayer({
-          id: "countries-borders",
-          type: "line",
-          source: "countries-source",
-          paint: {
-            "line-color": "#627BC1",
-            "line-width": 1,
-            "line-opacity": 0.8,
-          },
-        });
-
-        // Add country interactions
-        let hoveredStateId: number | string | null = null;
-
-        map.current!.on("mousemove", "countries-base", (e) => {
-          if (e.features && e.features[0]) {
-            const feature = e.features[0];
-            if (feature.id === undefined || feature.id === null) return; // Skip if no id
-            if (hoveredStateId !== null) {
-              map.current!.setFeatureState(
-                { source: "countries-source", id: hoveredStateId },
-                { hover: false }
-              );
-            }
-            hoveredStateId = feature.id;
-            map.current!.setFeatureState(
-              { source: "countries-source", id: hoveredStateId },
-              { hover: true }
-            );
-            map.current!.getCanvas().style.cursor = "pointer";
-          }
-        });
-
-        map.current!.on("mouseleave", "countries-base", () => {
-          if (hoveredStateId !== null) {
-            // Only update state if an id exists.
-            map.current!.setFeatureState(
-              { source: "countries-source", id: hoveredStateId },
-              { hover: false }
-            );
-            hoveredStateId = null;
-            map.current!.getCanvas().style.cursor = "";
-          }
-        });
-      }
-
-      // Initialize heatmap if events data is available
+      // Update heatmap configuration with more prominent values
       if (events.length > 0) {
-        // Add events source
         map.current!.addSource("events-heat", {
           type: "geojson",
           data: {
@@ -353,26 +439,24 @@ const Dashboard = ({
           },
         });
 
-        // Add heatmap layer with larger radii
+        // Enhanced heatmap layer
         map.current!.addLayer({
           id: "events-heat",
           type: "heatmap",
           source: "events-heat",
           maxzoom: 15,
           paint: {
-            // Weight by severity (unchanged)
             "heatmap-weight": [
               "interpolate",
               ["linear"],
               ["get", "severity"],
               0.3,
-              0.3,
+              0.5,
               0.6,
-              0.6,
+              0.8,
               1,
               1,
             ],
-            // Increased intensity
             "heatmap-intensity": [
               "interpolate",
               ["linear"],
@@ -380,52 +464,49 @@ const Dashboard = ({
               0,
               1,
               15,
-              5,
+              3,
             ],
-            // Updated color gradient from green to red
             "heatmap-color": [
               "interpolate",
               ["linear"],
               ["heatmap-density"],
               0,
-              "rgba(16, 185, 129, 0)", // emerald-500 transparent
+              "rgba(16, 185, 129, 0)",
               0.2,
-              "rgba(16, 185, 129, 0.5)", // emerald-500 semi
+              "rgba(16, 185, 129, 0.4)",
               0.4,
-              "rgba(245, 158, 11, 0.7)", // amber-500
+              "rgba(245, 158, 11, 0.6)",
               0.6,
-              "rgba(239, 68, 68, 0.5)", // red-500 semi
+              "rgba(239, 68, 68, 0.6)",
               0.8,
-              "rgba(239, 68, 68, 0.7)", // red-500 stronger
+              "rgba(239, 68, 68, 0.8)",
               1,
-              "rgba(239, 68, 68, 1)", // red-500 full
+              "rgba(239, 68, 68, 0.9)",
             ],
-            // Much larger radius
             "heatmap-radius": [
               "interpolate",
               ["linear"],
               ["zoom"],
               0,
-              50, // minimum radius at zoom level 0
+              60, // increased from 40
               15,
-              200, // maximum radius at zoom level 15
+              250, // increased from 150
             ],
-            "heatmap-opacity": 0.7,
+            "heatmap-opacity": [
+              "interpolate",
+              ["linear"],
+              ["zoom"],
+              0,
+              0.6, // Reduced from 0.8 to be less dominant
+              15,
+              0.4, // Reduced from 0.6 to be less dominant
+            ],
           },
         });
 
-        // Add center points layer
-        map.current!.addLayer({
-          id: "event-points",
-          type: "circle",
-          source: "events-heat",
-          paint: {
-            "circle-radius": 4,
-            "circle-color": ["get", "severityColor"],
-            "circle-stroke-width": 1,
-            "circle-stroke-color": "#ffffff",
-          },
-        });
+        // Remove the event-points layer since we're using markers
+        // Instead of the circle layer, create the markers
+        createMarkers();
       }
 
       // Add sources for polygon drawing
@@ -526,13 +607,20 @@ const Dashboard = ({
       });
     });
 
+    map.current.on("moveend", updateVisibleEvents);
+    map.current.on("zoomend", updateVisibleEvents);
+
     return () => {
       // Remove markers and popup then remove the map
       markers.current.forEach((marker) => marker.remove());
       if (popup.current) popup.current.remove();
-      if (map.current) map.current.remove();
+      if (map.current) {
+        map.current.remove();
+        map.current.off("moveend", updateVisibleEvents);
+        map.current.off("zoomend", updateVisibleEvents);
+      }
     };
-  }, [countries, events]); // Add dependencies
+  }, [countries, events, updateVisibleEvents]); // Add dependencies
 
   const toggleDraw = () => {
     if (!isDrawing) {
@@ -601,274 +689,108 @@ const Dashboard = ({
   // Remove the separate country and heatmap effects
   // Keep the markers effect
 
-  // Update markers when events or selection changes
-  useEffect(() => {
-    if (!map.current) return;
-
-    // Clear existing markers and popup
-    markers.current.forEach((marker) => marker.remove());
-    markers.current = [];
-
-    events.forEach((event) => {
-      // Skip marker if latitude or longitude is not present
-      if (event.longitude == null || event.latitude == null) return;
-
-      const markerEl = document.createElement("div");
-      markerEl.className = "group";
-
-      const dot = document.createElement("div");
-      dot.className = `w-3 h-3 rounded-full transition-all duration-200
-        ${event === selectedEvent ? "scale-150 shadow-lg" : "scale-100"}
-        ${
-          event.severity === "high"
-            ? "bg-red-500"
-            : event.severity === "medium"
-            ? "bg-amber-500"
-            : "bg-emerald-500"
-        }`;
-
-      const glow = document.createElement("div");
-      glow.className = `absolute -inset-2 rounded-full opacity-30 blur transition-opacity
-        ${
-          event === selectedEvent
-            ? "opacity-50"
-            : "opacity-0 group-hover:opacity-30"
-        }`;
-      glow.style.backgroundColor =
-        event.severity === "high"
-          ? "#ef4444"
-          : event.severity === "medium"
-          ? "#f59e0b"
-          : "#10b981";
-
-      markerEl.appendChild(glow);
-      markerEl.appendChild(dot);
-
-      const marker = new mapboxgl.Marker({
-        element: markerEl,
-        anchor: "center",
-      })
-        .setLngLat([event.longitude, event.latitude])
-        .addTo(map.current);
-
-      // Reintroduce marker click to show popup
-      markerEl.addEventListener("click", () => {
-        if (popup.current) popup.current.remove();
-        setSelectedEvent(event);
-
-        const popupContent = `
-          <div class="p-4 min-w-[300px]">
-            <div class="flex items-center justify-between mb-3">
-              <h3 class="text-sm font-medium text-white/90">${event.title}</h3>
-              <span class="px-2 py-1 text-[11px] rounded-full font-medium
-                ${
-                  event.severity === "high"
-                    ? "bg-red-500/10 text-red-400 border border-red-500/20"
-                    : event.severity === "medium"
-                    ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                    : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                }">
-                ${event.severity.toUpperCase()}
-              </span>
-            </div>
-            <p class="text-sm text-white/70 mb-4 leading-relaxed">${
-              event.description
-            }</p>
-            <div class="grid grid-cols-2 gap-3 text-xs">
-              <div class="p-2 rounded-lg bg-white/5 border border-white/10">
-                <span class="block text-white/50 mb-1">Source</span>
-                <span class="text-white/90">${event.source}</span>
-              </div>
-              <div class="p-2 rounded-lg bg-white/5 border border-white/10">
-                <span class="block text-white/50 mb-1">Location</span>
-                <span class="text-white/90">${event.location}</span>
-              </div>
-            </div>
-          </div>
-        `;
-
-        popup.current = new mapboxgl.Popup({
-          closeButton: true,
-          closeOnClick: false,
-          className: "dark-theme-popup",
-          maxWidth: "400px",
-        })
-          .setLngLat([event.longitude, event.latitude])
-          .setHTML(popupContent)
-          .addTo(map.current!);
-
-        map.current?.flyTo({
-          center: [event.longitude, event.latitude],
-          zoom: 4,
-          duration: 1500,
-        });
-      });
-
-      // Hover effect
-      markerEl.addEventListener("mouseenter", () => {
-        hoveredMarker.current = event.id;
-        dot.style.transform = "scale(1.5)";
-        glow.style.opacity = "0.5";
-      });
-
-      markerEl.addEventListener("mouseleave", () => {
-        if (event !== selectedEvent) {
-          dot.style.transform = "scale(1)";
-          glow.style.opacity = "0";
-        }
-        hoveredMarker.current = null;
-      });
-
-      markers.current.push(marker);
-    });
-  }, [events, selectedEvent]);
-
   return (
-    <>
-      <div ref={mapContainer} className="h-full" />
-      <Legend>
-        <h3 className="text-sm font-semibold text-white/90 mb-4">
-          Event Severity
-        </h3>
-        <div className="space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-            <div className="text-xs text-white/70">Low Impact</div>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-            <div className="text-xs text-white/70">Medium Impact</div>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
-            <div className="text-xs text-white/70">High Impact</div>
-          </div>
-        </div>
-      </Legend>
-      <SearchButton onClick={toggleDraw}>
-        {isDrawing ? (
-          <>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-            Cancel Search
-          </>
-        ) : searchCoordinates ? (
-          <>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M22 3L2 21"></path>
-              <path d="M17 3L2 16"></path>
-              <path d="M12 3L2 11"></path>
-              <path d="M7 3L2 6"></path>
-            </svg>
-            Active Search Area
-          </>
-        ) : (
-          <>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            Search Area
-          </>
-        )}
-      </SearchButton>
-      <Timeline
-        events={events}
-        selectedEvent={selectedEvent}
-        onEventClick={(event) => {
-          setSelectedEvent(event);
-          // Only act if coordinates are available
-          if (
-            map.current &&
-            event.longitude != null &&
-            event.latitude != null
-          ) {
-            map.current.flyTo({
-              center: [event.longitude, event.latitude],
-              zoom: 4,
-              duration: 1500,
-            });
-
-            // Trigger click on corresponding marker
-            const marker = markers.current.find((m) => {
-              const [lng, lat] = m.getLngLat().toArray();
-              return lng === event.longitude && lat === event.latitude;
-            });
-            // Manually create and show popup here (instead of marker click listener)
-            if (marker && popup.current) popup.current.remove();
-            if (marker) {
-              const popupContent = `
-              <div class="p-4 min-w-[300px]">
-                <div class="flex items-center justify-between mb-3">
-                  <h3 class="text-sm font-medium text-white/90">${
-                    event.title
-                  }</h3>
-                  <span class="px-2 py-1 text-[11px] rounded-full font-medium
-                    ${
-                      event.severity === "high"
-                        ? "bg-red-500/10 text-red-400 border border-red-500/20"
-                        : event.severity === "medium"
-                        ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                        : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                    }">
-                    ${event.severity.toUpperCase()}
-                  </span>
-                </div>
-                <p class="text-sm text-white/70 mb-4 leading-relaxed">${
-                  event.description
-                }</p>
-                <div class="grid grid-cols-2 gap-3 text-xs">
-                  <div class="p-2 rounded-lg bg-white/5 border border-white/10">
-                    <span class="block text-white/50 mb-1">Source</span>
-                    <span class="text-white/90">${event.source}</span>
-                  </div>
-                  <div class="p-2 rounded-lg bg-white/5 border border-white/10">
-                    <span class="block text-white/50 mb-1">Location</span>
-                    <span class="text-white/90">${event.location}</span>
-                  </div>
-                </div>
-              </div>
-            `;
-              popup.current = new mapboxgl.Popup({
-                closeButton: true,
-                closeOnClick: false,
-                className: "dark-theme-popup",
-                maxWidth: "400px",
-              })
-                .setLngLat([event.longitude, event.latitude])
-                .setHTML(popupContent)
-                .addTo(map.current!);
+    <div className="flex h-[calc(100vh-64px)]">
+      {/* Events Sidebar */}
+      <div className="w-1/3 border-r border-white/5 bg-gradient-to-b from-gray-900/95 to-gray-800/95">
+        <EventsPane
+          events={visibleEvents}
+          selectedEvent={selectedEvent}
+          onEventSelect={(event) => {
+            setSelectedEvent(event);
+            if (
+              event &&
+              map.current &&
+              event.longitude != null &&
+              event.latitude != null
+            ) {
+              map.current.flyTo({
+                center: [event.longitude, event.latitude],
+                zoom: 4,
+                duration: 1500,
+              });
             }
-          }
-        }}
-      />
-    </>
+          }}
+        />
+      </div>
+
+      {/* Map Container */}
+      <div className="flex-1 relative">
+        <div ref={mapContainer} className="h-full" />
+        <Legend>
+          <h3 className="text-sm font-semibold text-white/90 mb-4">
+            Event Severity
+          </h3>
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+              <div className="text-xs text-white/70">Low Impact</div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+              <div className="text-xs text-white/70">Medium Impact</div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
+              <div className="text-xs text-white/70">High Impact</div>
+            </div>
+          </div>
+        </Legend>
+        <SearchButton onClick={toggleDraw}>
+          {isDrawing ? (
+            <>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+              Cancel Search
+            </>
+          ) : searchCoordinates ? (
+            <>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M22 3L2 21"></path>
+                <path d="M17 3L2 16"></path>
+                <path d="M12 3L2 11"></path>
+                <path d="M7 3L2 6"></path>
+              </svg>
+              Active Search Area
+            </>
+          ) : (
+            <>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              Search Area
+            </>
+          )}
+        </SearchButton>
+      </div>
+    </div>
   );
 };
 
