@@ -1,0 +1,795 @@
+Absent  Voting  (Elections  in Scotland  and Wales) 
+Bill 
+EXPLANA TORY NOTES 
+Explanatory  notes  to the Bill, prepared  by the Ministry  of Housing,  Communities  and Local 
+Government,  with the consent  of Tracy Gilbert  the member  in charge of the Bill, are published 
+separately  as Bill 23—EN. 
+59/1 Bill 23 
+Absent  Voting  (Elections  in Scotland  and Wales) 
+Bill 
+[AS INTRODUCED] 
+CONTENTS 
+Absent  vote applications 
+1 Local  government  elections  (Scotland  and Wales) 
+2 Elections  to the Scottish  Parliament 
+3 Elections  to Senedd  Cymru 
+General 
+4 Commencement  and transitional  provision 
+5 Extent  and short  title 
+59/1 Bill 23 
+[AS INTRODUCED] 
+A 
+BILL 
+TO 
+Make  provision  about  absent  voting  in connection  with  local  government 
+elections  in Scotland  and Wales,  elections  to the Scottish  Parliament  and 
+elections  to Senedd  Cymru;  and for connected  purposes. 
+B E IT ENACTED by the King’s  most  Excellent  Majesty,  by and with  the advice  and 
+consent  of the Lords  Spiritual  and Temporal,  and Commons,  in this present 
+Parliament  assembled,  and by the authority  of the same,  as follows:— 
+Absent  vote applications 
+1 Local  government  elections  (Scotland  and Wales) 
+(1) Schedule  2 to the Representation  of the People  Act 1983  (provisions  which 
+5may  be contained  in regulations  as to registration  etc) is amended  in 
+accordance  with  subsections  (2) and (3). 
+(2) In paragraph  1(5A)(a)(ii),  omit  the words  from  “, other”  to the end. 
+(3) After  paragraph  5ZA,  insert— 
+“5ZB (1) Provision  about  the use of the UK digital  service  in relation  to relevant 
+devolved  absent  voting  applications. 
+10 (2) Provision  made  under  sub-paragraph  (1) may include  provision— 
+(a) conferring  functions  on a Minister  of the Crown  to enable  relevant 
+devolved  absent  voting  applications  to be submitted  through  the 
+UK digital  service; 
+(b) where  such applications  are, or are to be, so submitted— 
+15 (i) authorising  a Minister  of the Crown,  in prescribed 
+circumstances,  to complete  applications  in part for people; 
+(ii) about  how any requirement  for an applicant  to provide  a 
+signature  in connection  with an application  may be 
+satisfied; 
+20 (c) about  the disclosure  of prescribed  information  or evidence  through 
+the UK digital  service; 
+(d) about  the disclosure  of prescribed  information  or evidence  in 
+connection  with a relevant  devolved  absent  voting  application  in 
+relation  to which  the UK digital  service  is, or is to be, used. 
+59/1 Bill 23 1 Absent  Voting  (Elections  in Scotland  and Wales)  Bill 
+(3) Except  as provided  by sub-paragraph  (4), the disclosure  or other  processing 
+of information  in accordance  with provision  made  under  this paragraph 
+does not breach— 
+(a) 
+5any obligation  of confidence  owed  by the person  processing  the 
+information; 
+(b) any other  restriction  on the processing  of information  (however 
+imposed). 
+(4) Provision  made  under  this paragraph  does not require  or authorise  the 
+10disclosure  or other  processing  of personal  data that would  contravene  the 
+data protection  legislation  (but in determining  whether  particular  processing 
+of data would  do so, take into account  the duty  imposed  or the powers 
+conferred  by such provision). 
+(5) In this paragraph— 
+15“the data protection  legislation”  has the same  meaning  as in the 
+Data  Protection  Act 2018  (see section  3(9) of that Act); 
+“personal  data”  and “processing”  have the same  meaning  as in 
+the Data  Protection  Act 2018  (see section  3(2) and (4) of that 
+Act); 
+20“relevant  devolved  absent  voting  application”  means  an application 
+(including  a partially  completed  application)  under  paragraph  3, 
+4 or 6 of Schedule  4 to the Representation  of the People  Act 2000 
+in relation  to a local government  election,  or local government 
+elections,  in Scotland  or Wales; 
+25“the UK digital  service”  has the meaning  given  by paragraph 
+3ZA(7),  and a reference  to a relevant  devolved  absent  voting 
+application  submitted  through  the UK digital  service  is a reference 
+to such an application  submitted  using  that service  as an 
+intermediary. ” 
+(4) 
+30Schedule  4 to the Representation  of the People  Act 2000  (absent  voting  in 
+Great  Britain)  is amended  in accordance  with  subsections  (5) and (6). 
+(5) In paragraph  3 (absent  vote  at elections  for a period)— 
+(a) in sub-paragraph  (1)(b),  omit  the words  from  “and,  in the” to the end; 
+(b) in sub-paragraph  (1A),  omit  “in England”; 
+(c) in sub-paragraph  (4)(aa),  omit  “in England”; 
+35 (d) in sub-paragraph  (4)(ab)— 
+(i) omit  sub-paragraph  (i); 
+(ii) in the words  after  sub-paragraph  (ii), omit  “post  or”; 
+(e) in sub-paragraph  (5)(ca),  omit  “in England”; 
+(f) 
+40in sub-paragraph  (5)(d),  omit  the words  from  “by post”  to “or who 
+applied  to vote”; 
+(g) in sub-paragraph  (7), omit  the words  from  “and,  in the” to “the period”; 
+(h) in sub-paragraph  (7A),  omit  “in England”. 
+(6) In paragraph  7 (voting  as proxy)— 
+(a) in sub-paragraph  (5)(c),  omit  the words  from  “and,  in the” to the end; 
+45 (b) in sub-paragraph  (5A),  omit  “in England”; Absent  Voting  (Elections  in Scotland  and Wales)  Bill 2 
+(c) in sub-paragraph  (6)— 
+(i) in paragraph  (aa),  omit  “in England”; 
+(ii) omit  paragraph  (ab) (but not the “and”  at the end); 
+(d) in sub-paragraph  (9)— 
+5 (i) at the end of paragraph  (c), insert  “or”; 
+(ii) in paragraph  (ca), omit  “in England”; 
+(iii) omit  paragraph  (d) and the “or” before  it. 
+2 Elections  to the Scottish  Parliament 
+(1) The Scotland  Act 1998  is amended  as follows. 
+10 (2) After  section  12A insert— 
+“12B Power  to make  provision  about  the use of the UK digital  service  for 
+absent  voting  applications 
+(1) A Minister  of the Crown  or the Scottish  Ministers  may by regulations  make 
+15provision  about  the use of the UK digital  service  in relation  to absent  voting 
+applications. 
+(2) The provision  that may be made  under  subsection  (1) includes,  in particular, 
+provision— 
+(a) conferring  functions  on a Minister  of the Crown  to enable  absent 
+voting  applications  to be submitted  through  the UK digital  service; 
+20 (b) where  such applications  are, or are to be, so submitted— 
+(i) authorising  a Minister  of the Crown,  in prescribed 
+circumstances,  to complete  applications  in part for people; 
+(ii) about  how any requirement  for an applicant  to provide  a 
+signature  in connection  with an application  may be satisfied; 
+25 (c) about  the disclosure  of prescribed  information  or evidence  through 
+the UK digital  service; 
+(d) about  the disclosure  of prescribed  information  or evidence  in 
+connection  with an absent  voting  application  in relation  to which 
+the UK digital  service  is, or is to be, used. 
+30 (3) Subject  to subsection  (4), the disclosure  or other  processing  of information 
+in accordance  with provision  made  under  this section  does not breach — 
+(a) any obligation  of confidence  owed  by the person  processing  the 
+information; 
+(b) 
+35any other  restriction  on the processing  of information  (however 
+imposed). 
+(4) Provision  made  under  this section  does not require  or authorise  the disclosure 
+or other  processing  of personal  data that would  contravene  the data protection 
+legislation  (but in determining  whether  particular  processing  of data would 
+40do so, take into account  the duty  imposed  or the powers  conferred  by such 
+provision) . 
+(5) The Scottish  Ministers  may not make  regulations  under  this section  without 
+the agreement  of a Minister  of the Crown. 3 Absent  Voting  (Elections  in Scotland  and Wales)  Bill 
+(6) In this section— 
+“absent  voting  application”  means  an application  (including  a 
+partially  completed  application)  to vote by post or proxy  at an election 
+5for membership  of the Parliament,  or at elections  for membership  of 
+the Parliament,  in accordance  with an order  under  section  12; 
+“the data protection  legislation”  has the same  meaning  as in the 
+Data  Protection  Act 2018  (see section  3(9) of that Act); 
+“personal  data”  and “processing”  have the same  meaning  as in the 
+Data  Protection  Act 2018  (see section  3(2) and (4) of that Act); 
+10 “prescribed”  means  prescribed  by regulations  made  under  this section; 
+“the UK digital  service”  means  a digital  service  provided  by a 
+Minister  of the Crown  for the registration  of electors,  and a reference 
+to an absent  voting  application  submitted  through  the UK digital 
+15service  is a reference  to such an application  submitted  using  that 
+service  as an intermediary. ” 
+(3) In section  113 (subordinate  legislation:  scope  of powers),  in subsection  (1A), 
+after  “12”  insert  “or regulations  under  section  12B”. 
+(4) In Schedule  7 (procedure  for subordinate  legislation),  in paragraph  1(2),  in 
+the appropriate  place  insert— 
+20 Where  the regulations  are made  by the Scottish  Ministers: 
+Type  L 20 “Section  12B 
+Where  the regulations  are made  by a Minister  of the 
+Crown:  Type  C”. 
+3 Elections  to Senedd  Cymru 
+25 After  section  13A of the Government  of Wales  Act 2006  insert— 
+“13B Power  to make  provision  about  the use of the UK digital  service  for 
+absent  voting  applications 
+(1) A Minister  of the Crown  or the Welsh  Ministers  may by regulations  make 
+30provision  about  the use of the UK digital  service  in relation  to absent  voting 
+applications. 
+(2) The provision  that may be made  under  subsection  (1) includes,  in particular, 
+provision— 
+(a) conferring  functions  on a Minister  of the Crown  to enable  absent 
+voting  applications  to be submitted  through  the UK digital  service; 
+35 (b) where  such applications  are, or are to be, so submitted— 
+(i) authorising  a Minister  of the Crown,  in prescribed 
+circumstances,  to complete  applications  in part for people; 
+(ii) about  how any requirement  for an applicant  to provide  a 
+signature  in connection  with an application  may be satisfied; 
+40 (c) about  the disclosure  of prescribed  information  or evidence  through 
+the UK digital  service; Absent  Voting  (Elections  in Scotland  and Wales)  Bill 4 
+(d) about  the disclosure  of prescribed  information  or evidence  in 
+connection  with an absent  voting  application  in relation  to which 
+the UK digital  service  is, or is to be, used. 
+(3) 
+5Subject  to subsection  (4),  the disclosure  or other  processing  of information 
+in accordance  with provision  made  under  this section  does not breach — 
+(a) any obligation  of confidence  owed  by the person  processing  the 
+information; 
+(b) any other  restriction  on the processing  of information  (however 
+imposed). 
+10 (4) Provision  made  under  this section  does not require  or authorise  the disclosure 
+or other  processing  of personal  data that would  contravene  the data protection 
+legislation  (but in determining  whether  particular  processing  of data would 
+do so, take into account  the duty  imposed  or the powers  conferred  by such 
+provision ). 
+15 (5) The Welsh  Ministers  may not make  regulations  under  this section  without 
+the agreement  of a Minister  of the Crown. 
+(6) No regulations  may be made  under  this section  by a Minister  of the Crown 
+unless  a draft  of a statutory  instrument  containing  them  has been laid before, 
+and approved  by a resolution  of, each House  of Parliament. 
+20 (7) No regulations  may be made  under  this section  by the Welsh  Ministers  unless 
+a draft  of a statutory  instrument  containing  them  has been laid before,  and 
+approved  by a resolution  of, the Senedd. 
+(8) In this section— 
+25“absent  voting  application”  means  an application  (including  a 
+partially  completed  application)  to vote by post or proxy  at an election 
+for membership  of the Senedd,  or at elections  for membership  of the 
+Senedd,  in accordance  with an order  under  section  13; 
+“the data protection  legislation”  has the same  meaning  as in the 
+Data  Protection  Act 2018  (see section  3(9) of that Act); 
+30 “personal  data”  and “processing”  have the same  meaning  as in the 
+Data  Protection  Act 2018  (see section  3(2) and (4) of that Act); 
+“prescribed”  means  prescribed  by regulations  made  under  this section; 
+“the UK digital  service”  means  a digital  service  provided  by a 
+35Minister  of the Crown  for the registration  of electors,  and a reference 
+to an absent  voting  application  submitted  through  the UK digital 
+service  is a reference  to such an application  submitted  using  that 
+service  as an intermediary. ” 
+General 
+4 Commencement  and transitional  provision 
+40 (1) This  Act comes  into force  on the day on which  it is passed,  subject  to 
+subsection  (2). 5 Absent  Voting  (Elections  in Scotland  and Wales)  Bill 
+(2) Section  1(4) to (6) comes  into force  on such  day as the Secretary  of State  may 
+by regulations  made  by statutory  instrument  appoint. 
+(3) The Secretary  of State  may  by regulations  made  by statutory  instrument  make 
+5such  transitional  or saving  provision  as the Secretary  of State  considers 
+appropriate  in connection  with  the coming  into force  of any provision  of this 
+Act. 
+(4) Regulations  under  subsection  (3) may  make  provision  for, or in connection 
+with,  the expiry  of some  or all devolved  election  postal  vote  entitlements  or 
+devolved  election  proxy  appointments. 
+10 (5) Regulations  under  subsection  (3) that make  provision  for, or in connection 
+with,  the expiry  of the devolved  election  postal  vote  entitlement  of a person 
+who  also has a parliamentary  election  postal  vote  entitlement  may  make 
+provision  for the purpose  of aligning  the expiry  of those  entitlements 
+15(including  provision  specifying  or changing  the date  on which  either  or both 
+of those  entitlements  expire). 
+(6) In this section— 
+“devolved  election  postal  vote  entitlement”  means  an entitlement  to vote 
+by post  (whether  as elector  or proxy)  at local  government  elections  in 
+20Wales  or Scotland,  where  the entitlement  was granted  before  the 
+specified  date  on an application  under  paragraph  3(1) or 7(4)(a)  of 
+Schedule  4 to the Representation  of the People  Act 2000; 
+“devolved  election  proxy  appointment”  means  the appointment  of a 
+person  as a proxy  to vote  for another  person  at local  government 
+25elections  in Wales  or Scotland,  where  the appointment  was made 
+before  the specified  date  on an application  under  paragraph  6(7) of 
+Schedule  4 to the Representation  of the People  Act 2000; 
+“parliamentary  election  postal  vote  entitlement”  means  an entitlement 
+to vote  by post (whether  as elector  or proxy)  at parliamentary  elections 
+30in England  and Wales  or Scotland,  where  the entitlement  was granted 
+before  the specified  date  on an application  under  paragraph  3(1) or 
+7(4)(a)  of Schedule  4 to the Representation  of the People  Act 2000; 
+“specified  date”  means  the date  specified  in the regulations. 
+(7) Regulations  under  this section  may  make  different  provision  for different 
+purposes  or areas. 
+35 5 Extent  and short  title 
+(1) This  Act extends  to England  and Wales,  Scotland  and Northern  Ireland. 
+(2) This  Act may  be cited  as the Absent  Voting  (Elections  in Scotland  and Wales) 
+Act 2025. Absent  Voting  (Elections  in Scotland  and Wales)  Bill 6 
+Absent  Voting  (Elections  in Scotland  and Wales) 
+Bill 
+[AS INTRODUCED] 
+A 
+BILL 
+TO 
+Make  provision  about  absent  voting  in connection  with  local  government  elections  in 
+Scotland  and Wales,  elections  to the Scottish  Parliament  and elections  to Senedd  Cymru; 
+and for connected  purposes. 
+Presented  by Tracy  Gilbert 
+supported  by Patricia  Ferguson , Kirsteen  Sullivan 
+and Douglas  McAllister . 
+Ordered,  by The House  of Commons , to be 
+Printed,   16th  October  2024 . 
+© Parliamentary  copyright  House  of Commons  2024 
+This publication  may be reproduced  under  the terms  of the Open  Parliament  Licence,  which  is published  at 
+www  .parliament.uk/site-information/copyright 
+PUBLISHED  BY THE  AUTHORITY  OF THE  HOUSE  OF COMMONS 
+59/1 Bill 23
+
+
+
+Access  to Telecommunications  Networks  Bill 
+[AS INTRODUCED] 
+CONTENTS 
+1 Requirement  to share  apparatus 
+2 Penalties  for failure  to comply  with  requirement  to share  apparatus 
+3 Proposals  for incentivising  use of other  operators’  networks 
+4 Consequential  provision 
+5 Extent,  commencement  and citation 
+58/4 Bill 44 
+[AS INTRODUCED] 
+A 
+BILL 
+TO 
+Require  providers  of electronic  communications  networks  to grant  other  such 
+providers  access  to their  apparatus  where  that is necessary  to ensure  consistent 
+network  coverage;  to prevent  those  providers  from  charging  more  than  the 
+standard  market  rate for such  access;  to require  the regulator  to impose 
+penalties  on providers  who  unreasonably  fail to grant  such  access;  to make 
+provision  for the purpose  of incentivising  providers  to allow  customers  of 
+other  providers  to use their  networks  where  access  cannot  be granted  to their 
+apparatus;  and for connected  purposes. 
+B E IT ENACTED by the King’s  most  Excellent  Majesty,  by and with  the advice  and 
+consent  of the Lords  Spiritual  and Temporal,  and Commons,  in this present 
+Parliament  assembled,  and by the authority  of the same,  as follows:— 
+1 Requirement  to share  apparatus 
+(1) The electronic  communications  code  set out in Schedule  3A to the 
+Communications  Act 2003  is amended  as follows. 
+(2) After  paragraph  3, insert— 
+5 “Mandatory  sharing  of apparatus 
+3A (1) An operator  of electronic  communications  apparatus  must  share 
+with  another  operator  the use of that apparatus  where  such  sharing 
+is necessary  for the provision  of consistent  network  coverage. 
+(2) 
+10Where  electronic  apparatus  is shared  as required  by sub-paragraph 
+(1), any charge  made  for use of the apparatus  may  not exceed  the 
+standard  market  rate. 
+(3) OFCOM  must  publish  annual  guidance  about  the standard  market 
+rate for the purposes  of sub-paragraph  (2).” 
+2 Penalties  for failure  to comply  with  requirement  to share  apparatus 
+15 (1) The Secretary  of State  must  by regulations  require  OFCOM  to impose  penalties 
+on providers  who  unreasonably  fail to share  their  apparatus  in accordance 
+with  paragraph  3A of the electronic  communications  code  set out in Schedule 
+3A to the Communications  Act 2003. 
+58/4 Bill 44 1 Access  to Telecommunications  Networks  Bill 
+(2) Regulations  under  this section  must— 
+(a) make  provision  about  the penalties  which  may  be imposed  by OFCOM, 
+(b) make  provision  about  the circumstances  in which  a refusal  to share 
+apparatus  may  be considered  to be unreasonable. 
+5 (3) Regulations  under  this section  may  not be made  unless  a draft  of the statutory 
+instrument  containing  them  has been  laid before,  and approved  by a resolution 
+of, each  House  of Parliament. 
+3 Proposals  for incentivising  use of other  operators’  networks 
+(1) 
+10Within  six months  of the passing  of this Act, the Secretary  of State  must  lay 
+before  Parliament  proposals  for incentivising  providers  of mobile  telephone 
+services  to allow  customers  of other  such  providers  to use their  networks  in 
+circumstances  where  access  cannot  be granted  to their  apparatus. 
+(2) Proposals  under  subsection  (1) must  include  measures  intended  to improve 
+access  to mobile  telephone  services  for customers  in rural  areas. 
+15 4 Consequential  provision 
+(1) The Secretary  of State  may  by regulations  made  by statutory  instrument  make 
+further  provision  consequential  on the provisions  of this Act. 
+(2) The power  to make  regulations  under  subsection  (1) may  (among  other  things) 
+be exercised  by modifying  any provision  made  by or under  an enactment. 
+20 (3) Regulations  under  this section  may  make  transitional  and saving  provision. 
+5 Extent,  commencement  and citation 
+(1) This  Act extends  to England  and Wales,  Scotland  and Northern  Ireland. 
+(2) This  Act comes  into force  on the day on which  it is passed. 
+(3) 
+25This  Act may  be cited  as the Access  to Telecommunications  Networks  Act 
+2024. Access  to Telecommunications  Networks  Bill 2 
+Access  to Telecommunications  Networks  Bill 
+[AS INTRODUCED] 
+A 
+BILL 
+TO 
+Require  providers  of electronic  communications  networks  to grant  other  such  providers 
+access  to their  apparatus  where  that is necessary  to ensure  consistent  network  coverage; 
+to prevent  those  providers  from  charging  more  than  the standard  market  rate for such 
+access;  to require  the regulator  to impose  penalties  on providers  who  unreasonably  fail 
+to grant  such  access;  to make  provision  for the purpose  of incentivising  providers  to 
+allow  customers  of other  providers  to use their  networks  where  access  cannot  be granted 
+to their  apparatus;  and for connected  purposes. 
+Presented  by Helen  Morgan 
+Ordered,  by The House  of Commons , to be 
+Printed,   11th  December  2023 . 
+© Parliamentary  copyright  House  of Commons 
+This publication  may be reproduced  under  the terms  of the Open  Parliament  Licence,  which  is published  at 
+www  .parliament.uk/site-information/copyright 
+PUBLISHED  BY THE  AUTHORITY  OF THE  HOUSE  OF COMMONS 
+58/4 Bill 44
+
+
+
+OFFICIAL – SENSITIVE  
+1 
+  
+ANIMAL WELFARE (IMPORT OF DOGS, CATS AND FERRETS) BILL  
+ 
+Memorandum from the  Department  for Environment, Food and Rural Affairs  
+to the Delegated Powers and Regulatory Reform Committee  
+ 
+A. INTRODUCTION  
+ 
+1. This memorandum has been prepared for the Delegated Powers and Regulatory 
+Reform  Committee to assist with its scrutiny of the  Animal Welfare  (Import of Dogs, 
+Cats and Ferrets ) Bill (“the Bill”). The Bill was introduced in the House of 
+Commons  on 16th October 2024 and is schedule d for second read ing on 29 
+November 2024 . This memorandum identifies the  provisions of the Bill that confer 
+powers to make delegated legislation. It explains in  each case why the power has 
+been taken and explain s the nature of, and the reason for, the procedure selected.  
+ 
+B.  PURPOSE AND EFFECT OF THE BILL  
+ 
+2. The Bill aims to address the issues of illegal puppy smuggling and the increasing 
+volume of low -welfare movement of pet animals into the United Kingdom from 
+third countries. These movements raise serious welfare issues, as evidence 
+suggests that many imported puppies and kittens are being sourced from facilities 
+with low welfare standards, with concerns about the way in which the animals 
+have been kept and treated and the conditions in which they have been 
+transported, which leads to poor health and welfare outcomes.  
+ 
+3. The Bill aims to improve the welfare of imported dogs, cats and ferrets through : 
+ 
+(1) making amendments to the pet travel scheme rules to prevent 
+commercial imports being disguised  as non -commercial movements , 
+specifically : 
+ 
+a) reducing the number of dogs , cats  and ferrets that can travel under 
+the non -commercial rules from five per person to five per vehicle, or 
+three per foot or air passenger ; and 
+b) ensuring that when a non -commercial movement of a dog, cat or 
+ferret is carried out by an authorised person, it may only take place 
+within five days of the movement of the owner ; and    
+(2) introduc ing enabling powers to allow an appropriate national authority, 
+for the purpose of promoting the welfare of dogs, cats and ferrets, to 
+make regulations about the bringing of any of those animals into the 
+United Kingdom  and related matters . 
+  
+OFFICIAL – SENSITIVE  
+2 
+ C. DELEGATED POWERS  
+ 
+Clause  1: Regulations about bringing  dogs, cats and ferrets into the United 
+Kingdom  
+ 
+(1) Power to make provision in relation to b ringing dogs, cats and ferrets into the 
+United Kingdom  for the purpose of animal welfare  
+ 
+Power conferred  on: the appropriate national authority  
+ 
+Power exercised by : regulations  
+ 
+Parliamentary Procedure : affirmative  procedure  or, where the regulations only 
+contain provision on fees in relation to perm it applications, negative procedure . 
+ 
+(6) Power to make provision about dogs, cats or ferrets that are seized or detained  
+Power conferred on : the appropriate national authority  
+ 
+Power exercised by : regulations  
+ 
+Parliamentary Procedure : affirmative procedure  
+ 
+ 
+(8) Power to impose monetary penalties  
+ 
+Power conferred on : the appropriate national authority  
+ 
+Power exercised by : regulations  
+ 
+Parliamentary Procedure : affirmative procedure  
+ 
+Context and Purpose  
+ 
+4. This Clause will allow the appropriate national authority , which is defined in Clause 
+3(1) as the Secretary of State  or provided they have legislative competence, the 
+Scottish Ministers, the Welsh Ministers or the Department of Agriculture 
+Environment and Rural Affairs in Northern Ireland (DAERA), to introduce 
+regulations prohibiting or  restricting imports of dogs, cats or ferrets on welfare 
+grounds . DAERA may , however,  need to obtain the Secretary of State’s consent 
+before exe rcising this power  depending on the content of the proposed regulations.  
+5. Pursuant to subsection (2), this Clause will also enable the appropriate national 
+authority to make provision about enforcement (which as set out in Clause 2( 1) 
+may include provision conferring functions or powers of entry, inspection, search, 
+seizure or detention, provision about the keeping of records or the revocations of 
+licences or approvals or the creation of criminal offences); and to introduce 
+OFFICIAL – SENSITIVE  
+3 
+ exemptions to any prohibitions  or restrictions , including a permitting scheme.  
+6. Pursuant to subsection s (3) and (4) , in respect of England , Wales and Scotland, 
+the first time the power is exercised in relation to dogs or cats, the regulations 
+must contain provision prohibiting the bringing into the relevant part of the United 
+Kingdom  of a dog or cat (as applicable) belonging to any of the following 
+categories : 
+(1) a dog or cat that is below six months of age;  
+(2) a dog or cat that is more than 42 days’ pregnant; and 
+(3) a dog or cat that has been mutilated (i.e., a dog with cropped ears or a 
+docked tail or a declawed cat).  
+7. Pursuant to subsections ( 6) and ( 7), the appropriate national authority may make 
+provision about dogs, cats or ferrets that are seized or detained for contravention 
+of any animal welfare or health legislation that relates to the bringing of dogs, cats 
+or ferrets into the United Kingdom , including in relation to meeting the costs of 
+detention and transferring ownership of such animals . 
+8. Pursuant to subsection ( 8), the appropriate national authority may  impos e 
+monetary penalties for contravention of any animal welfare or health legislation 
+that relates to the bringing of dogs, cats or ferrets into the United Kingdom . 
+ 
+Justification for taking the power s 
+ 
+9. The power s will ensure that the Department, the Welsh Ministers and the Scottish 
+Ministers are able to act to prohibit the current main focus of our concerns, i.e. 
+import s of young puppies and kittens , which , as well as raising welfare concerns, 
+often do not comply with the current animal health rules, heavily pregnant dogs 
+and cats , and those that have been mutilated.  
+ 
+10. The powers will also enable the appropriate national authority to tackle low -
+welfare imports of dogs, cats and ferrets through a range of enforcement tools 
+and to tackle these imports dynamically. They will enable the appropriate national 
+authority to address existing issues, for example , around how to proceed with an 
+animal which has been seized and /or detained by the authorities for non -
+compliance with relevant animal health and welfare rules, and subsequently 
+abandoned , but they will also provide the mea ns to act in the future to close down 
+emerging low -welfare practices, including attempts to circumvent restrictions. For 
+example, t he powers will allow for the introduction of similar measures for ferrets 
+in the future if low -welfare trade in this species escalates or evidence of welfare 
+concerns is produced by stakeholders and regulators.  Illicit trade is quick to react 
+to legislative and enforcement changes and so this ability to make future changes 
+will be important to ensure that the policy aims are met.  Appropriate safeguards 
+are included in relation to the powers of entry that may be conferred on 
+enforcement authorities and the criminal offences that may be created.  
+ 
+OFFICIAL – SENSITIVE  
+4 
+ 11. The regulations setting out the prohibitions, exemptions, enforcement provisions , 
+offences  and penalties made under the enabling power s will be complex and 
+technical . The existing legislative regime governing the non -commercial 
+movement and commercial import of dogs, cats and ferrets , and enforcement 
+against non -compliance,  is complicated and involves the interaction of a  number 
+of pieces of distinct but interlinked assimilated direct and domestic legislation.  
+ 
+12. The Department believes that i ntroducing these measures in secondary 
+legislation will be more suitable to the ir complexity, as well as  provid ing sufficient 
+time to engage with Devolved Governments  and enforcement bodies to ensure 
+that regulations are robust, comprehensive and can be implement ed effectively.   
+ 
+13. Using power s, rather than including provisions on the face of the Bill, will also 
+enable the U nited Kingdom  to meet its World Trade Organisation ( WTO ) 
+obligations. The Department anticipates that the prohibitio ns that will be 
+introduced under this power to address the kind of low -welfare imports currently 
+entering the United Kingdom  may amount to technical regulations for the purposes 
+of the WTO Agreement on Technical Barriers to Trade. Where a WTO member is 
+proposing to adopt technical regulations, which may have a significant effect on 
+trade, it is obliged to consult other WTO members on the proposed technical 
+regulations. The power will allow for appropriate consultation  with other WTO 
+members to take place before any suc h technical regulations are adopted.  
+Justification for the procedure  
+ 
+14. The Department has considered the scope of the power s carefully and has 
+balanced the need to be dynamic, and to be able to address new concerns 
+regarding low -welfare imports quickly, against the need for Parliamentary 
+oversight.  
+ 
+15. Any measures delivered via the delegated power s will be made by Statutory 
+Instrument subject to the draft affirmative procedure , except where the regulations 
+only contain provision on the fees payable in relation to applications for permits . 
+We consider the affirmative procedure to apply the appropriate level of scrutiny in 
+its assessment of these measures, its impacts, and any evidence supplied, which 
+must be actively approved in both Houses of Parliament.  We consider that the 
+negative procedure is appropr iate for regulations which set fees, which will need 
+to be set to recover the costs incurred in determining applications for permits and 
+will need to b e adjusted to reflect those costs from time to time.  
+ 
+Clause 2: Regulations under section 1: supplementary  
+ 
+(1)(h) Power to amend primary legislation  
+ 
+Power conferred on:  the appropriate national authority  
+ 
+Power exercised by:  regulations  
+ 
+Parliamentary Procedure:  affirmative procedure  
+ 
+OFFICIAL – SENSITIVE  
+5 
+  
+Context and Purpose  
+ 
+16. This Clause provides that regulations  made under Clause 1 may amend , repeal 
+or revoke primary legislation.  
+ 
+Justification for taking the power  
+ 
+17. This power may only be exercised in connection with exercising the powers in 
+Claus e 1 of the Bill. It is not possible to establish in advance all supplementary, 
+incidental and consequential provision that may be required, and these may 
+include a future requirement to make consequential amendments to primary 
+legislation , e.g. to create or amend offences and increase penalties, which may 
+include imprisonment, and create powers of entry; or to  make further amendments 
+to those provisions of the  pet travel scheme rules  that are  being amended by the 
+Bill such as the maximum number of pets permitted to enter Great Britain non -
+commercially in a vehicle . A power is needed to bring certainty to the statute book 
+where a provision of the Bill might otherwise give rise to any legal uncertainty or 
+legal lacunas after the Bill comes into force.   
+ 
+Justification for the procedure  
+  
+18. The Department believes that, on balance, the increased parliamentary scrutiny 
+of the affirmative procedure is appropriate and is consistent with the level of 
+parliamentary scrutiny required of regulations to promote welfare under the Animal 
+Welfare Act 2006 , the Animal Health and Welfare (Scotland) Act 2006  and the 
+Welfare of Animals Act (Northern Ireland) 2011 .  
+ 
+Clause 6: Consequential provision  
+ 
+(3) Power to make consequential provision  
+ 
+Power conferred on:  the Secretary of State  
+ 
+Power exercised by:  regulations  
+ 
+Parliamentary Procedure:  negative procedure  
+ 
+Context and Purpose  
+ 
+19. This Clause gives a power to the Secretary of State to make regulations to make 
+any provision which  is consequential on the provision made by Clause s 4 or 5 , 
+which make  changes to the rules governing the non -commercial movement of pet 
+animals .  
+ 
+Justification for taking the power  
+ 
+20. This power may only be exercised in connection with Clauses 4 or 5 ; it is not to 
+be used in isolation to make unwarranted supplementary, incidental or 
+consequential provisions. Given that the existing legislative regime governing the 
+OFFICIAL – SENSITIVE  
+6 
+ non-commercial movement and commercial import of dogs, cats and ferrets, and 
+enforcement against non -compliance, is complicated and involves the interaction 
+of a number of pieces of distinct but interlinked assimilated direct and domestic 
+legislation,  it is not possible to establish in advance all supplementary, incidental 
+and consequential provisions that may be required. A power is needed to bring 
+certainty to the statute book where a provision of the Bill might otherwise give rise 
+any legal uncertaint y or legal lacunas after the Bill comes into force.  
+ 
+Justification for the procedure  
+ 
+21. The changes to legislation are likely to be technical matters for which the negative 
+resolution procedure is appropriate ( e.g., making consequential amendments to 
+existing secondary legislation).  
+ 
+Clause 7: Regulations  
+ 
+(1) Power to make consequential provision etc  
+ 
+Power conferred on:  the appropriate national authority  
+ 
+Power exercised by:  regulations  
+ 
+Parliamentary Procedure:  affirmative procedure  or, where the regulations only 
+contain provision on fees in relation to permit applications, negative procedure  
+ 
+Context and Purpose  
+ 
+22. This Clause provides that regulations made under the Bill may make 
+consequential, transitional or saving provisions and make different provision for 
+different purposes or different areas.  
+ 
+Justification for taking the power  
+ 
+23. Given that the existing legislative regime governing the non -commercial 
+movement and commercial import of dogs, cats and ferrets, and enforcement 
+against non -compliance, is complicated and involves the interaction of a number 
+of pieces of distinct but inte rlinked assimilated direct and domestic legislation, i t is 
+not possible to establish in advance all supplementary, incidental and 
+consequential provisions that may be required. A power is needed to bring 
+certainty to the statute book where a provision of t he Bill might otherwise give rise 
+to any legal uncertainty or legal lacunas after the Bill comes into force.  
+ 
+Justification for the procedure  
+  
+24. The Department believes that, on balance, the increased parliamentary scrutiny 
+of the affirmative procedure is appropriate and is consistent with the level of 
+parliamentary scrutiny required of regulations to promote welfare under the Animal 
+Welfare Act 2006, the Animal Health and Welfare (Scotland) Act 2006 and the 
+Welfare of Animals Act (Northern Ire land) 2011.  
+OFFICIAL – SENSITIVE  
+7 
+  
+ 
+Clause 8: Extent, commencement and short title  
+ 
+(3) Power to make regulations to commence Clauses 1 to 7 ; 
+ 
+Power conferred on:  the Secretary of State  
+ 
+Power exercised by:  regulations  
+ 
+Parliamentary Procedure:  no procedure  
+ 
+ 
+(5) Power to make transitional provision ; 
+ 
+Power conferred on:  the Secretary of State  
+ 
+Power exercised by:  regulations  
+ 
+Parliamentary Procedure:  no procedure  
+ 
+ 
+ 
+Context and Purpose  
+ 
+25. Sub-section (3) provides that Clauses 1 to 7 come into force on such day as the 
+Secretary of State may by regulations appoint.   Pursuant to sub -section (6), this 
+includes the power to make different provision for different purposes . 
+ 
+26. Sub-section (5) provides that t he Secretary of State may by regulations make such 
+transitional or saving provision as the Secretary of State considers appropriate in 
+connection with the coming into force of any provision of the Bill.  
+ 
+Justification for taking the power s 
+27. It is appropriate to provide for commencement of the provisions of the Bill by 
+regulations and to include transitional provision in relation to their commencement  
+to allow for the provisions to be brought into force at an appropriate time . 
+Commencement of provisions of a Bill by way of regulations is standard pr actice.   
+ 
+Justification for the procedure  
+ 
+28. Consistent with common practice in relation to commencement regulations and 
+associated transitional provision, regulations made under this clause are not 
+subject to any Parliamentary procedure. Parliament has approved the principle of 
+the provisions to be commenced by enacting them; commencement by 
+regulations enables the provisions to be brought into force at the appropriate time 
+and in an orderly manner  
+ 
+OFFICIAL – SENSITIVE  
+8
+
+
+
+Animals  in Medical  Research  (Prohibition)  Bill 
+[AS INTRODUCED] 
+CONTENTS 
+1 Prohibition  of use of animals  in medical  research 
+2 Requirement  to issue  guidance  in connection  with  section  1 
+3 Extent,  commencement  and short  title 
+59/1 Bill 50 
+[AS INTRODUCED] 
+A 
+BILL 
+TO 
+Prohibit  the use of animals  in medical  research;  to require  the use of 
+non-animal  methods  for conducting  medical  research;  and for connected 
+purposes. 
+B E IT ENACTED by the King’s  most  Excellent  Majesty,  by and with  the advice  and 
+consent  of the Lords  Spiritual  and Temporal,  and Commons,  in this present 
+Parliament  assembled,  and by the authority  of the same,  as follows:— 
+1 Prohibition  of use of animals  in medical  research 
+(1) The Secretary  of State  must  by regulations  prohibit  the use of animals  in 
+medical  research  from  1 January  2035. 
+(2) Regulations  made  under  subsection  (1) must— 
+5 (a) prohibit  the use of live animals  or animal-derived  biomaterials,  and 
+(b) require  the use of non-animal  methods 
+in research  into human  diseases  or in the testing  of medicines  or medical 
+devices  being  developed  for human  use. 
+(3) Regulations  under  this section  may  include  provision— 
+10 (a) creating  criminal  offences  in respect  of failures  to comply  with  the 
+regulations, 
+(b) about  such  offences,  and 
+(c) for, about  or connected  with  the imposition  of civil  sanctions. 
+(4) Regulations  under  this section  are to be made  by statutory  instrument. 
+15 (5) A statutory  instrument  containing  regulations  under  this Act may  not be 
+made  unless  a draft  of the instrument  has been  laid before  and approved  by 
+a resolution  of each  House  of Parliament. 
+(6) Before  laying  before  Parliament  a draft  of an instrument  under  this section, 
+the Secretary  of State  must  consult— 
+20 (a) the Animals  in Science  Regulation  Unit; 
+(b) the Animals  in Science  Committee; 
+(c) the Commission  on Human  Medicines; 
+(d) the Medicines  and Healthcare  products  Regulatory  Agency; 
+(e) such  other  persons  as the Secretary  of State  considers  appropriate. 
+59/1 Bill 50 1 Animals  in Medical  Research  (Prohibition)  Bill 
+2 Requirement  to issue  guidance  in connection  with  section  1 
+(1) The Secretary  of State  must  issue  guidance  for persons— 
+(a) undertaking  research  into human  diseases,  or 
+(b) 
+5carrying  out testing  of medicines  or medical  devices  being  developed 
+for human  use 
+on the regulations  made  under  section  1 of this Act. 
+(2) Guidance  under  this section  must  include— 
+(a) advice  and information  about  non-animal  research  methods, 
+(b) 
+10information  about  any support  available  from  the Government  or 
+other  sources  for the use and development  of non-animal  research 
+methods. 
+(3) The Secretary  of State  may  revise  guidance  issued  under  this section. 
+(4) The Secretary  of State  must  arrange  for guidance  issued  under  this section 
+to be published. 
+15 3 Extent,  commencement  and short  title 
+(1) This  Act extends  to England  and Wales,  Scotland  and Northern  Ireland. 
+(2) This  Act comes  into force  on the day on which  it is passed. 
+(3) This  Act may  be cited  as the Animals  in Medical  Research  (Prohibition)  Act 
+2025. Animals  in Medical  Research  (Prohibition)  Bill 2 
+Animals  in Medical  Research  (Prohibition)  Bill 
+[AS INTRODUCED] 
+A 
+BILL 

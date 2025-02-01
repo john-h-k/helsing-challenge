@@ -14,7 +14,7 @@ class TextInput(BaseModel):
 
 
 def retrieve_context(text: str) -> str:
-    retriever.retrieve_context(text)
+    return retriever.retrieve_context(text)
 
 
 @app.post("/retrieve_context")
