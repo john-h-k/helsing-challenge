@@ -1,6 +1,10 @@
 import React from 'react';
+import { useLocation, Link } from 'react-router-dom';
 
 const Navbar = () => {
+  const location = useLocation();
+  const currentPath = location.pathname.substring(1) || 'dashboard';
+
   return (
     <nav className="bg-gradient-to-r from-gray-900/95 to-gray-800/95 backdrop-blur-md border-b border-white/5">
       <div className="max-w-[2000px] mx-auto px-6">
@@ -21,10 +25,18 @@ const Navbar = () => {
             
             {/* Navigation Links */}
             <div className="hidden md:flex items-center space-x-6 ml-8">
-              <NavLink active>Dashboard</NavLink>
-              <NavLink>Analytics</NavLink>
-              <NavLink>Reports</NavLink>
-              <NavLink>Settings</NavLink>
+              <NavLink to="/dashboard" active={currentPath === 'dashboard'}>
+                Dashboard
+              </NavLink>
+              <NavLink to="/analytics" active={currentPath === 'analytics'}>
+                Analytics
+              </NavLink>
+              <NavLink to="/reports" active={currentPath === 'reports'}>
+                Reports
+              </NavLink>
+              <NavLink to="/settings" active={currentPath === 'settings'}>
+                Settings
+              </NavLink>
             </div>
           </div>
 
@@ -68,9 +80,17 @@ const Navbar = () => {
   );
 };
 
-const NavLink = ({ children, active = false }: { children: React.ReactNode; active?: boolean }) => (
-  <a
-    href="#"
+const NavLink = ({ 
+  children, 
+  active = false,
+  to
+}: { 
+  children: React.ReactNode; 
+  active?: boolean;
+  to: string;
+}) => (
+  <Link
+    to={to}
     className={`text-sm font-medium transition-colors ${
       active 
         ? 'text-white' 
@@ -78,7 +98,7 @@ const NavLink = ({ children, active = false }: { children: React.ReactNode; acti
     }`}
   >
     {children}
-  </a>
+  </Link>
 );
 
 const NavButton = ({ children }: { children: React.ReactNode }) => (

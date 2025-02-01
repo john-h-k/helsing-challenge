@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Globe from "globe.gl";
 import { ThemeProvider, createTheme } from "@mui/material";
 import styled from "@emotion/styled";
 import Navbar from "./components/Navbar";
 import Timeline from "./components/Timeline";
 import EventPopup from "./components/EventPopup";
+import AnalyticsTab from "./components/analytics/AnalyticsTab";
 import { generateMockEvents } from "./utils/mockDataGenerator";
 import { Event } from "./types/Event";
 
@@ -27,22 +29,7 @@ const darkTheme = createTheme({
   },
 });
 
-function App() {
-  const globeRef = useRef<HTMLDivElement>(null);
-  const [events] = useState<Event[]>(() => generateMockEvents(100));
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-  const [countries, setCountries] = useState([]);
-
-  useEffect(() => {
-    // Fetch country data
-    fetch(
-      "https://raw.githubusercontent.com/vasturiano/react-globe.gl/master/example/datasets/ne_110m_admin_0_countries.geojson"
-    )
-      .then((res) => res.json())
-      .then(({ features }) => setCountries(features));
-  }, []);
-
+const Dashboard = ({ events, globeRef, selectedEvent, setSelectedEvent, popupPosition, setPopupPosition, countries }) => {
   useEffect(() => {
     if (!globeRef.current) return;
 
@@ -123,27 +110,84 @@ function App() {
   }, [events, countries, selectedEvent]);
 
   return (
+    <>
+      <GlobeContainer ref={globeRef} />
+      <Timeline
+        events={events}
+        onEventClick={(event) => {
+          setSelectedEvent(event);
+          const lat = event.latitude;
+          const lng = event.longitude;
+          setPopupPosition({
+            x: ((lng + 180) * window.innerWidth) / 360,
+            y: ((-lat + 90) * (window.innerHeight - 64)) / 180,
+          });
+        }}
+      />
+      {selectedEvent && (
+        <EventPopup event={selectedEvent} position={popupPosition} />
+      )}
+    </>
+  );
+};
+
+function App() {
+  const globeRef = useRef<HTMLDivElement>(null);
+  const [events] = useState<Event[]>(() => generateMockEvents(100));
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    // Fetch country data
+    fetch(
+      "https://raw.githubusercontent.com/vasturiano/react-globe.gl/master/example/datasets/ne_110m_admin_0_countries.geojson"
+    )
+      .then((res) => res.json())
+      .then(({ features }) => setCountries(features));
+  }, []);
+
+  return (
     <ThemeProvider theme={darkTheme}>
       <Container>
         <Navbar />
-        <GlobeContainer ref={globeRef} />
-        <Timeline
-          events={events}
-          onEventClick={(event) => {
-            setSelectedEvent(event);
-            // Calculate screen coordinates for popup
-            const lat = event.latitude;
-            const lng = event.longitude;
-            // This is a simplified position calculation
-            setPopupPosition({
-              x: ((lng + 180) * window.innerWidth) / 360,
-              y: ((-lat + 90) * (window.innerHeight - 64)) / 180,
-            });
-          }}
-        />
-        {selectedEvent && (
-          <EventPopup event={selectedEvent} position={popupPosition} />
-        )}
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route 
+            path="/dashboard" 
+            element={
+              <Dashboard 
+                events={events}
+                globeRef={globeRef}
+                selectedEvent={selectedEvent}
+                setSelectedEvent={setSelectedEvent}
+                popupPosition={popupPosition}
+                setPopupPosition={setPopupPosition}
+                countries={countries}
+              />
+            } 
+          />
+          <Route 
+            path="/analytics" 
+            element={<AnalyticsTab events={events} />} 
+          />
+          <Route 
+            path="/reports" 
+            element={
+              <div className="h-[calc(100vh-64px)] flex items-center justify-center text-white/50">
+                Reports Coming Soon
+              </div>
+            } 
+          />
+          <Route 
+            path="/settings" 
+            element={
+              <div className="h-[calc(100vh-64px)] flex items-center justify-center text-white/50">
+                Settings Coming Soon
+              </div>
+            } 
+          />
+        </Routes>
       </Container>
     </ThemeProvider>
   );

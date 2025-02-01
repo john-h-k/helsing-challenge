@@ -17,6 +17,33 @@ const generatePotentialEvent = (): PotentialEvent => {
   };
 };
 
+const generateEffect = (order: number, parentEffect?: string): Effect => {
+  const name = `Effect_${Math.random().toString(36).substr(2, 6)}`;
+  return {
+    name,
+    order,
+    parent: order === 1 ? "root" : [parentEffect || "root"],
+    description: `This effect could lead to ${["economic", "social", "political"][Math.floor(Math.random() * 3)]} changes`,
+    p_given_parent: {
+      [order === 1 ? "root" : (parentEffect || "root")]: Math.random()
+    }
+  };
+};
+
+const generateDecision = (): Decision => {
+  // Generate a chain of effects
+  const firstOrderEffect = generateEffect(1);
+  const secondOrderEffect = generateEffect(2, firstOrderEffect.name);
+  const thirdOrderEffect = generateEffect(3, secondOrderEffect.name);
+
+  return {
+    id: Math.random().toString(36).substr(2, 9),
+    title: `Strategic Decision ${Math.floor(Math.random() * 100)}`,
+    description: `This decision involves ${["diplomatic", "military", "economic"][Math.floor(Math.random() * 3)]} action`,
+    effects: [firstOrderEffect, secondOrderEffect, thirdOrderEffect]
+  };
+};
+
 const EVENT_TITLES = [
   "Political Unrest",
   "Economic Summit",
@@ -51,6 +78,9 @@ const generateRandomEvent = (index: number): Event => ({
   potentialEvents: Array(Math.floor(Math.random() * 3) + 1)
     .fill(null)
     .map(() => generatePotentialEvent()),
+  source: `Source ${Math.floor(Math.random() * 100)}`,
+  location: `${["Asia", "Europe", "Americas", "Africa"][Math.floor(Math.random() * 4)]}`,
+  decisions: Array(Math.floor(Math.random() * 3) + 2).fill(null).map(generateDecision)
 });
 
 export const generateMockEvents = (count: number): Event[] => {
