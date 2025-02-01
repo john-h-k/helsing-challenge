@@ -5,24 +5,14 @@ from collections import defaultdict
 import json
 
 
-def generate_effects(policy_order, model="o1-mini", num_effects=10):
+def generate_decisions(event: str, model="o1-mini", num_effects=10):
     """
     Uses OpenAI's model to generate structured effects based on a policy order.
     """
     system_prompt = """
-    You are an expert policy analyst. Given a policy order, generate a set of cascading effects.
-    Each effect should be structured as follows:
-    {
-        "name": string, /* succinct unique name for effect */
-        "order": integer, /* first/second/third order effect */
-        "parent": "root" | array[string], /* root for first order effect, else the "name"s of the effects it occurs from, */
-        "description": string,
-        "p_given_parent": map[string, float from 0..1] /* probability of occurrence given parent */
-    }
-    The top level structure should be:
-    {
-        effects: list[Effect]
-    }
+    You are a senior company analyst.
+    Given an event, and the company's business and other context, suggest 0 or more decisions that would be good for the company.
+    Include reasoning
     """
 
     user_prompt = f"""
@@ -50,8 +40,9 @@ def generate_effects(policy_order, model="o1-mini", num_effects=10):
     if content.endswith("```"):
         content = content[:-3]
 
+    print(content)
     effects = json.loads(content)
-    return build_effects_tree(effects)
+    return effects
 
 
 def build_effects_tree(effects):
@@ -87,5 +78,6 @@ if __name__ == "__main__":
     # policy_order = input()
     # policy_order = "Require 50% women for all FTSE 100 board members"
     policy_order = "Cap rent at £1k per month for 2 bedroom houses"
-    effects_tree = generate_effects(policy_order)
+    effects = generate_effects(policy_order)
+    effects_tree = build_effects_tree(effects)
     print_tree(effects_tree)
