@@ -169,33 +169,55 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                           : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                       }`}
                     >
-                      {selectedEvent.possibility ? "?" : selectedEvent.severity.toUpperCase()}
+                      {selectedEvent.possibility
+                        ? "?"
+                        : selectedEvent.severity.toUpperCase()}
                     </span>
                   </div>
-                  <p className="text-white/70 mb-4 leading-relaxed">
+                  <p className="text-sm text-white/60 leading-relaxed mb-4">
                     {selectedEvent.description}
                   </p>
-                  <div className="text-white/70 mb-4 border border-white/5 leading-relaxed">
-                  {selectedEvent.reasoning}
-                  </div>
-                  {selectedEvent.possibility &&
+                  {selectedEvent.reasoning && (
+                    <>
+                      <div className="my-4 border-t border-white/10" />
+                      <div className="text-sm text-white/60 leading-relaxed p-4 rounded-lg bg-white/5">
+                        <div className="font-medium text-white/70 mb-2">
+                          Reasoning:
+                        </div>
+                        {selectedEvent.reasoning}
+                      </div>
+                      <div className="my-4 border-t border-white/10" />
+                    </>
+                  )}
+                  {selectedEvent.possibility && (
                     <p className="text-white/70 mb-4 leading-relaxed">
                       <div className="flex gap-4">
-                        {selectedEvent.questions?.map(q => (
+                        {selectedEvent.questions?.map((q) => (
                           <a href={q.url} target="_blank">
-                          <div key={q.market} className="flex items-center gap-2 bg-white/10 p-3 rounded-lg">
-                            <img 
-                              src={`${q.market}.${ { manifold: "jpg", metaculus: "jpeg", polymarket: "png" }[q.market] }`} 
-                              alt={q.market} 
-                              className="w-10 h-10 rounded-md"
-                            />
-                            <span className="text-lg font-medium">{Math.round(q.p * 100)}%</span>
-                          </div>
+                            <div
+                              key={q.market}
+                              className="flex items-center gap-2 bg-white/10 p-3 rounded-lg"
+                            >
+                              <img
+                                src={`${q.market}.${
+                                  {
+                                    manifold: "jpg",
+                                    metaculus: "jpeg",
+                                    polymarket: "png",
+                                  }[q.market]
+                                }`}
+                                alt={q.market}
+                                className="w-10 h-10 rounded-md"
+                              />
+                              <span className="text-lg font-medium">
+                                {Math.round(q.p * 100)}%
+                              </span>
+                            </div>
                           </a>
                         ))}
                       </div>
                     </p>
-                  }
+                  )}
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div className="p-3 rounded-lg bg-white/5 border border-white/10">
                       <span className="text-white/40 block mb-1">Type</span>
@@ -289,34 +311,55 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                             : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                         }`}
                             >
-                            {event.possibility ? "?" : event.severity.toUpperCase()}
+                              {event.possibility
+                                ? "?"
+                                : event.severity.toUpperCase()}
                             </span>
                           </div>
                           <p className="mt-2 text-sm text-white/60 leading-relaxed pl-5 mb-2">
                             {event.description}
                           </p>
-                          <p className="text-white/70 mb-4 border border-white/5 leading-relaxed">
-                          {event.reasoning}
-                          </p>
-            
-                          {event.possibility &&
+                          {event.reasoning && (
+                            <>
+                              <div className="my-3 border-t border-white/10" />
+                              <div className="text-sm text-white/60 leading-relaxed p-3 rounded-lg bg-white/5 mx-5">
+                                <div className="font-medium text-white/70 mb-2">
+                                  Reasoning:
+                                </div>
+                                {event.reasoning}
+                              </div>
+                              <div className="my-3 border-t border-white/10" />
+                            </>
+                          )}
+                          {event.possibility && (
                             <p className="text-white/70 mb-4 leading-relaxed">
                               <div className="flex gap-4">
-                                      {event.questions?.map(q => (
+                                {event.questions?.map((q) => (
                                   <a href={q.url} target="_blank">
-                                  <div key={q.market} className="flex items-center gap-2 bg-white/10 p-3 rounded-lg">
-                                    <img 
-                                      src={`${q.market}.${ { manifold: "jpg", metaculus: "jpeg", polymarket: "png" }[q.market] }`} 
-                                      alt={q.market} 
-                                      className="w-10 h-10 rounded-md"
-                                    />
-                                    <span className="text-lg font-medium">{Math.round(q.p * 100)}%</span>
-                                  </div>
+                                    <div
+                                      key={q.market}
+                                      className="flex items-center gap-2 bg-white/10 p-3 rounded-lg"
+                                    >
+                                      <img
+                                        src={`${q.market}.${
+                                          {
+                                            manifold: "jpg",
+                                            metaculus: "jpeg",
+                                            polymarket: "png",
+                                          }[q.market]
+                                        }`}
+                                        alt={q.market}
+                                        className="w-10 h-10 rounded-md"
+                                      />
+                                      <span className="text-lg font-medium">
+                                        {Math.round(q.p * 100)}%
+                                      </span>
+                                    </div>
                                   </a>
                                 ))}
                               </div>
                             </p>
-                          }
+                          )}
 
                           <div className="mt-3 pl-5 flex items-center gap-2 text-xs">
                             <span className="text-white/40">Location:</span>
