@@ -92,13 +92,13 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
     mapping = {
         "MAGIC": [("policy/magic.json", "Curated")],
         "United States": [
-            ("policy/us_bills.json", "Congress"),
+            ("policy/us_bills.json", "US Congress"),
             ("policy/ftc_actions.json", "FTC Action"),
             ("policy/executive_orders.json", "US Executive Orders"),
             ("policy/ft_US.json", "US News"),
         ],
         "US": [
-            ("policy/us_bills.json", "Congress"),
+            ("policy/us_bills.json", "US Congress"),
             ("policy/ftc_actions.json", "FTC Action"),
             ("policy/executive_orders.json", "US Executive Orders"),
             ("policy/ft_US.json", "US News"),

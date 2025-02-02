@@ -340,20 +340,9 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                                 transition-all duration-300 hover:border-white/20"
                             >
                               <div className="flex items-start justify-between">
-                                <div className="flex items-center gap-3">
-                                  <div
-                                    className={`w-2 h-2 rounded-full ${
-                                      event.severity === "high"
-                                        ? "bg-red-400"
-                                        : event.severity === "medium"
-                                        ? "bg-amber-400"
-                                        : "bg-emerald-400"
-                                    }`}
-                                  />
-                                  <h3 className="font-medium text-white/90">
-                                    {event.title}
-                                  </h3>
-                                </div>
+                                <h3 className="font-medium text-white/90">
+                                  {event.title}
+                                </h3>
                                 <span
                                   className={`px-2.5 py-1 rounded-full text-[11px] font-medium
                                   ${
