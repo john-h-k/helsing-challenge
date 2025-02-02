@@ -1,4 +1,11 @@
-import { Event, PotentialEvent } from "../types/Event";
+import {
+  Decision,
+  Effect,
+  Event,
+  GeoObject,
+  ObjectType,
+  PotentialEvent,
+} from "../types/Event";
 import { addDays, subDays } from "date-fns";
 import { streamJson } from "./stream";
 
@@ -49,13 +56,13 @@ const generateDecision = (): Decision => {
   };
 };
 
-const OBJECT_TYPES: ObjectType[] = [
-  "military",
-  "economic",
-  "political",
-  "infrastructure",
-  "facility",
+// Replace the old OBJECT_TYPES with the new Amazon-specific types
+const OBJECT_TYPES: string[] = [
+  "economic", // For fulfillment centers, retail stores
+  "infrastructure", // For AWS, data centers, offices
+  "facility", // For research labs, engineering offices
 ];
+
 const COUNTRIES = [
   "USA",
   "China",
@@ -158,21 +165,54 @@ const generateRandomEvent = (index: number): Event => {
   };
 };
 
-export async function* getRealEvents(companyContext: string, count: number): AsyncIterator<Event> {
-  // companyContext = "UK Defence company focusing on exports to Nato and Western nations, preventing Chinese development of defence technologies, and running worldwide military logistics" +
-  // ". Must stay intimately familar with American military politics";
-  companyContext = "UK supply chain & defence company. Needs bills related to logistics and national trade, as well as news articles about major political events"
+// Remove unused military and political from the type mapping since we don't use them
+const INFRA_TYPE_MAPPING: { [key: string]: ObjectType } = {
+  research_lab: "facility",
+  corporate_office: "infrastructure",
+  data_center: "infrastructure",
+  fulfillment_center: "economic",
+  delivery_hub: "economic",
+  engineering_office: "facility",
+  retail_store: "economic",
+  sustainability_site: "infrastructure",
+};
+
+export async function* getRealEvents(
+  companyContext: string,
+  count: number
+): AsyncIterator<Event> {
+  companyContext =
+    "UK supply chain & defence company. Needs bills related to logistics and national trade, as well as news articles about major political events";
   let body = {
     company_context: companyContext,
-    // country_codes: ["CN", "GB"],
     country_codes: ["MAGIC", "GB"],
     query: "",
-    max_events: 15
-  }
+    max_events: 15,
+  };
 
-  let res = await fetch("http://localhost:8080/stream_relevant_events", { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)});
-  
+  let res = await fetch("http://localhost:8080/stream_relevant_events", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
   for await (const e of streamJson(res)) {
+    // Convert infrastructure objects to GeoObject format
+    const objects: GeoObject[] = e.infra
+      ? e.infra.map((inf: any) => ({
+          id: inf.id,
+          name: inf.name,
+          type: INFRA_TYPE_MAPPING[inf.type] || "facility", // Default to facility if type not found
+          description: inf.description,
+          latitude: inf.latitude,
+          longitude: inf.longitude,
+          countries: Array.isArray(inf.countries)
+            ? inf.countries
+            : [inf.countries],
+          status: inf.status as "active" | "inactive" | "unknown",
+        }))
+      : [];
+
     yield {
       id: e.id,
       title: e.event_name,
@@ -185,12 +225,14 @@ export async function* getRealEvents(companyContext: string, count: number): Asy
       longitude: e.lon,
       date: e.date ? new Date(e.date) : new Date(),
       severity: "high",
-      objects: []
+      objects: objects, // Use the converted infrastructure objects
     };
   }
 }
 
-export async function* generateMockEvents(count: number): AsyncGenerator<Event> {
+export async function* generateMockEvents(
+  count: number
+): AsyncGenerator<Event> {
   // Simulate async delay (e.g., mimicking API call)
   for (let i = 0; i < count; i++) {
     await new Promise((resolve) => setTimeout(resolve, 100));
@@ -208,6 +250,8 @@ export async function* generateMockEvents(count: number): AsyncGenerator<Event> 
       location: "Country Name",
       objects: [],
       decisions: [],
+      questions: [],  // Add missing questions array
+      type: "mock"    // Add missing type field
     };
   }
 }

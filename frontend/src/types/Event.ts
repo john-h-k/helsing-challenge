@@ -1,9 +1,7 @@
 export type ObjectType =
-  | "military"
-  | "economic"
-  | "political"
-  | "infrastructure"
-  | "facility";
+  | "economic"      // For fulfillment centers, retail stores
+  | "infrastructure" // For AWS, data centers, offices
+  | "facility";     // For research labs, engineering offices
 
 export interface GeoObject {
   id: string;
