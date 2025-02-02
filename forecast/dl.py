@@ -1,29 +1,44 @@
 import requests
 import json
 import re
+import time
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
 
 
 def fetch_polymarket():
-    with open("../polymarket/results.json") as file:
+    with open("../polymarket/markets.json") as file:
         data = json.load(file)
 
     def _get_url(cid):
-        r = requests.get(
-            f"https://gamma-api.polymarket.com/markets?condition_ids={cid}"
-        ).json()
+        while True:
+            r = requests.get(
+                f"https://gamma-api.polymarket.com/markets?condition_ids={cid}"
+            )
+
+            if r.status_code == 429:
+                time.sleep(3)
+                continue
+
+            break
+
+        r = r.json()[0]
         return f"https://polymarket.com/event/{r["slug"]}"
 
-    return [
-        {
-            "id": str(q["id"]),
-            "title": q["name"],
-            "url": _get_url(q["id"]),
-            "market": "polymarket",
-        }
-        for q in data
-    ]
+    markets = []
+    for n, q in enumerate(data, start=1):
+        print(f"{n}/{len(data)}")
+        markets.append(
+            [
+                {
+                    "id": str(q["id"]),
+                    "title": q["name"],
+                    "url": _get_url(q["id"]),
+                    "market": "polymarket",
+                }
+            ]
+        )
+    return markets
 
 
 def fetch_metaculus():
@@ -69,23 +84,29 @@ def fetch_kalshi():
 
 
 def main():
-    fetch_functions = {
-        "metaculus": fetch_metaculus,
-        "manifold": fetch_manifold,
-        "kalshi": fetch_kalshi,
-    }
+    # fetch_functions = {
+    #     "metaculus": fetch_metaculus,
+    #     "manifold": fetch_manifold,
+    #     "kalshi": fetch_kalshi,
+    #     "polymarket": fetch_polymarket,
+    # }
 
-    results = {}
+    # results = {}
 
-    with ThreadPoolExecutor() as executor:
-        futures = {
-            executor.submit(fetch_func): market
-            for market, fetch_func in fetch_functions.items()
-        }
-        for future in futures:
-            results[futures[future]] = future.result()
+    # with ThreadPoolExecutor() as executor:
+    #     futures = {
+    #         executor.submit(fetch_func): market
+    #         for market, fetch_func in fetch_functions.items()
+    #     }
+    #     for future in futures:
+    #         results[futures[future]] = future.result()
 
-    all_markets = results["metaculus"] + results["manifold"] + results["kalshi"]
+    # all_markets = results["metaculus"] + results["manifold"] + results["kalshi"]
+    with open("markets.json") as f:
+        ex = json.load(f)
+
+    pm = fetch_polymarket()
+    all_markets = ex + pm
 
     with open("markets.json", "w") as f:
         json.dump(all_markets, f, indent=4)
