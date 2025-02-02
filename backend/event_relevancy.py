@@ -716,7 +716,7 @@ if __name__ == "__main__":
     relevant_events = get_relevant_events(
         "Name: " + a["name"] + "\n\nCompany Context: " + a["summary"],
         a["location_list"],
-        "Arrow is expanding its IT distribution businesses and is concerned about any legal risks arising",
+        "Amazon is expanding its businesses and is concerned about any risks",
         10,
     )
     print(json.dumps(relevant_events, indent=2))

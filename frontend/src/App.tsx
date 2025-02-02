@@ -10,8 +10,6 @@ import mapboxgl from "mapbox-gl";
 import { ThemeProvider, createTheme } from "@mui/material";
 import styled from "@emotion/styled";
 import Navbar from "./components/Navbar";
-import Timeline from "./components/Timeline";
-import EventPopup from "./components/EventPopup";
 import AnalyticsTab from "./components/analytics/AnalyticsTab";
 import { generateMockEvents, getRealEvents } from "./utils/mockDataGenerator";
 import { Event, GeoObject } from "./types/Event";
@@ -21,7 +19,6 @@ import { forEachStream, forEachStreamJson } from "utils/stream";
 import { checkEventInPolygon } from "./utils/geometry";
 import { generateMockLocations } from "utils/mockLocationsGenerator";
 import { PopupContent } from "./components/MapPopup";
-import { facilityIcons, facilityTypeLabels } from "./utils/facilityIcons";
 
 // Add new styled component for marker animations
 const markerStyles = `
@@ -97,13 +94,14 @@ const MAPBOX_TOKEN =
   "pk.eyJ1IjoibmV1cm9kaXZlcmdlbnRzZXJpZXMiLCJhIjoiY20zenhkeWkyMmF1ejJsc2Z6dTRlaXhlYiJ9.h6MGz9q6p0T65MQK7A91lg";
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
+// Remove locations from props interface
 interface DashboardProps {
   events: Event[];
   mapContainer: React.RefObject<HTMLDivElement>;
   selectedEvent: Event | null;
   setSelectedEvent: (event: Event | null) => void;
   countries: any[]; // Adjust type if available
-  locations: GeoObject[];
+  // Removed locations prop
 }
 
 const Dashboard = ({
@@ -111,8 +109,7 @@ const Dashboard = ({
   mapContainer,
   selectedEvent,
   setSelectedEvent,
-  countries, // Added prop
-  locations,
+  countries,
 }: DashboardProps) => {
   const navigate = useNavigate();
   const map = useRef<mapboxgl.Map | null>(null);
@@ -280,14 +277,6 @@ const Dashboard = ({
 
     setVisibleEvents(visible);
   }, [filteredEvents]);
-
-  const facilityIcons = {
-    military: "🎯",
-    economic: "💹",
-    political: "🏛️",
-    infrastructure: "🏗️",
-    facility: "🏭",
-  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -474,133 +463,6 @@ const Dashboard = ({
     });
   };
 
-  const createFacilityMarkers = () => {
-    locations.forEach((location) => {
-      const markerEl = document.createElement("div");
-      markerEl.className = "facility-marker relative group";
-
-      // Main container - made more circular
-      const iconWrapper = document.createElement("div");
-      iconWrapper.className = `
-        w-8 h-8 rounded-full bg-gray-900/90 shadow-xl
-        flex items-center justify-center
-        border transition-all duration-300
-        transform group-hover:scale-110
-        group-hover:-translate-y-1
-      `;
-      iconWrapper.style.borderColor = getStatusColor(location.status);
-
-      // Status indicator - moved inside the circle
-      const statusIndicator = document.createElement("div");
-      statusIndicator.className = "absolute inset-0 rounded-full";
-      statusIndicator.style.background = `radial-gradient(circle at center, ${getStatusColor(
-        location.status
-      )}10, transparent 70%)`;
-
-      // Create SVG element manually with adjusted styling
-      const iconSvg = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "svg"
-      );
-      iconSvg.setAttribute("class", "w-4 h-4 relative z-10");
-      iconSvg.setAttribute("viewBox", "0 0 24 24");
-      iconSvg.setAttribute("fill", "none");
-      iconSvg.setAttribute("stroke", "currentColor");
-      iconSvg.setAttribute("stroke-width", "2");
-
-      // Keep the same switch case for SVG paths
-      switch (location.type) {
-        case "military":
-          iconSvg.innerHTML =
-            '<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>';
-          break;
-        case "economic":
-          iconSvg.innerHTML =
-            '<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H7"/>';
-          break;
-        case "political":
-          iconSvg.innerHTML =
-            '<path d="M2 20h20M4 20V4h16v16"/><path d="M7 8h.01M7 12h.01M7 16h.01M12 8h.01M12 12h.01M12 16h.01M17 8h.01M17 12h.01M17 16h.01"/>';
-          break;
-        case "infrastructure":
-          iconSvg.innerHTML =
-            '<path d="M12 22V2M2 12h20M17 7l-5-5-5 5M17 17l-5 5-5-5"/>';
-          break;
-        case "facility":
-          iconSvg.innerHTML =
-            '<path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16M3 21h18M9 7h.01M9 11h.01M9 15h.01M13 7h2M13 11h2M13 15h2"/>';
-          break;
-      }
-
-      // Add icon container with updated styling
-      const iconContainer = document.createElement("div");
-      iconContainer.className = "text-white/90 relative z-10";
-      iconContainer.appendChild(iconSvg);
-
-      iconWrapper.appendChild(statusIndicator);
-      iconWrapper.appendChild(iconContainer);
-      markerEl.appendChild(iconWrapper);
-
-      const marker = new mapboxgl.Marker({
-        element: markerEl,
-        anchor: "center",
-      })
-        .setLngLat([location.longitude, location.latitude])
-        .addTo(map.current!);
-
-      markerEl.addEventListener("click", () => {
-        if (popup.current) popup.current.remove();
-
-        const popupContent = `
-          <div class="p-4 min-w-[300px]">
-            <div class="flex items-center justify-between mb-3">
-              <h3 class="text-sm font-medium text-white/90">${
-                location.name
-              }</h3>
-              <span class="px-2 py-1 text-[11px] rounded-full font-medium
-                ${
-                  location.status === "active"
-                    ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                    : location.status === "inactive"
-                    ? "bg-red-500/10 text-red-400 border border-red-500/20"
-                    : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                }">
-                ${location.status.toUpperCase()}
-              </span>
-            </div>
-            <p class="text-sm text-white/70 mb-4 leading-relaxed">${
-              location.description
-            }</p>
-            <div class="grid grid-cols-2 gap-3 text-xs">
-              <div class="p-2 rounded-lg bg-white/5 border border-white/10">
-                <span class="block text-white/50 mb-1">Type</span>
-                <span class="text-white/90">${location.type}</span>
-              </div>
-              <div class="p-2 rounded-lg bg-white/5 border border-white/10">
-                <span class="block text-white/50 mb-1">Country</span>
-                <span class="text-white/90">${location.countries.join(
-                  ", "
-                )}</span>
-              </div>
-            </div>
-          </div>
-        `;
-
-        popup.current = new mapboxgl.Popup({
-          closeButton: true,
-          closeOnClick: false,
-          className: "dark-theme-popup",
-          maxWidth: "400px",
-        })
-          .setLngLat([location.longitude, location.latitude])
-          .setHTML(popupContent)
-          .addTo(map.current!);
-      });
-
-      markers.current.push(marker);
-    });
-  };
-
   useEffect(() => {
     if (!mapContainer.current) return;
 
@@ -748,133 +610,6 @@ const Dashboard = ({
       });
     };
 
-    const createFacilityMarkers = () => {
-      locations.forEach((location) => {
-        const markerEl = document.createElement("div");
-        markerEl.className = "facility-marker relative group";
-
-        // Main container - made more circular
-        const iconWrapper = document.createElement("div");
-        iconWrapper.className = `
-          w-8 h-8 rounded-full bg-gray-900/90 shadow-xl
-          flex items-center justify-center
-          border transition-all duration-300
-          transform group-hover:scale-110
-          group-hover:-translate-y-1
-        `;
-        iconWrapper.style.borderColor = getStatusColor(location.status);
-
-        // Status indicator - moved inside the circle
-        const statusIndicator = document.createElement("div");
-        statusIndicator.className = "absolute inset-0 rounded-full";
-        statusIndicator.style.background = `radial-gradient(circle at center, ${getStatusColor(
-          location.status
-        )}10, transparent 70%)`;
-
-        // Create SVG element manually with adjusted styling
-        const iconSvg = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "svg"
-        );
-        iconSvg.setAttribute("class", "w-4 h-4 relative z-10");
-        iconSvg.setAttribute("viewBox", "0 0 24 24");
-        iconSvg.setAttribute("fill", "none");
-        iconSvg.setAttribute("stroke", "currentColor");
-        iconSvg.setAttribute("stroke-width", "2");
-
-        // Keep the same switch case for SVG paths
-        switch (location.type) {
-          case "military":
-            iconSvg.innerHTML =
-              '<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>';
-            break;
-          case "economic":
-            iconSvg.innerHTML =
-              '<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H7"/>';
-            break;
-          case "political":
-            iconSvg.innerHTML =
-              '<path d="M2 20h20M4 20V4h16v16"/><path d="M7 8h.01M7 12h.01M7 16h.01M12 8h.01M12 12h.01M12 16h.01M17 8h.01M17 12h.01M17 16h.01"/>';
-            break;
-          case "infrastructure":
-            iconSvg.innerHTML =
-              '<path d="M12 22V2M2 12h20M17 7l-5-5-5 5M17 17l-5 5-5-5"/>';
-            break;
-          case "facility":
-            iconSvg.innerHTML =
-              '<path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16M3 21h18M9 7h.01M9 11h.01M9 15h.01M13 7h2M13 11h2M13 15h2"/>';
-            break;
-        }
-
-        // Add icon container with updated styling
-        const iconContainer = document.createElement("div");
-        iconContainer.className = "text-white/90 relative z-10";
-        iconContainer.appendChild(iconSvg);
-
-        iconWrapper.appendChild(statusIndicator);
-        iconWrapper.appendChild(iconContainer);
-        markerEl.appendChild(iconWrapper);
-
-        const marker = new mapboxgl.Marker({
-          element: markerEl,
-          anchor: "center",
-        })
-          .setLngLat([location.longitude, location.latitude])
-          .addTo(map.current!);
-
-        markerEl.addEventListener("click", () => {
-          if (popup.current) popup.current.remove();
-
-          const popupContent = `
-            <div class="p-4 min-w-[300px]">
-              <div class="flex items-center justify-between mb-3">
-                <h3 class="text-sm font-medium text-white/90">${
-                  location.name
-                }</h3>
-                <span class="px-2 py-1 text-[11px] rounded-full font-medium
-                  ${
-                    location.status === "active"
-                      ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                      : location.status === "inactive"
-                      ? "bg-red-500/10 text-red-400 border border-red-500/20"
-                      : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                  }">
-                  ${location.status.toUpperCase()}
-                </span>
-              </div>
-              <p class="text-sm text-white/70 mb-4 leading-relaxed">${
-                location.description
-              }</p>
-              <div class="grid grid-cols-2 gap-3 text-xs">
-                <div class="p-2 rounded-lg bg-white/5 border border-white/10">
-                  <span class="block text-white/50 mb-1">Type</span>
-                  <span class="text-white/90">${location.type}</span>
-                </div>
-                <div class="p-2 rounded-lg bg-white/5 border border-white/10">
-                  <span class="block text-white/50 mb-1">Country</span>
-                  <span class="text-white/90">${location.countries.join(
-                    ", "
-                  )}</span>
-                </div>
-              </div>
-            </div>
-          `;
-
-          popup.current = new mapboxgl.Popup({
-            closeButton: true,
-            closeOnClick: false,
-            className: "dark-theme-popup",
-            maxWidth: "400px",
-          })
-            .setLngLat([location.longitude, location.latitude])
-            .setHTML(popupContent)
-            .addTo(map.current!);
-        });
-
-        markers.current.push(marker);
-      });
-    };
-
     map.current.on("style.load", () => {
       // Set fog
       map.current!.setFog({
@@ -986,7 +721,6 @@ const Dashboard = ({
         // Remove the event-points layer since we're using markers
         // Instead of the circle layer, create the markers
         createMarkers();
-        createFacilityMarkers();
       }
 
       // Add sources for polygon drawing
@@ -1101,7 +835,7 @@ const Dashboard = ({
         map.current.off("zoomend", updateVisibleEvents);
       }
     };
-  }, [countries, events, updateVisibleEvents, locations]); // Add dependencies
+  }, [countries, events, updateVisibleEvents]); // Remove locations from dependencies
 
   const toggleDraw = () => {
     if (!isDrawing) {
@@ -1261,28 +995,7 @@ const Dashboard = ({
               </div>
             </div>
 
-            {/* Facilities Section */}
-            <div>
-              <h3 className="text-sm font-semibold text-white/90 mb-3">
-                Infrastructure
-              </h3>
-              <div className="space-y-2">
-                {Object.entries(facilityIcons)
-                  .filter(([type]) =>
-                    ["economic", "infrastructure", "facility"].includes(type)
-                  ) // Only show Amazon facility types
-                  .map(([type, icon]) => (
-                    <div key={type} className="flex items-center gap-3">
-                      <div className="w-6 h-6 rounded-full bg-gray-900 border border-white/10 flex items-center justify-center">
-                        <div className="w-3 h-3 text-white/80">{icon}</div>
-                      </div>
-                      <div className="text-xs text-white/70">
-                        {facilityTypeLabels[type as ObjectType]}
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </div>
+            {/* Remove Facilities Section */}
           </div>
         </Legend>
         <SearchButton onClick={toggleDraw}>
@@ -1352,7 +1065,6 @@ function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [countries, setCountries] = useState([]);
-  const [locations] = useState<GeoObject[]>(() => generateMockLocations(15));
 
   // Fetch events asynchronously
 
@@ -1422,8 +1134,8 @@ function App() {
                 mapContainer={mapContainer}
                 selectedEvent={selectedEvent}
                 setSelectedEvent={setSelectedEvent}
-                countries={countries} // Pass countries prop
-                locations={locations}
+                countries={countries}
+                // Remove locations prop
               />
             }
           />
