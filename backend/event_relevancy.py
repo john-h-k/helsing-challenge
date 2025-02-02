@@ -667,6 +667,9 @@ def stream_relevant_events(
         batch_scores, batch_poss = future.result()
 
         for event_id, (poss, loc, (lat, lon)) in batch_poss.items():
+            if event_id not in events:
+                continue
+
             events[event_id]["possibility"] = poss
             events[event_id]["location"] = loc
             events[event_id]["lat"] = lat
