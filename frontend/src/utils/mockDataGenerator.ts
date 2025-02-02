@@ -157,34 +157,56 @@ const generateRandomEvent = (index: number): Event => {
   };
 };
 
-export async function getRealEvents(count: number): Promise<Event[]> {
-  let res = await fetch("localhost:5000/events", { method: "POST", body: JSON.stringify({ "context": "lebanase pagers" })});
-  let events = await res.json()
+export async function* getRealEvents(count: number): AsyncIterator<Event> {
+  let body = {
+    company_context: "chinese battery company",
+    country_codes: ["CN", "GB"],
+    query: "more electronics exporting",
+    max_events: 10
+  }
+  let res = await fetch("http://localhost:8080/stream_relevant_events", { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)});
+  const reader = res.body.getReader();
 
-  return events.map(e => ({
-    id: e.id,
-    title: e.title,
-    description: e.description,
-    latitude: 0,
-    longitude: 0,
-    date: e.date,
-    severity: e.severity,
-    // potentialEvents?: PotentialEvent[];
-    // source?: string;
-    // location?: string;
-    // decisions?: Decision[];
-    objects: []
-  }))
+
+  let decoder = new TextDecoder();
+  let buffer = "";
+  
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    
+
+    buffer += decoder.decode(value, { stream: true });
+    
+    let parts = buffer.split("\0");
+    buffer = parts.pop(); // last part may be incomplete, save for next loop
+    
+    for (let part of parts) {
+      try {
+        let e = JSON.parse(part);
+        yield {
+          id: e.id,
+          title: e.event_name,
+          description: e.blurb,
+          latitude: 0,
+          longitude: 0,
+          date: e.date,
+          severity: "high",
+          objects: []
+        };
+      } catch (err) {
+        console.error("JSON parse error:", err);
+      }
+    }
+  }
 }
 
-
-export async function generateMockEvents(count: number): Promise<Event[]> {
+export async function* generateMockEvents(count: number): AsyncGenerator<Event> {
   // Simulate async delay (e.g., mimicking API call)
-  await new Promise((resolve) => setTimeout(resolve, 100));
-
-  const events: Event[] = [];
   for (let i = 0; i < count; i++) {
-    events.push({
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    yield {
       id: String(i),
       title: `Event ${i}`,
       description: `This is the description for event ${i}.`,
@@ -196,7 +218,6 @@ export async function generateMockEvents(count: number): Promise<Event[]> {
       location: "Country Name",
       objects: [],
       decisions: [],
-    });
+    };
   }
-  return events;
 }

@@ -19,6 +19,3 @@ WORKDIR /app
 COPY . .
 
 RUN uv sync --frozen
-
-# expose port
-EXPOSE 5000

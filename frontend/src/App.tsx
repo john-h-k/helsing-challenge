@@ -872,6 +872,8 @@ const Dashboard = ({
   );
 };
 
+const USE_REAL = true
+
 function App() {
   const mapContainer = useRef<HTMLDivElement>(null);
   // Updated state initialization for asynchronous events load
@@ -880,11 +882,27 @@ function App() {
   const [countries, setCountries] = useState([]);
 
   // Fetch events asynchronously
+
+  let it;
+  let k = 10;
+  if (USE_REAL) {
+    it = getRealEvents(k);
+  } else {
+    it = generateMockEvents(k);
+  }
+
   useEffect(() => {
-    generateMockEvents(100).then((fetchedEvents) => {
-      setEvents(fetchedEvents);
-    });
+    const processNext = () => {
+      it.next().then(({ value, done }) => {
+        if (done) return;
+        setEvents((prevEvents) => [...prevEvents, value]);
+        processNext(); // recursively process next item
+      });
+    };
+
+    processNext();
   }, []);
+
 
   useEffect(() => {
     // Fetch country data

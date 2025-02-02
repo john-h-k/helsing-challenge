@@ -21,5 +21,3 @@ COPY . .
 RUN uv sync --frozen
 
 # expose port
-EXPOSE 8000
-

@@ -1,6 +1,6 @@
 import json
 import os
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 import concurrent.futures
 from typing import List, Dict, Any
 from enum import IntEnum
@@ -62,9 +62,13 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
     """
     mapping = {
         "United States": "policy/us_bills.json",
+        "US": "policy/us_bills.json",
         "United Kingdom": "policy/uk_bills.json",
+        "GB": "policy/uk_bills.json",
         "Singapore": "policy/sg_bills.json",
+        "SG": "policy/sg_bills.json",
         "India": "policy/india_bills.json",
+        "IN": "policy/india_bills.json",
     }
     events = []
     for code in country_codes:
@@ -139,7 +143,7 @@ def assess_events_relevancy_batch(
         )
         # Get the raw text from the message content and then parse it using our Pydantic model.
         raw_content = response.choices[0].message.content.strip()
-        parsed_response = ListOfRelevantEvents.parse_raw(raw_content)
+        parsed_response = ListOfRelevantEvents.model_validate_json(raw_content)
         scores = {}
         for item in parsed_response.events:
             event_id = item.id
@@ -180,10 +184,10 @@ def is_point_in_polygon(x, y, poly):
 def country_code_2_to_3(alpha2):
     """
     Convert ISO 3166-1 alpha-2 country code to alpha-3 code.
-    
+
     Args:
         alpha2 (str): 2-letter country code (e.g., 'US', 'DE')
-        
+
     Returns:
         str: 3-letter country code
     Raises:
@@ -246,16 +250,16 @@ def country_code_2_to_3(alpha2):
     alpha2 = alpha2.upper()
     if alpha2 not in country_codes:
         raise ValueError(f"Invalid ISO 3166-1 alpha-2 country code: {alpha2}")
-        
+
     return country_codes[alpha2]
 
 def get_random_country_coordinate(country_code):
     """
     Returns a random (latitude, longitude) pair within the specified country.
-    
+
     Args:
         country_code (str): ISO Alpha-2 country code (e.g., 'US', 'DE')
-        
+
     Returns:
         tuple: (latitude, longitude)
     """
@@ -271,7 +275,7 @@ def get_random_country_coordinate(country_code):
     # Parse geographic features
     polygons = []
     exterior_coords = []
-    
+
     for feature in data['features']:
         geom = feature['geometry']
         if geom['type'] == 'Polygon':
@@ -301,7 +305,7 @@ def get_random_country_coordinate(country_code):
     for _ in range(max_attempts):
         lat = random.uniform(min_lat, max_lat)
         lon = random.uniform(min_lon, max_lon)
-        
+
         # Check if point is in any valid area
         for exterior, holes in polygons:
             if is_point_in_polygon(lon, lat, exterior):
@@ -325,6 +329,38 @@ def generate_relevant_latlong(events):
     return events
 
 
+def stream_relevant_events(
+    company_context: str, country_codes: List[str], query: str, max_events: int
+):
+    """
+    Returns a dictionary with:
+      - "relevant_event_ids": an ordered list of event IDs (by descending relevancy),
+      - "events": the full JSON objects for the top events.
+    """
+    events = {e["id"]: e for e in load_events(country_codes)}
+    if not events:
+        print("no events")
+        return []
+
+    batches = batch_events(list(events.values()), batch_size=10)
+
+    with ThreadPoolExecutor() as executor:
+        futures = []
+        for batch in batches:
+            futures.append(
+                executor.submit(
+                    lambda: assess_events_relevancy_batch(batch, company_context, query)
+                )
+            )
+        for future in concurrent.futures.as_completed(futures):
+            batch_scores = future.result()
+
+            for event_id, (numeric_score, justification) in batch_scores.items():
+                event = events[event_id]
+                yield json.dumps(event)
+                yield "\0"
+
+
 def get_relevant_events(
     company_context: str, country_codes: List[str], query: str, max_events: int
 ) -> Dict[str, Any]:
@@ -337,7 +373,7 @@ def get_relevant_events(
     if not events:
         return {"relevant_event_ids": [], "events": []}
 
-    batches = batch_events(events, batch_size=50)
+    batches = batch_events(events, batch_size=100)
     all_scores = {}
 
     with ThreadPoolExecutor() as executor:
