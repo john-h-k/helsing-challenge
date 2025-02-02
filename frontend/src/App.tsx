@@ -1069,12 +1069,14 @@ function App() {
   // Fetch events asynchronously
 
   let it: AsyncIterator<Event>;
-  let k = 10;
+  let k = 100;
   if (USE_REAL) {
     it = getRealEvents(companyContext, k);
   } else {
     it = generateMockEvents(k);
   }
+
+  const PREPEND = false
 
   useEffect(() => {
     forEachStream(
@@ -1100,10 +1102,10 @@ function App() {
               // }
 
               value.questions = qs;
-              setEvents((prevEvents) => [value, ...prevEvents]);
+              setEvents((prevEvents) => PREPEND ? [value, ...prevEvents] : [...prevEvents, value]);
             });
         } else {
-          setEvents((prevEvents) => [value, ...prevEvents]);
+          setEvents((prevEvents) => PREPEND ? [value, ...prevEvents] : [...prevEvents, value]);
         }
       },
       () => setLoading((_) => false)
