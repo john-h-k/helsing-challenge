@@ -7,7 +7,7 @@ from collections import defaultdict
 import json
 
 
-def generate_effects(company_context, policy_order, model="o1-mini", num_effects=3):
+def generate_effects(company_context, policy_order, model="o1-mini", num_effects=10):
     """
     Uses OpenAI's model to generate structured effects based on a policy order.
     """
@@ -55,7 +55,8 @@ def generate_effects(company_context, policy_order, model="o1-mini", num_effects
         content = content[:-3]
 
     effects = json.loads(content)
-    return build_effects_tree(effects)
+    return effects
+    # return build_effects_tree(effects)
 
 
 def build_effects_tree(effects):

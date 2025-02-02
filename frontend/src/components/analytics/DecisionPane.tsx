@@ -250,12 +250,16 @@ const DecisionPane: React.FC<DecisionPaneProps> = ({
       );
     } else {
       setDecisions(_ => [])
+      onDecisionSelect(null)
     }
   }, [event])
 
   // Update flow when decision changes
   React.useEffect(() => {
     if (selectedDecision) {
+      setNodes([]);
+      setEdges([]);
+
       let body = { company_context: companyContext, decision: selectedDecision.description }
       fetch(
         "http://localhost:8080/effects",
@@ -268,7 +272,6 @@ const DecisionPane: React.FC<DecisionPaneProps> = ({
         setNodes(newNodes);
         setEdges(newEdges);
       });
-
     }
   }, [selectedDecision, setNodes, setEdges]);
 
