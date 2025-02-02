@@ -142,7 +142,6 @@ class PolymarketSearch:
 
         start = time.time()
 
-        # market_texts = [f"{m['name']} {m.get('description', '')}" for m in self.markets]
         market_texts = [m["name"] for m in self.markets]
         market_embeddings = self.model.encode(
             market_texts, convert_to_tensor=True, batch_size=32
@@ -171,11 +170,11 @@ class PolymarketSearch:
             json.dump(self.processed_markets, f, indent=2)
 
     def search_markets(
-        self, query: str, num_results: int = 5, threshold: int = 60
+        self, query: str, num_results: int = 5, threshold: int = 50
     ) -> List[Dict]:
         print(f"\nSearching markets for: '{query}'")
 
-        # Filter out excluded categories
+        # Filter excluded categories
         relevant_markets = [
             market
             for market in self.processed_markets
@@ -188,32 +187,46 @@ class PolymarketSearch:
             )
         ]
 
+        # Calculate semantic similarity scores
+        new_model = SentenceTransformer("all-mpnet-base-v2")
+        query_embedding = new_model.encode(query, convert_to_tensor=True)
+        market_names = [market["name"] for market in relevant_markets]
+        market_embeddings = new_model.encode(market_names, convert_to_tensor=True)
+        semantic_scores = (
+            torch.nn.functional.cosine_similarity(
+                query_embedding.unsqueeze(0), market_embeddings
+            )
+            .squeeze()
+            .tolist()
+        )
+
         # Perform fuzzy matching
         market_info = [(market["name"], market) for market in relevant_markets]
-        matches = process.extract(
+        fuzzy_matches = process.extract(
             query,
             [info[0] for info in market_info],
             scorer=fuzz.partial_token_sort_ratio,
             limit=None,
         )
 
-        # Create results with scores
-        scored_markets = [
-            {
-                "id": market_info[idx][1]["id"],
-                "name": market_info[idx][1]["name"],
-                "description": market_info[idx][1].get("description", ""),
-                "outcomes": market_info[idx][1]["outcomes"],
-                "end_date": market_info[idx][1]["end_date"],
-                "score": score,
-                "primary_category": market_info[idx][1]["primary_category"],
-                "secondary_category": market_info[idx][1].get("secondary_category"),
-            }
-            for match, score, idx in matches
-            if score >= threshold
+        # Combine scores
+        combined_scores = [
+            (market_info[idx][1], semantic_scores[idx], fuzzy_score)
+            for match, fuzzy_score, idx in fuzzy_matches
         ]
 
-        # Sort by score descending
+        # Create results with hybrid scores
+        scored_markets = [
+            {
+                **market,
+                "score": 0.7 * semantic_score + 0.003 * fuzzy_score,
+                "semantic_score": semantic_score,
+                "fuzzy_score": fuzzy_score / 100,
+            }
+            for market, semantic_score, fuzzy_score in combined_scores
+        ]
+
+        # Sort by combined score
         scored_markets.sort(key=lambda x: x["score"], reverse=True)
         return scored_markets[:num_results]
 
@@ -305,7 +318,7 @@ if __name__ == "__main__":
     searcher.process_markets()
 
     # Example search
-    query = "Will any sanctions be imposed in 2025?"
+    query = "Will any tariffs be imposed in 2025?"
     results = searcher.search_markets(query, num_results=20)
 
     print(f"\nTop matches for: {query}")

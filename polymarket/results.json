@@ -1,233 +1,37 @@
 [
   {
-    "id": "0xb608cf26e1081629f346a99372add130b2b97e7ff74d8396c5cba79e66e4c3bb",
-    "name": "Will Trump be impeached in 2025?",
-    "description": "This market will resolve to \u201cYes\u201c if the US House of Representatives by simple majority vote to approve or pass one or more articles of impeachment of President Donald Trump, between January 20 and December 31, 2025, 11:59 PM ET. Otherwise, this market will resolve to \"No\".\n\nNeither trial nor conviction by the US Senate, nor removal from office, is necessary to resolve this market to \u201cYes\u201c.\n\nThe primary resolution source for this market will be information from the federal government of the United States, however a consensus of credible reporting will be used.",
+    "id": "0x73ad98fdeea5367601f03f9c73b4ed4acddad1ac0a8706c57e7973846c3e8783",
+    "name": "Will Trump impose tariffs on Taiwan before March?",
+    "description": "This market will resolve to \"Yes\" if Donald Trump or his administration (including the Department of Commerce) impose any new or increased tariffs on the Republic of China (Taiwan) by February 28, 2025, 11:59 PM ET. Otherwise, this market will resolve to \u201cNo\u201d.\n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
     "outcomes": [
       {
-        "token_id": "18052230577606093248149969614868413514328621185619579841964821235308576641973",
+        "token_id": "59722104453753604194479291771536591519344624674361988320533867451878533725101",
         "outcome": "Yes",
-        "price": 0.105,
+        "price": 0.085,
         "winner": false
       },
       {
-        "token_id": "78979903932691084513467810605728687158169414566225121993969016655100163385229",
+        "token_id": "22857835392337093507377018526826655950275614135360390961968930104330317961210",
         "outcome": "No",
-        "price": 0.895,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-12-31",
-    "score": 73.33333333333334,
-    "primary_category": "Economics",
-    "secondary_category": null
-  },
-  {
-    "id": "0x4bcdc5f24786e4ea5279a4f859d8879cc08b98cfaa2924862947c65db0f010ae",
-    "name": "Will Yoon be sentenced to prison in 2025?",
-    "description": "This market will resolve to \"Yes\" if Yoon Suk Yeol is sentenced to any time in jail/prison for charges related to the 2024 South Korean political crisis, including but not limited to allegations of insurrection, abuse of power, or other criminal acts stemming from his martial law declaration and related subsequent actions by December 31, 2025, 11:59 PM. Otherwise, this market will resolve to \"No\".\n\nThis market will remain open through 2025 regardless of whether Yoon's initial sentencing includes prison.  Any sentencing will qualify, regardless of subsequent appeals or changes to the sentence.\n\nThe primary resolution source for this market will be official information from the South Korean government and law enforcement, however a consensus of credible reporting may also be used.",
-    "outcomes": [
-      {
-        "token_id": "16432805935886177971462852162961613428051010272544890398035547420151849975059",
-        "outcome": "Yes",
-        "price": 0.765,
-        "winner": false
-      },
-      {
-        "token_id": "53893238631397381727265276236818407733305133733829231919488425405072432726072",
-        "outcome": "No",
-        "price": 0.235,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-12-31",
-    "score": 68.49315068493152,
-    "primary_category": "Economics",
-    "secondary_category": null
-  },
-  {
-    "id": "0x5dbd7b90d7a729863a2f931406348ee5c7b79f227c6458cb727914ce96db63b6",
-    "name": "Will Trump resign in 2025?",
-    "description": "This market will resolve to \"Yes\" if President of the United States Donald Trump announces he has resigned or will resign the presidency by December 31, 2025, 11:59 PM ET. Otherwise, this market will resolve to \"No.\"\n\nIf it becomes impossible for Donald Trump to resign or to announce his resignation (e.g., due to his removal from office by other means, etc.), this market will immediately resolve to \"No.\"\n\nFor this market to resolve to \"Yes,\" it is only necessary that Trump announce that he has resigned or will resign. Whether he actually resigns will have no bearing on the resolution of this market.\n\nThe primary resolution source for this market will be official information from the US federal government; however, a consensus of credible reporting will also be used.",
-    "outcomes": [
-      {
-        "token_id": "77428983762555793792101309833629439707546622902781113417997037327421765621144",
-        "outcome": "Yes",
-        "price": 0.0415,
-        "winner": false
-      },
-      {
-        "token_id": "109087130846493039447532433237555061634654377917022769753849000452158348345864",
-        "outcome": "No",
-        "price": 0.9585,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-12-31",
-    "score": 66.66666666666667,
-    "primary_category": "Economics",
-    "secondary_category": null
-  },
-  {
-    "id": "0xfc7f3404e1dd23b6d4753642cdaa43cdef1e85f34842a90c80c395d9f3189269",
-    "name": "Will America be profitable any month in 2025?",
-    "description": "This market will resolve to \"Yes\" if the Monthly Treasury Statement (MTS) reports a surplus for any month in 2025. Otherwise, this market will resolve to \"No.\"\n\nThe month surplus can be found in the column labeled \"Current Month Deficit Surplus Amount\" in the the table \"Summary of Receipts, Outlays, and Surplus or Deficit\u201d in the MTS (see: https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government). \n\nThe resolution source will be the Monthly Treasury Statement (MTS) published by the U.S. Department of the Treasury. If every month has not been published by February 28, 2026, 11:59 PM ET, another credible source will be used.",
-    "outcomes": [
-      {
-        "token_id": "35773816754173957642810433586961228669722350925786152855132327921509228802075",
-        "outcome": "Yes",
-        "price": 0.92,
-        "winner": false
-      },
-      {
-        "token_id": "97811814819447519743640066809850197625462107499077961092846334479919629284563",
-        "outcome": "No",
-        "price": 0.08,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-12-31",
-    "score": 65.71428571428571,
-    "primary_category": "Economics",
-    "secondary_category": null
-  },
-  {
-    "id": "0xb6ef4ee16da2e6530b1e4000302fb15fc915a1ef898c5677eee563cbf58f8e3e",
-    "name": "Will Trump sanction Russia before March?",
-    "description": "On January 22, Donald Trump published a post on Truth Social, stating that Putin should make a deal to end the war in Ukraine, or the United States would impose new sanctions on Russia. You can read that post here: https://truthsocial.com/@realDonaldTrump/113872782548137314\n\nThis market will resolve to \"Yes\" if the United States officially imposes new sanctions of any form against Russia between January 21 and February 28, 2024, 11:59 PM ET. Otherwise, this market will resolve to \"No\".\n\nSanctions could include measures like tariffs, trade restrictions, financial penalties, diplomatic expulsions, travel bans, restrictions on specific individuals, or any other actions that are commonly recognized as sanctions.\n\nThe passage of an official act/executive order authorizing sanctions on Russia within this market's timeframe will count toward a \"Yes\" resolution, even if those sanctions do not come into effect until after this market's resolution date (e.g. https://www.state.gov/division-for-counter-threat-finance-and-sanctions/ukraine-and-russia-sanctions).\n\nThe primary resolution source will be official information from the government of the United States, however a consensus of credible reporting may be used.",
-    "outcomes": [
-      {
-        "token_id": "35213895761030058866285067138528466433619181525480159401717837107919002105602",
-        "outcome": "Yes",
-        "price": 0.09,
-        "winner": false
-      },
-      {
-        "token_id": "40056537844603792797008778064823091268885912986515982846512491760271726669742",
-        "outcome": "No",
-        "price": 0.91,
+        "price": 0.915,
         "winner": false
       }
     ],
     "end_date": "2025-02-28",
-    "score": 64.40677966101696,
     "primary_category": "Economics",
-    "secondary_category": null
-  },
-  {
-    "id": "0x34358ad0897f644fa89af707023b66b0193d964d75391420687712b9a9252252",
-    "name": "Will Trump impose tariffs on Taiwan in the first 100 days?",
-    "description": "This market will resolve to \"Yes\" if Donald Trump or his administration (including the Department of Commerce) impose any new or increased tariffs on the listed country by April 29, 2025, 11:59 PM ET. Otherwise, this market will resolve to \u201cNo\u201d.\n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
-    "outcomes": [
-      {
-        "token_id": "44870304310204323848468070626614123835621633389920159481917720967330625287853",
-        "outcome": "Yes",
-        "price": 0.435,
-        "winner": false
-      },
-      {
-        "token_id": "62453389462338091089953645745505504298487518652002312004312619005880940804365",
-        "outcome": "No",
-        "price": 0.565,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-04-29",
-    "score": 63.1578947368421,
-    "primary_category": "Economics",
-    "secondary_category": null
-  },
-  {
-    "id": "0xf020738dba678bedae04e8dec109bbaf1a48528af4833736b2f67c3586bf0b58",
-    "name": "Will Trump impose tariffs on Colombia in the first 100 days?",
-    "description": "This market will resolve to \"Yes\" if Donald Trump or his administration (including the Department of Commerce) impose any new or increased tariffs on the listed country by April 29, 2025, 11:59 PM ET. Otherwise, this market will resolve to \u201cNo\u201d.\n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
-    "outcomes": [
-      {
-        "token_id": "24108425799554709976038532203582226155733444995285599910293655871344507892569",
-        "outcome": "Yes",
-        "price": 0.495,
-        "winner": false
-      },
-      {
-        "token_id": "32990681241698822363731094541521118275137167275511275925411685044749623096624",
-        "outcome": "No",
-        "price": 0.505,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-04-29",
-    "score": 63.1578947368421,
-    "primary_category": "Economics",
-    "secondary_category": null
-  },
-  {
-    "id": "0x5fc69c6fa99972be65bd88aac43c6c1cbf5ddd434d66b8ae92c63e3d05e68556",
-    "name": "Will Trump impose tariffs on Denmark in the first 100 days?",
-    "description": "This market will resolve to \"Yes\" if Donald Trump or his administration (including the Department of Commerce) impose any new or increased tariffs on the listed country by April 29, 2025, 11:59 PM ET. Otherwise, this market will resolve to \u201cNo\u201d.\n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
-    "outcomes": [
-      {
-        "token_id": "45178902357654576962275069231497352377919081756315443149352101215652815941666",
-        "outcome": "Yes",
-        "price": 0.155,
-        "winner": false
-      },
-      {
-        "token_id": "8969626028945387130817473125558811726757440139138294915773225756309941485904",
-        "outcome": "No",
-        "price": 0.845,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-04-29",
-    "score": 63.1578947368421,
-    "primary_category": "Economics",
-    "secondary_category": null
-  },
-  {
-    "id": "0xaee97a6886a2f217c2965e472dd346ae3cd220568b29e6191c4bd9c326a2927b",
-    "name": "Will Trump impose tariffs on France in the first 100 days?",
-    "description": "This market will resolve to \"Yes\" if Donald Trump or his administration (including the Department of Commerce) impose any new or increased tariffs on the listed country by April 29, 2025, 11:59 PM ET. Otherwise, this market will resolve to \u201cNo\u201d.\n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
-    "outcomes": [
-      {
-        "token_id": "98332292163487374989960474949915057208941940082993647793536634007970603013083",
-        "outcome": "Yes",
-        "price": 0.395,
-        "winner": false
-      },
-      {
-        "token_id": "33595625352979438420758458863009040542121163701705102521084112051007551273935",
-        "outcome": "No",
-        "price": 0.605,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-04-29",
-    "score": 63.1578947368421,
-    "primary_category": "Economics",
-    "secondary_category": null
-  },
-  {
-    "id": "0x055ec29ffac03fbfef273267812139e07207d05a64ba6b9e39223eea331217ed",
-    "name": "Will Trump impose tariffs on Panama in the first 100 days?",
-    "description": "This market will resolve to \"Yes\" if Donald Trump or his administration (including the Department of Commerce) impose any new or increased tariffs on the listed country by April 29, 2025, 11:59 PM ET. Otherwise, this market will resolve to \u201cNo\u201d.\n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
-    "outcomes": [
-      {
-        "token_id": "60915170543040493239627567878061492381269317025621140805811863742639852142780",
-        "outcome": "Yes",
-        "price": 0.48,
-        "winner": false
-      },
-      {
-        "token_id": "90358386704290674079126964281513325214700326820958543001303047464090771011412",
-        "outcome": "No",
-        "price": 0.52,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-04-29",
-    "score": 63.1578947368421,
-    "primary_category": "Economics",
-    "secondary_category": null
+    "category_score": 0.21360497176647186,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.10335478186607361,
+      "Economics": 0.21360497176647186,
+      "Technology": 0.024464167654514313,
+      "Sports": -0.009772000834345818,
+      "Celebrity": 0.018349796533584595
+    },
+    "score": 0.6738635144450448,
+    "semantic_score": 0.6379868388175964,
+    "fuzzy_score": 0.7575757575757575
   },
   {
     "id": "0xb7d6906795d1da821a8983236ec893a702854f8ea893882e1f005408a3023f1c",
@@ -237,20 +41,31 @@
       {
         "token_id": "42332171291893803443268125017764404378979376042860465475474460792817356638023",
         "outcome": "Yes",
-        "price": 0.32,
+        "price": 0.3205,
         "winner": false
       },
       {
         "token_id": "62495453925938415678481834010570518574614482175410797408514819693036231524583",
         "outcome": "No",
-        "price": 0.68,
+        "price": 0.6795,
         "winner": false
       }
     ],
     "end_date": "2025-04-29",
-    "score": 63.1578947368421,
     "primary_category": "Economics",
-    "secondary_category": null
+    "category_score": 0.18768653273582458,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.09533486515283585,
+      "Economics": 0.18768653273582458,
+      "Technology": 0.05585925281047821,
+      "Sports": -0.04802811145782471,
+      "Celebrity": -0.02622349001467228
+    },
+    "score": 0.644695790608724,
+    "semantic_score": 0.6233749389648438,
+    "fuzzy_score": 0.6944444444444444
   },
   {
     "id": "0xc97f02a523c3a7e70c5fed5070db301967212cff9eb5abc30afd528e10b1ffb9",
@@ -271,169 +86,597 @@
       }
     ],
     "end_date": "2025-04-29",
-    "score": 63.1578947368421,
     "primary_category": "Economics",
-    "secondary_category": null
+    "category_score": 0.20363429188728333,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.13259312510490417,
+      "Economics": 0.20363429188728333,
+      "Technology": 0.06444144248962402,
+      "Sports": -0.02548247016966343,
+      "Celebrity": 0.008627839386463165
+    },
+    "score": 0.6433068652947743,
+    "semantic_score": 0.6213907599449158,
+    "fuzzy_score": 0.6944444444444444
   },
   {
-    "id": "0x0d960ee751036fdae09a4b318de8aa40f74b71cc89439f9e85cc8fe7de57ca7f",
-    "name": "Circle IPO in 2025?",
-    "description": "This market will resolve to \"Yes\" if Circle completes an Initial Public Offering (IPO) by December 31, 2025, 11:59 PM ET, as confirmed by official company announcements and credible news sources.\n\nIf Circle is acquired by another company that is already public, this market will immediately resolve to \"No.\"\n\nThe resolution source for this market is a consensus of credible reporting.",
+    "id": "0x055ec29ffac03fbfef273267812139e07207d05a64ba6b9e39223eea331217ed",
+    "name": "Will Trump impose tariffs on Panama in the first 100 days?",
+    "description": "This market will resolve to \"Yes\" if Donald Trump or his administration (including the Department of Commerce) impose any new or increased tariffs on the listed country by April 29, 2025, 11:59 PM ET. Otherwise, this market will resolve to \u201cNo\u201d.\n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
     "outcomes": [
       {
-        "token_id": "91262940170370317041003482182113965155131095324081641434723486651544638482478",
+        "token_id": "60915170543040493239627567878061492381269317025621140805811863742639852142780",
         "outcome": "Yes",
-        "price": 0.705,
+        "price": 0.475,
         "winner": false
       },
       {
-        "token_id": "70402332469282275040173734967274281160601628017167486760681400468621203855491",
+        "token_id": "90358386704290674079126964281513325214700326820958543001303047464090771011412",
         "outcome": "No",
-        "price": 0.295,
+        "price": 0.525,
         "winner": false
       }
     ],
-    "end_date": "2025-12-31",
-    "score": 62.5,
+    "end_date": "2025-04-29",
     "primary_category": "Economics",
-    "secondary_category": null
+    "category_score": 0.20686709880828857,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.10431838035583496,
+      "Economics": 0.20686709880828857,
+      "Technology": 0.06282634288072586,
+      "Sports": -0.05706125497817993,
+      "Celebrity": -0.02746058627963066
+    },
+    "score": 0.6431141455968221,
+    "semantic_score": 0.6211154460906982,
+    "fuzzy_score": 0.6944444444444444
   },
   {
-    "id": "0xe6508d867d153a268bdab732aa8abc8cc57e652d28a23aa042da40895bf031b2",
-    "name": "Will 2025 be the hottest year on record?",
-    "description": "This market will resolve to \"Yes\" if the data for the Global Land-Ocean Temperature Index for 2025 shows an increase greater than that of any previously recorded year when it is released. Otherwise, this market will resolve to \"No\".\n\nAn anomaly greater than that of any previously recorded year for 2025 is necessary and sufficient to resolve this market to \"Yes\" immediately once the data becomes available, regardless of whether the figure for 2024 and/or 2025 is later revised.\n\nThe primary resolution source for this market will be the figure found in the table titled \"Land-Ocean Temperature Index (C)\" under the column \"No_Smoothing\" in the row \"2025\" (https://data.giss.nasa.gov/gistemp/graphs/graph_data/Global_Mean_Estimates_based_on_Land_and_Ocean_Data/graph.txt). If NASA's \"Global Temperature Index\" is rendered permanently unavailable, other information from NASA may be used. If no information for 2025 is provided by NASA by March 1, 2026, 11:59 PM ET, this market will resolve based on a consensus of credible reporting.",
+    "id": "0xf020738dba678bedae04e8dec109bbaf1a48528af4833736b2f67c3586bf0b58",
+    "name": "Will Trump impose tariffs on Colombia in the first 100 days?",
+    "description": "This market will resolve to \"Yes\" if Donald Trump or his administration (including the Department of Commerce) impose any new or increased tariffs on the listed country by April 29, 2025, 11:59 PM ET. Otherwise, this market will resolve to \u201cNo\u201d.\n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
     "outcomes": [
       {
-        "token_id": "2853768819561879023657600399360829876689515906714535926781067187993853038980",
+        "token_id": "24108425799554709976038532203582226155733444995285599910293655871344507892569",
         "outcome": "Yes",
-        "price": 0.485,
+        "price": 0.16,
         "winner": false
       },
       {
-        "token_id": "57878493050148425637822780001963685814731344602319345842647239312888833935027",
+        "token_id": "32990681241698822363731094541521118275137167275511275925411685044749623096624",
         "outcome": "No",
-        "price": 0.515,
+        "price": 0.84,
         "winner": false
       }
     ],
-    "end_date": "2025-12-31",
-    "score": 62.295081967213115,
+    "end_date": "2025-04-29",
     "primary_category": "Economics",
-    "secondary_category": null
+    "category_score": 0.19158542156219482,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.09399555623531342,
+      "Economics": 0.19158542156219482,
+      "Technology": 0.0739927664399147,
+      "Sports": -0.08052410930395126,
+      "Celebrity": -0.01731342449784279
+    },
+    "score": 0.6422957857449849,
+    "semantic_score": 0.6199463605880737,
+    "fuzzy_score": 0.6944444444444444
   },
   {
-    "id": "0x73ad98fdeea5367601f03f9c73b4ed4acddad1ac0a8706c57e7973846c3e8783",
-    "name": "Will Trump impose tariffs on Taiwan before March?",
-    "description": "This market will resolve to \"Yes\" if Donald Trump or his administration (including the Department of Commerce) impose any new or increased tariffs on the Republic of China (Taiwan) by February 28, 2025, 11:59 PM ET. Otherwise, this market will resolve to \u201cNo\u201d.\n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
+    "id": "0x7decaf7834aa2fda896c60d72b0b41f487b34f04c4cd341e39a27402338585cd",
+    "name": "Trump imposes 25% tariff on Canada and Mexico before March?",
+    "description": "This market will resolve to \"Yes\" if Donald Trump signs any federal legislation or performs any executive action enacting a general 25% or greater tariff on imports in to the United States from Mexico and Canada by February 28, 2025, 11:59 PM ET. Otherwise, this market will resolve to \"No.\"\n\nA general tariff that includes item specific exceptions will still qualify, as long as a policy of a general 25% or greater tariff on imports in to the United States from Mexico and Canada is enacted.\n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
     "outcomes": [
       {
-        "token_id": "59722104453753604194479291771536591519344624674361988320533867451878533725101",
+        "token_id": "38496310182534323387697943866055474592329792458589577293700081094949395640177",
         "outcome": "Yes",
-        "price": 0.085,
+        "price": 0.993,
         "winner": false
       },
       {
-        "token_id": "22857835392337093507377018526826655950275614135360390961968930104330317961210",
+        "token_id": "29229368310199705717645679781847318252116567496059057738508251207226104291127",
         "outcome": "No",
-        "price": 0.915,
+        "price": 0.007,
         "winner": false
       }
     ],
     "end_date": "2025-02-28",
-    "score": 61.76470588235294,
     "primary_category": "Economics",
-    "secondary_category": null
+    "category_score": 0.19853802025318146,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.10569846630096436,
+      "Economics": 0.19853802025318146,
+      "Technology": 0.03313855454325676,
+      "Sports": -0.001841365359723568,
+      "Celebrity": 0.002916615456342697
+    },
+    "score": 0.6417312385485722,
+    "semantic_score": 0.626649022102356,
+    "fuzzy_score": 0.676923076923077
   },
   {
-    "id": "0x81fb3e948db1f5645556dbc01b96f50c319f1331ce8b745701197b8264c1d344",
-    "name": "Iran Nuke in 2025?",
-    "description": "This market will resolve to \"Yes\" if credible reports from international nuclear agencies, Iran's government itself, or credible global news sources officially confirm that Iran possesses a nuclear weapon by December 31, 2025, 11:59 PM ET.\n\nOtherwise, this market will resolve to \"No\".",
+    "id": "0x27619d612e16ba61fd0c60000d6e1e17947f539bbd5fff7d08a1e0ecb3776462",
+    "name": "Will Trump impose large tariffs in his first 6 months?",
+    "description": "This market will resolve to \"Yes\" if the U.S. weighted average tariff, as defined and reported by the Federal Reserve Bank of St. Louis, reaches 5% or greater for either Q1 or Q2 of 2025. Otherwise, this market will resolve to \"No\". \n\nThis market will resolve once the dataset has been updated to reflect data from the U.S. Bureau of Economic Analysis (BEA) Advance Estimate GDP report for Q2, currently scheduled to be released on July 30, 2025. If no Advance Estimate GDP report for Q2 2025 is released by August 31, 2025, 11:59 PM ET, this market will resolve to \"No\". \n\nThe resolution source will be the Federal Reserve Bank of St. Louis, specifically the the average tariff paid as defined here: https://fred.stlouisfed.org/graph/?g=1wn5e. Revisions to the data made after the resolution will not be considered.",
     "outcomes": [
       {
-        "token_id": "43541906415508679325276246713350983384464924175917785722017487178637607801263",
+        "token_id": "78397765613055343660981684625548247730988640449758076460513963030464624568339",
         "outcome": "Yes",
-        "price": 0.14,
+        "price": 0.47,
         "winner": false
       },
       {
-        "token_id": "42088475271240543453547185258418176791428175519469427479319814497153066494553",
+        "token_id": "32991671287341934767805431457746630433481642330962899566829019629930387398671",
         "outcome": "No",
-        "price": 0.86,
+        "price": 0.53,
+        "winner": false
+      }
+    ],
+    "end_date": "2025-08-31",
+    "primary_category": "Economics",
+    "category_score": 0.2620922327041626,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.16083723306655884,
+      "Economics": 0.2620922327041626,
+      "Technology": 0.031609728932380676,
+      "Sports": -0.027269504964351654,
+      "Celebrity": 0.012132477015256882
+    },
+    "score": 0.6380969729579863,
+    "semantic_score": 0.6726912260055542,
+    "fuzzy_score": 0.5573770491803278
+  },
+  {
+    "id": "0xaee97a6886a2f217c2965e472dd346ae3cd220568b29e6191c4bd9c326a2927b",
+    "name": "Will Trump impose tariffs on France in the first 100 days?",
+    "description": "This market will resolve to \"Yes\" if Donald Trump or his administration (including the Department of Commerce) impose any new or increased tariffs on the listed country by April 29, 2025, 11:59 PM ET. Otherwise, this market will resolve to \u201cNo\u201d.\n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
+    "outcomes": [
+      {
+        "token_id": "98332292163487374989960474949915057208941940082993647793536634007970603013083",
+        "outcome": "Yes",
+        "price": 0.395,
+        "winner": false
+      },
+      {
+        "token_id": "33595625352979438420758458863009040542121163701705102521084112051007551273935",
+        "outcome": "No",
+        "price": 0.605,
+        "winner": false
+      }
+    ],
+    "end_date": "2025-04-29",
+    "primary_category": "Economics",
+    "category_score": 0.17619778215885162,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.129459947347641,
+      "Economics": 0.17619778215885162,
+      "Technology": 0.028998952358961105,
+      "Sports": -0.0638631284236908,
+      "Celebrity": -0.02552047371864319
+    },
+    "score": 0.6301180203755696,
+    "semantic_score": 0.6025495529174805,
+    "fuzzy_score": 0.6944444444444444
+  },
+  {
+    "id": "0x34358ad0897f644fa89af707023b66b0193d964d75391420687712b9a9252252",
+    "name": "Will Trump impose tariffs on Taiwan in the first 100 days?",
+    "description": "This market will resolve to \"Yes\" if Donald Trump or his administration (including the Department of Commerce) impose any new or increased tariffs on the listed country by April 29, 2025, 11:59 PM ET. Otherwise, this market will resolve to \u201cNo\u201d.\n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
+    "outcomes": [
+      {
+        "token_id": "44870304310204323848468070626614123835621633389920159481917720967330625287853",
+        "outcome": "Yes",
+        "price": 0.42,
+        "winner": false
+      },
+      {
+        "token_id": "62453389462338091089953645745505504298487518652002312004312619005880940804365",
+        "outcome": "No",
+        "price": 0.58,
+        "winner": false
+      }
+    ],
+    "end_date": "2025-04-29",
+    "primary_category": "Economics",
+    "category_score": 0.18345455825328827,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.10926666855812073,
+      "Economics": 0.18345455825328827,
+      "Technology": 0.042662445455789566,
+      "Sports": -0.046356748789548874,
+      "Celebrity": -0.007779743522405624
+    },
+    "score": 0.6277355392773946,
+    "semantic_score": 0.5991460084915161,
+    "fuzzy_score": 0.6944444444444444
+  },
+  {
+    "id": "0xa85516717dd49a6f88cb3364a1d272b47b952885a69721e647e116a44b7497a5",
+    "name": "Will Trump impose tariff on oil from Mexico or Canada by next Friday?",
+    "description": "This market will resolve to \"Yes\" if Donald Trump or his administration (including the Department of Commerce) impose any new or increased tariffs on crude petroleum imports into the United States from Mexico or Canada by February 7, 2025, 11:59 PM ET. Otherwise, this market will resolve to \u201cNo\u201d.\n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.\n",
+    "outcomes": [
+      {
+        "token_id": "17012188261933552420827607693384442705392631367966422168879148133362630866239",
+        "outcome": "Yes",
+        "price": 0.999,
+        "winner": false
+      },
+      {
+        "token_id": "69194690402091148180452109479162336154564545376671345669290358400031567613733",
+        "outcome": "No",
+        "price": 0.001,
+        "winner": false
+      }
+    ],
+    "end_date": "2025-02-07",
+    "primary_category": "Economics",
+    "category_score": 0.1518571972846985,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.09011873602867126,
+      "Economics": 0.1518571972846985,
+      "Technology": -0.0032313503324985504,
+      "Sports": -0.051914654672145844,
+      "Celebrity": -0.014841809868812561
+    },
+    "score": 0.6211467782656351,
+    "semantic_score": 0.6492573022842407,
+    "fuzzy_score": 0.5555555555555556
+  },
+  {
+    "id": "0x5fc69c6fa99972be65bd88aac43c6c1cbf5ddd434d66b8ae92c63e3d05e68556",
+    "name": "Will Trump impose tariffs on Denmark in the first 100 days?",
+    "description": "This market will resolve to \"Yes\" if Donald Trump or his administration (including the Department of Commerce) impose any new or increased tariffs on the listed country by April 29, 2025, 11:59 PM ET. Otherwise, this market will resolve to \u201cNo\u201d.\n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
+    "outcomes": [
+      {
+        "token_id": "45178902357654576962275069231497352377919081756315443149352101215652815941666",
+        "outcome": "Yes",
+        "price": 0.16,
+        "winner": false
+      },
+      {
+        "token_id": "8969626028945387130817473125558811726757440139138294915773225756309941485904",
+        "outcome": "No",
+        "price": 0.84,
+        "winner": false
+      }
+    ],
+    "end_date": "2025-04-29",
+    "primary_category": "Economics",
+    "category_score": 0.1857667863368988,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.13845443725585938,
+      "Economics": 0.1857667863368988,
+      "Technology": 0.0703931376338005,
+      "Sports": -0.022082282230257988,
+      "Celebrity": -0.011191735044121742
+    },
+    "score": 0.6173381050427754,
+    "semantic_score": 0.5842925310134888,
+    "fuzzy_score": 0.6944444444444444
+  },
+  {
+    "id": "0x9ad5ca3c48581fd02f3c98b645e97e8311a81abb7dd0dea4d90cc8182bd163e8",
+    "name": "Will Trump say 'tariff' 5+ times times during the 2025 State of the Union?",
+    "description": "Donald Trump is scheduled to deliver the 2025 State of the Union address on March 4, 2025, 9:00 PM ET.\n\nThis market will resolve to \"Yes\" if Donald Trump says the listed term during the 2025 State of the Union address. Otherwise, the market will resolve to \"No\".\n\nAny usage of the term regardless of context will count toward the resolution of this market.\n\nPluralization/possessive of the term will count toward the resolution of this market, however other forms will NOT count.\n\nCompound words will not count.\n\nIf the 2025 State of the Union does not happen by December 31, 2025, 11:59 PM ET, this market will resolve to \"No\". If Trump ceases to be President of the United States for any length of time by December 31, 2025, 11:59 PM ET, this market will resolve to \"No\".\n\nThe resolution source will be video and transcripts of the press briefing.",
+    "outcomes": [
+      {
+        "token_id": "113714685204212101661145984255350701089922800037883101558475549255282395451302",
+        "outcome": "Yes",
+        "price": 0.81,
+        "winner": false
+      },
+      {
+        "token_id": "88191582900268638214518548051919524747597247129002209213735659434866705334897",
+        "outcome": "No",
+        "price": 0.19,
+        "winner": false
+      }
+    ],
+    "end_date": "2025-03-04",
+    "primary_category": "Economics",
+    "category_score": 0.19771963357925415,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.1053733080625534,
+      "Economics": 0.19771963357925415,
+      "Technology": 0.0664689838886261,
+      "Sports": -0.036094047129154205,
+      "Celebrity": 0.06241413950920105
+    },
+    "score": 0.5831191102663675,
+    "semantic_score": 0.6306463479995728,
+    "fuzzy_score": 0.4722222222222222
+  },
+  {
+    "id": "0xfc7f3404e1dd23b6d4753642cdaa43cdef1e85f34842a90c80c395d9f3189269",
+    "name": "Will America be profitable any month in 2025?",
+    "description": "This market will resolve to \"Yes\" if the Monthly Treasury Statement (MTS) reports a surplus for any month in 2025. Otherwise, this market will resolve to \"No.\"\n\nThe month surplus can be found in the column labeled \"Current Month Deficit Surplus Amount\" in the the table \"Summary of Receipts, Outlays, and Surplus or Deficit\u201d in the MTS (see: https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government). \n\nThe resolution source will be the Monthly Treasury Statement (MTS) published by the U.S. Department of the Treasury. If every month has not been published by February 28, 2026, 11:59 PM ET, another credible source will be used.",
+    "outcomes": [
+      {
+        "token_id": "35773816754173957642810433586961228669722350925786152855132327921509228802075",
+        "outcome": "Yes",
+        "price": 0.92,
+        "winner": false
+      },
+      {
+        "token_id": "97811814819447519743640066809850197625462107499077961092846334479919629284563",
+        "outcome": "No",
+        "price": 0.08,
         "winner": false
       }
     ],
     "end_date": "2025-12-31",
-    "score": 61.111111111111114,
     "primary_category": "Economics",
-    "secondary_category": null
+    "category_score": 0.3521183729171753,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.09041199088096619,
+      "Economics": 0.3521183729171753,
+      "Technology": 0.21536366641521454,
+      "Sports": 0.033462975174188614,
+      "Celebrity": 0.09023057669401169
+    },
+    "score": 0.5734280228614808,
+    "semantic_score": 0.5334686040878296,
+    "fuzzy_score": 0.6666666666666667
   },
   {
-    "id": "0xf106435e0c9a1b56fc1c0bea0ca3856a8d3a31b1c5f891f8c3600f4a66e74186",
-    "name": "Solana ETF approved in 2025?",
-    "description": "This market will resolve to \"Yes\" if any spot Solana ETF receives approval from the SEC by December 31, 2025, 11:59 PM ET. Otherwise, this market will resolve to \"No\".\n\nApproval under Rule 19-4b will qualify for a \"Yes\" resolution, even if there has not been an S-1 approval. Similarly, an S-1 approval without a 19-4b approval will also qualify for a \"Yes\" resolution.\n\nThe primary resolution source for this market will be information from the SEC, however a consensus of credible reporting may also be used.",
+    "id": "0xb3ea135352ea36f6c3098e729862d795d0f847df542dae31cee355d64d943aab",
+    "name": "Trump imposes 40% tariff on China in first 100 days?",
+    "description": "This market will resolve to \"Yes\" if Donald Trump signs any federal legislation or performs any executive action enacting a general 40% or greater tariff on imports in to the United States from the People's Republic of China by April 29, 2025, 11:59 PM ET. Otherwise, this market will resolve to \"No.\"\n\nA general tariff that includes item specific exceptions will still qualify, as long as a policy of a general 40% or greater tariff on imports in to the United States from People's Republic of China is enacted. \n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nIf it becomes impossible for Trump to sign legislation/perform executive actions (e.g. he resigns), this market will resolve to \"No\".\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
     "outcomes": [
       {
-        "token_id": "40950322194820832807533485831393987792860704048110302763324386741027206308151",
+        "token_id": "31615151084060966235369061443480426450332736371173456607919086388048126607917",
         "outcome": "Yes",
-        "price": 0.8575,
+        "price": 0.0435,
         "winner": false
       },
       {
-        "token_id": "77613029953598772381982336999913863065916454247916111678568891881569398156706",
+        "token_id": "29374354262380065839026580753091215357840578144582352942828982711065086210235",
         "outcome": "No",
-        "price": 0.1425,
+        "price": 0.9565,
+        "winner": false
+      }
+    ],
+    "end_date": "2025-04-29",
+    "primary_category": "Economics",
+    "category_score": 0.15249821543693542,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.12642982602119446,
+      "Economics": 0.15249821543693542,
+      "Technology": 0.08735040575265884,
+      "Sports": -0.07344061881303787,
+      "Celebrity": -0.020623790100216866
+    },
+    "score": 0.5608812093734741,
+    "semantic_score": 0.5334017276763916,
+    "fuzzy_score": 0.625
+  },
+  {
+    "id": "0x50b8b0f741566a420756d975faaf4cc4716229cd5183c3a35b3b20ac2b5050ef",
+    "name": "Will a new country buy Bitcoin in 2025?",
+    "description": "This market will resolve to \"Yes\" if the government of any sovereign UN member state announces between January 1 and December 31, 2025, 11:59 PM ET that they bought Bitcoin for the first time. Otherwise, this market will resolve to \"No\".\n\nThis announcement can pertain to a first purchase of Bitcoin outside of the timeframe of this market (e.g. if a country announces it made its first purchase of Bitcoin prior to this market's timeframe, but the announcement is made within the timeframe, this market will resolve to \"Yes\").\n\nThe primary resolution source will be official announcements from the governments of any purchasing UN member state, however a consensus of credible reporting will also be used.",
+    "outcomes": [
+      {
+        "token_id": "52696967762983156376661808083218380818225074723063198070857375460800745709299",
+        "outcome": "Yes",
+        "price": 0.655,
+        "winner": false
+      },
+      {
+        "token_id": "68828044399544708262191871118160142177815171872585044911093257854055272644515",
+        "outcome": "No",
+        "price": 0.345,
         "winner": false
       }
     ],
     "end_date": "2025-12-31",
-    "score": 60.71428571428572,
     "primary_category": "Economics",
-    "secondary_category": null
+    "category_score": 0.3113028407096863,
+    "is_multi_category": true,
+    "secondary_category": "Technology",
+    "category_scores": {
+      "Politics": 0.11494787782430649,
+      "Economics": 0.3113028407096863,
+      "Technology": 0.29924440383911133,
+      "Sports": -0.03999069333076477,
+      "Celebrity": 0.031065456569194794
+    },
+    "score": 0.559275816168104,
+    "semantic_score": 0.5540674924850464,
+    "fuzzy_score": 0.5714285714285714
   },
   {
-    "id": "0xa64b6a05ed2aa20d2cb6c373314c0d9931acbd24e7fe95bd1920784b23ab9da0",
-    "name": "Ripple ETF approved in 2025?",
-    "description": "This market will resolve to \"Yes\" if any spot Ripple (XRP) ETF receives approval from the SEC by December 31, 2025, 11:59 PM ET. Otherwise, this market will resolve to \"No\".\n\nApproval under Rule 19-4b will qualify for a \"Yes\" resolution, even if there has not been an S-1 approval. Similarly, an S-1 approval without a 19-4b approval will also qualify for a \"Yes\" resolution.\n\nThe primary resolution source for this market will be information from the SEC, however a consensus of credible reporting may also be used.\n",
+    "id": "0xfa48a99317daef1654d5b03e30557c4222f276657275628d9475e141c64b545d",
+    "name": "US recession in 2025?",
+    "description": "This market will resolve to \u201cYes\u201d, if either of the following conditions are met:\n\n1.  The National Bureau of Economic Research (NBER) publicly announces that a recession has occurred in the United States, at any point in 2025, with the announcement made by December 31, 2025, 11:59 PM ET.\n\n2.  The seasonally adjusted annualized percent change in quarterly U.S. real GDP from the previous quarter is less than 0.0 for two consecutive quarters between Q4 2024 and Q4 2025 (inclusive), as reported by the Bureau of Economic Analysis (BEA). \n\nOtherwise, this market will resolve to \"No\". \n\nNote that advance estimates will be considered. For example, if upon release, the advance estimate for Q2 2025 was negative, and the Q1 2025's most recent, up-to-date estimate was also negative, this market would resolve to \"Yes\". If on December 31, 2025 the latest estimate for quarterly GDP in Q3 2025 was negative, this market will stay open until the Advance estimate of Q4 2025 is published, at which point it will resolve to \"Yes\" if Q4 2025 was negative or if the NBER declares a recession by then.\n\nThe resolution source will be the official announcements from the NBER and the BEA\u2019s estimate of seasonally adjusted annualized percent change in quarterly US real GDP from previous quarters as released by the Bureau of Economic Analysis (BEA), https://www.bea.gov/data/gdp/gross-domestic-product",
     "outcomes": [
       {
-        "token_id": "78079109845641367151494324629719289128490141024243348969677580023454960860119",
+        "token_id": "104173557214744537570424345347209544585775842950109756851652855913015295701992",
         "outcome": "Yes",
-        "price": 0.8095,
+        "price": 0.23,
         "winner": false
       },
       {
-        "token_id": "45054874719508043008435328249300392990230706337026375169639446812487388687614",
+        "token_id": "44528029102356085806317866371026691780796471200782980570839327755136990994869",
         "outcome": "No",
-        "price": 0.1905,
+        "price": 0.77,
+        "winner": false
+      }
+    ],
+    "end_date": "2026-02-28",
+    "primary_category": "Economics",
+    "category_score": 0.3456527590751648,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.11425375938415527,
+      "Economics": 0.3456527590751648,
+      "Technology": 0.17389939725399017,
+      "Sports": 0.05830582231283188,
+      "Celebrity": 0.10104627162218094
+    },
+    "score": 0.5572339856624604,
+    "semantic_score": 0.5603342652320862,
+    "fuzzy_score": 0.55
+  },
+  {
+    "id": "0xb608cf26e1081629f346a99372add130b2b97e7ff74d8396c5cba79e66e4c3bb",
+    "name": "Will Trump be impeached in 2025?",
+    "description": "This market will resolve to \u201cYes\u201c if the US House of Representatives by simple majority vote to approve or pass one or more articles of impeachment of President Donald Trump, between January 20 and December 31, 2025, 11:59 PM ET. Otherwise, this market will resolve to \"No\".\n\nNeither trial nor conviction by the US Senate, nor removal from office, is necessary to resolve this market to \u201cYes\u201c.\n\nThe primary resolution source for this market will be information from the federal government of the United States, however a consensus of credible reporting will be used.",
+    "outcomes": [
+      {
+        "token_id": "18052230577606093248149969614868413514328621185619579841964821235308576641973",
+        "outcome": "Yes",
+        "price": 0.105,
+        "winner": false
+      },
+      {
+        "token_id": "78979903932691084513467810605728687158169414566225121993969016655100163385229",
+        "outcome": "No",
+        "price": 0.895,
         "winner": false
       }
     ],
     "end_date": "2025-12-31",
-    "score": 60.71428571428572,
-    "primary_category": "Economics",
-    "secondary_category": null
+    "primary_category": "Politics",
+    "category_score": 0.14882127940654755,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.14882127940654755,
+      "Economics": 0.07739856839179993,
+      "Technology": 0.07651173323392868,
+      "Sports": -0.09541024267673492,
+      "Celebrity": 0.05410913750529289
+    },
+    "score": 0.5479985576868057,
+    "semantic_score": 0.4685693681240082,
+    "fuzzy_score": 0.7333333333333334
   },
   {
-    "id": "0x7ffa1fcfaeac86d4a89afcb74c90296f0e7c3744ce5206183c9cb38651526e63",
-    "name": "New pandemic in 2025?",
-    "description": "This market will resolve to \"Yes\" if the World Health Organization (WHO) declares any disease a pandemic between January 1, 2025 and December 31, 2025 11:59 PM ET. Otherwise, this market will resolve to \"No\".\n\nThe resolution source will be official announcements from the World Health Organization.",
+    "id": "0xd73154b2483025357f4f0a14474b8ab2f897f84448f40797409023d4e668da1f",
+    "name": "Will federal spending decrease by $500-750b between Q4 2024 and Q2 2025?",
+    "description": "This market will resolve based on federal government current expenditures as reported by the St. Louis Federal Reserve Bank, displayed here (https://fred.stlouisfed.org/series/FGEXPND).\n\nThis market will resolve to \u201cYes\u201d if federal government current expenditures decrease by between $500,000,000,000 (inclusive) and $750,000,000,000 (exclusive) between the Q4 2024 report and the Q2 2025 report. Otherwise, it will resolve to \"No\".\n\nThe difference will be calculated as the Q4 2024 value minus the Q2 2025 value. \n\nThe figures will be based on the initial Q4 2024 and Q2 2025 values as reported by the St. Louis Federal Reserve Bank. Revisions made to these figures will not be considered, only the values reported in the initial reports will be used. \n\nThe figures will be based on the Q4 2024 and Q2 2025 values as reported by the St. Louis Federal Reserve Bank as soon as the data for Q2 2025 becomes available, regardless of whether later revisions are made.\n\nThis market's resolution source is the Federal Government: Current Expenditures chart maintained by the St. Louis Federal Reserve Bank, displayed here (https://fred.stlouisfed.org/series/FGEXPND).",
     "outcomes": [
       {
-        "token_id": "73371746342207679370936665416159813829077306784004415767867959895042777887811",
+        "token_id": "77113878942146940401648290496324643930797233785910568689405787117282060888941",
         "outcome": "Yes",
-        "price": 0.1855,
+        "price": 0.045,
         "winner": false
       },
       {
-        "token_id": "54609392458591504455479648372472891662712387578796693585783359319934307438621",
+        "token_id": "100892797136325034298015344174854259368374555600696627425421680154129670552497",
         "outcome": "No",
-        "price": 0.8145,
+        "price": 0.955,
         "winner": false
       }
     ],
-    "end_date": "2025-12-31",
-    "score": 60.0,
+    "end_date": "2025-06-30",
     "primary_category": "Economics",
-    "secondary_category": null
+    "category_score": 0.2372472584247589,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.13130250573158264,
+      "Economics": 0.2372472584247589,
+      "Technology": 0.07887233793735504,
+      "Sports": -0.00558263435959816,
+      "Celebrity": 0.056006141006946564
+    },
+    "score": 0.5449786464373271,
+    "semantic_score": 0.5404456853866577,
+    "fuzzy_score": 0.5555555555555556
+  },
+  {
+    "id": "0xc41d3005202e546f1547a257677413f9a609489076b3a2dd114dfbfa23f7767b",
+    "name": "Will there be 200-250k jobs added in January 2025?",
+    "description": "Total nonfarm payroll employment rose by 256,000 in December 2024.\n\nThis market will resolve to \"Yes\" if the United States gains between 200,000 (inclusive) and 250,000 (exclusive) in nonfarm payroll employment according to the BLS \"Employment Situation Summary\" for January, scheduled to be released on February 7, 2025, 8:30 AM ET. Otherwise, this market will resolve to \"No\".\n\nThe BLS \"Employment Situation Summary\" may be found here: https://www.bls.gov/bls/newsrels.htm",
+    "outcomes": [
+      {
+        "token_id": "19607272679305276840771811742894150981729520598975515110609157912402496270275",
+        "outcome": "Yes",
+        "price": 0.19,
+        "winner": false
+      },
+      {
+        "token_id": "55491446746087529890151878003778889057356068115770523614659959703159395175660",
+        "outcome": "No",
+        "price": 0.81,
+        "winner": false
+      }
+    ],
+    "end_date": "2025-02-07",
+    "primary_category": "Economics",
+    "category_score": 0.2330217808485031,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": -0.03051900863647461,
+      "Economics": 0.2330217808485031,
+      "Technology": 0.17607441544532776,
+      "Sports": 0.016413163393735886,
+      "Celebrity": 0.07934603095054626
+    },
+    "score": 0.5430358866850535,
+    "semantic_score": 0.5376703143119812,
+    "fuzzy_score": 0.5555555555555556
+  },
+  {
+    "id": "0x6ee22365b6602d928aa7136f549cc0d718bb16b044a6d15191041b84b5f1f43d",
+    "name": "Will 5 Fed rate cuts happen in 2025?",
+    "description": "The FED interest rates are defined in this market by the upper bound of the target federal funds range. The decisions on the target federal fund range are made by the Federal Open Market Committee (FOMC) meetings.\n\nThis market will resolve to \u201cYes\u201d if the there are exactly 5 cuts of 25 basis points by the Fed's December meeting (including any cuts made during Dec meeting). Otherwise, this market will resolve to \u201cNo.\u201d\n\nThis market may resolve to \"Yes\" immediately after the statement from the Fed's December 2025 meeting has been released if there has been exactly 5 rate cuts by then.\n\nFor example, if the FED cuts rates by 50 bps after a meeting, it would be considered 2 cuts (of 25 bps each). If there are 6 or more rate cuts at any point before this market's resolution date, this market will resolve to \"No\".\n\nNote that cuts between 1-24 bps (inclusive) will also be considered 1 rate cut.\n\nThe resolution source for this market will be FOMC statements after meetings scheduled in 2025 according to the official calendar: https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm. The level and change of the target federal funds rate is also published at the official website of the Federal Reserve at https://www.federalreserve.gov/monetarypolicy/openmarket.htm.",
+    "outcomes": [
+      {
+        "token_id": "302273160494790559492931429044277112497487176914839291053945756072421867571",
+        "outcome": "Yes",
+        "price": 0.049,
+        "winner": false
+      },
+      {
+        "token_id": "71168072025438256100937333610884784661496543167790290367141049156834121296266",
+        "outcome": "No",
+        "price": 0.951,
+        "winner": false
+      }
+    ],
+    "end_date": "2025-12-10",
+    "primary_category": "Economics",
+    "category_score": 0.1862652599811554,
+    "is_multi_category": false,
+    "secondary_category": null,
+    "category_scores": {
+      "Politics": 0.04158186912536621,
+      "Economics": 0.1862652599811554,
+      "Technology": 0.11340764909982681,
+      "Sports": 0.017672132700681686,
+      "Celebrity": 0.05996977537870407
+    },
+    "score": 0.5424496032974937,
+    "semantic_score": 0.5281747579574585,
+    "fuzzy_score": 0.5757575757575757
   }
 ]
