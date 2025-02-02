@@ -15,11 +15,6 @@ import geopy
 
 import geopandas as gpd
 
-# Initialize the OpenAI client
-client = OpenAI(
-    api_key="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"
-)
-
 
 # Define the Score enum.
 class Score(IntEnum):
@@ -205,6 +200,11 @@ def assess_events_relevancy_batch(
         prompt += f'Additional Query: "{query}"\n\n' "Events:\n"
 
     # Enumerate each event in the batch with its key details.
+
+    # Initialize the OpenAI client
+    client = OpenAI(
+        api_key="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"
+    )
 
     for idx, event in enumerate(events_batch, start=1):
         prompt += (
@@ -694,6 +694,30 @@ def stream_relevant_events(
                 distance = geodesic(coords_1, coords_2)
                 if distance.miles < 200:
                     event["infra"].append(facility)
+
+            # Initialize the OpenAI client
+            client = OpenAI(
+                api_key="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"
+            )
+
+            response = client.chat.completions.create(
+                model="o3-mini",
+                reasoning_effort="low",
+                messages=[
+                    {
+                        "role": "developer",
+                        "content": (
+                            "You are to provide concise, 2 line summary, reasoning linking the company to this event, bill, or article, explaining why it is important"
+                        ),
+                    },
+                    {
+                        "role": "user",
+                        "content": f"The company context is {company_context}{f'. The specific query involved is {query}' if query else ''}",
+                    },
+                ],
+            )
+
+            event["reasoning"] = response.choices[0].message.content.strip()
 
             yield json.dumps(event)
             yield "\0"

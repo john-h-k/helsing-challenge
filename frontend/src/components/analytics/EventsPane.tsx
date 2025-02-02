@@ -175,6 +175,9 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                   <p className="text-white/70 mb-4 leading-relaxed">
                     {selectedEvent.description}
                   </p>
+                  <div className="text-white/70 mb-4 border border-white/5 leading-relaxed">
+                  {selectedEvent.reasoning}
+                  </div>
                   {selectedEvent.possibility &&
                     <p className="text-white/70 mb-4 leading-relaxed">
                       <div className="flex gap-4">
@@ -292,6 +295,10 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                           <p className="mt-2 text-sm text-white/60 leading-relaxed pl-5 mb-2">
                             {event.description}
                           </p>
+                          <p className="text-white/70 mb-4 border border-white/5 leading-relaxed">
+                          {event.reasoning}
+                          </p>
+            
                           {event.possibility &&
                             <p className="text-white/70 mb-4 leading-relaxed">
                               <div className="flex gap-4">
