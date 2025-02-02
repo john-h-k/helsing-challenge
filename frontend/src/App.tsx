@@ -21,7 +21,7 @@ import { forEachStream, forEachStreamJson } from "utils/stream";
 import { checkEventInPolygon } from "./utils/geometry";
 import { generateMockLocations } from "utils/mockLocationsGenerator";
 import { PopupContent } from "./components/MapPopup";
-import { facilityIcons } from "./utils/facilityIcons";
+import { facilityIcons, facilityTypeLabels } from "./utils/facilityIcons";
 
 // Add new styled component for marker animations
 const markerStyles = `
@@ -1267,40 +1267,20 @@ const Dashboard = ({
                 Infrastructure
               </h3>
               <div className="space-y-2">
-                {Object.entries(facilityIcons).map(([type, icon]) => (
-                  <div key={type} className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-gray-900 border border-white/10 flex items-center justify-center">
-                      <div className="w-3 h-3 text-white/80">
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          className="w-full h-full"
-                        >
-                          {type === "military" && (
-                            <path d="M12 2L2 7l10 5 10-5-10-5M2 17l10 5 10-5M2 12l10 5 10-5" />
-                          )}
-                          {type === "economic" && (
-                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H7" />
-                          )}
-                          {type === "political" && (
-                            <path d="M21 10c0-4.4-3.6-8-8-8s-8 3.6-8 8h4v10h8V10h4zm-6 6h-4" />
-                          )}
-                          {type === "infrastructure" && (
-                            <path d="M12 22V2M2 12h20M17 7l-5-5-5 5M17 17l-5 5-5-5" />
-                          )}
-                          {type === "facility" && (
-                            <path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16M3 21h18M9 7h.01M9 11h.01M9 15h.01M13 7h2M13 11h2M13 15h2" />
-                          )}
-                        </svg>
+                {Object.entries(facilityIcons)
+                  .filter(([type]) =>
+                    ["economic", "infrastructure", "facility"].includes(type)
+                  ) // Only show Amazon facility types
+                  .map(([type, icon]) => (
+                    <div key={type} className="flex items-center gap-3">
+                      <div className="w-6 h-6 rounded-full bg-gray-900 border border-white/10 flex items-center justify-center">
+                        <div className="w-3 h-3 text-white/80">{icon}</div>
+                      </div>
+                      <div className="text-xs text-white/70">
+                        {facilityTypeLabels[type as ObjectType]}
                       </div>
                     </div>
-                    <div className="text-xs text-white/70 capitalize">
-                      {type}
-                    </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           </div>
