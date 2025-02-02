@@ -16,9 +16,9 @@ def json_to_txt(input_json_path, output_txt_path):
 
         # Extract bodies and join with double newlines
         if isinstance(data, list):
-            bodies = [item.get("body", "") for item in data if isinstance(item, dict)]
+            bodies = [item.get("content", "") for item in data if isinstance(item, dict)]
         elif isinstance(data, dict):
-            bodies = [data.get("body", "")]
+            bodies = [data.get("content", "")]
         else:
             raise ValueError("Input JSON must be a list of objects or a single object")
 
@@ -36,4 +36,4 @@ def json_to_txt(input_json_path, output_txt_path):
 
 if __name__ == "__main__":
 
-    json_to_txt("india_bills_filtered.json", "india_bills_filtered.txt")
+    json_to_txt("./news_data/ft_articles_BIG.json", "./news_data/ft_articles.txt")

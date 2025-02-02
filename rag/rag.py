@@ -1,12 +1,11 @@
 from llama_index.core import Settings
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, StorageContext
 from llama_index.vector_stores.chroma import ChromaVectorStore
-from llama_index.llms.gemini import Gemini
 from llama_index.embeddings.openai import OpenAIEmbedding
-import chromadb
-
 from llama_index.core.node_parser import SentenceWindowNodeParser
 from llama_index.core.postprocessor import MetadataReplacementPostProcessor
+
+import chromadb
 
 import os
 
@@ -18,7 +17,7 @@ os.environ["OPENAI_API_KEY"] = (
 class LlamaIndexRetriever:
     def __init__(
         self,
-        data_dir: str = "test_data",
+        data_dir: str = "main_data",
         chroma_path: str = "IRIS",
         collection_name: str = "quickstart",
     ):
@@ -33,6 +32,12 @@ class LlamaIndexRetriever:
         vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
         self.storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
+        self.node_parser = SentenceWindowNodeParser.from_defaults(
+                window_size=4,  # number of sentences around the embedded sentence to retrieve.
+                window_metadata_key="window",
+                original_text_metadata_key="original_text",
+        )
+
         # Check if the index already exists in the persistent storage
         if len(chroma_collection.get()["ids"]) == 0:  # Check if collection is empty
             # Load and process documents only if collection is empty
@@ -40,16 +45,12 @@ class LlamaIndexRetriever:
             reader = SimpleDirectoryReader(input_dir=data_dir)
             documents = reader.load_data()
             # create the sentence window node parser w/ default settings
-            node_parser = SentenceWindowNodeParser.from_defaults(
-                window_size=3,  # number of sentences around the embedded sentence to retrieve.
-                window_metadata_key="window",
-                original_text_metadata_key="original_text",
-            )
 
-            nodes = node_parser.get_nodes_from_documents(documents)
+
+            nodes =self.node_parser.get_nodes_from_documents(documents)
 
             # Build the index from the documents with the text splitter transformation
-            self.index = VectorStoreIndex(nodes, storage_context=self.storage_context)
+            self.index = VectorStoreIndex(nodes, storage_context=self.storage_context, show_progress=True)
         else:
             # Load existing index from the vector store
             self.index = VectorStoreIndex.from_vector_store(
@@ -57,10 +58,11 @@ class LlamaIndexRetriever:
             )
 
         # Create a retriever from the index
-        self.q_engine = self.index.as_retriever(similarity_top_k=5)
+        self.retriever = self.index.as_retriever(similarity_top_k=5)
+        self.query_engine = self.index.as_query_engine(similarity_top_k=5)
 
     def retrieve_context(self, query: str):
-        nodes = self.q_engine.retrieve(query)
+        nodes = self.retriever.retrieve(query)
         results = []
         postprocessor = MetadataReplacementPostProcessor(target_metadata_key="window")
         large_nodes = postprocessor.postprocess_nodes(
@@ -69,3 +71,21 @@ class LlamaIndexRetriever:
         for node in large_nodes:
             results.append(node.text)
         return results
+    
+    def ask_question(self, query: str):
+        response = self.query_engine.query(query)
+        return response
+    
+    def add_data(self, directory: str):
+        reader = SimpleDirectoryReader(input_dir=directory)
+        documents = reader.load_data()
+        nodes = self.node_parser.get_nodes_from_documents(documents)
+        self.index.insert_nodes(nodes)
+
+if __name__ == "__main__":
+
+    obj = LlamaIndexRetriever()
+
+    print(obj.ask_question("How did Storm Eowyn impact electricity trade between Britain and France?"))
+
+
