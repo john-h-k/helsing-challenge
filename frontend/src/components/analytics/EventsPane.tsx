@@ -314,10 +314,11 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                           <div className="mt-3 pl-5 flex items-center gap-2 text-xs">
                             <span className="text-white/40">Location:</span>
                             <span className="font-mono text-white/60">
-                              {formatCoordinates(
+                              {event.location}
+                              {/*formatCoordinates(
                                 event.latitude,
                                 event.longitude
-                              )}
+                              )*/}
                             </span>
                           </div>
                         </button>

@@ -159,8 +159,9 @@ const generateRandomEvent = (index: number): Event => {
 };
 
 export async function* getRealEvents(companyContext: string, count: number): AsyncIterator<Event> {
-  companyContext = "UK Defence company focusing on exports to Nato and Western nations, preventing Chinese development of defence technologies, and running worldwide military logistics" +
-  ". Must stay intimately familar with American military politics";
+  // companyContext = "UK Defence company focusing on exports to Nato and Western nations, preventing Chinese development of defence technologies, and running worldwide military logistics" +
+  // ". Must stay intimately familar with American military politics";
+  companyContext = "UK supply chain & defence company. Needs bills related to logistics and national trade, as well as news articles about major political events"
   let body = {
     company_context: companyContext,
     // country_codes: ["CN", "GB"],
