@@ -71,6 +71,7 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
         ],
         "United Kingdom": [("policy/uk_bills.json", "House of Commons")],
         "GB": [("policy/uk_bills.json", "House of Commons")],
+        "UK": [("policy/uk_bills.json", "House of Commons")],
         "Singapore": [("policy/sg_bills.json", "Parliament of Singapore")],
         "SG": [("policy/sg_bills.json", "Parliament of Singapore")],
         "India": [("policy/india_bills.json", "Lok Sabha")],
@@ -80,14 +81,13 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
     for code in country_codes:
         if code in mapping:
             for map in mapping[code]:
-                filenames, event_type = map
+                filename, event_type = map
                 try:
-                    for filename in filenames:
-                        with open(filename, "r") as f:
-                            file_events = json.load(f)
-                            for event in file_events:
-                                event["type"] = event_type
-                                events.append(event)
+                    with open(filename, "r") as f:
+                        file_events = json.load(f)
+                        for event in file_events:
+                            event["type"] = event_type
+                            events.append(event)
                 except Exception as e:
                     print(f"Error loading file(s) {filenames}: {e}")
     return events
