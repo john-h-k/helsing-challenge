@@ -708,6 +708,7 @@ def stream_relevant_events(
                         "role": "developer",
                         "content": (
                             "You are to provide concise, 2 line summary, reasoning linking the company to this event, bill, or article, explaining why it is important"
+                            "Style it as if you are a profession analyst of the company"
                         ),
                     },
                     {
@@ -730,7 +731,7 @@ def get_relevant_events(
     Returns a dictionary with:
       - "relevant_event_ids": an ordered list of event IDs (by descending relevancy),
       - "events": the full JSON objects for the top events.
-      
+
     This modified version hard prioritizes events that are not news and limits the number
     of news events to a maximum (here set to 4).
     """
@@ -771,8 +772,8 @@ def get_relevant_events(
         key=lambda x: (
             -1 if x.get("country_code", "") == "MAGIC" else 0,
             1 if "news" in x.get("type", "").lower() else 0,
-            -x["numeric_score"]
-        )
+            -x["numeric_score"],
+        ),
     )
 
     # Build the final list of selected events with a cap on news events.
@@ -802,8 +803,6 @@ def get_relevant_events(
         "events": generate_relevant_latlong(selected_events),
     }
     return result
-
-
 
 
 if __name__ == "__main__":
