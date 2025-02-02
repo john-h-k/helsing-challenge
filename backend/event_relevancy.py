@@ -90,7 +90,7 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
     Load events from JSON files corresponding to the provided country codes.
     """
     mapping = {
-        "MAGIC": [("policy/magic.json", "Breaking News")],
+        "MAGIC": [("policy/magic.json", "Curated")],
         "United States": [
             ("policy/us_bills.json", "Congress"),
             ("policy/ftc_actions.json", "FTC Action"),
@@ -681,6 +681,9 @@ def stream_relevant_events(
 
             event = events[event_id]
             # generate_relevant_latlong_single(event)
+
+            if "News" in event["type"] and random.random() < 0.5:
+                continue
 
             if "date" in event and event["date"].endswith("00:00:00.0"):
                 event["date"] = event["date"][:-10]
