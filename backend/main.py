@@ -1,8 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List
+from typing import List, Dict, Any
+import json
+import os
 
 import effect_gen
 import decision_gen
@@ -30,12 +32,6 @@ class EffectsInput(BaseModel):
     decision: str
 
 
-# @app.post("/effects")
-# def effects(e: EffectsInput):
-#     tree = effect_gen.generate_effects(e.company_context, e.decision)
-#     return tree
-
-
 @app.post("/effects")
 def stream_effects(e: EffectsInput):
     it = effect_gen.generate_effects(e.company_context, e.decision)
@@ -53,10 +49,9 @@ def decisions(d: DecisionsInput):
     return StreamingResponse(it)
 
 
-# New endpoint for retrieving relevant events based on regulatory or news inputs.
 class RelevantEventsInput(BaseModel):
     company_context: str
-    country_codes: list[str]
+    country_codes: List[str]
     query: str
     max_events: int
 
@@ -76,3 +71,27 @@ def post_stream_relevant_events(input: RelevantEventsInput):
     )
     next(it)
     return StreamingResponse(it)
+
+
+# New endpoint for setting company info by overwriting company_info/company.json.
+# Since the JSON object can be arbitrary, we use a model with a root type of dict.
+class CompanyInfo(BaseModel):
+    __root__: Dict[str, Any]
+
+
+@app.post("/set_company")
+def set_company(company: CompanyInfo):
+    directory = "company_info"
+    file_path = os.path.join(directory, "company.json")
+
+    # Ensure the directory exists
+    os.makedirs(directory, exist_ok=True)
+
+    try:
+        with open(file_path, "w") as f:
+            # company.__root__ contains the JSON object
+            json.dump(company.__root__, f, indent=4)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error writing file: {e}")
+
+    return {"message": "Company info updated successfully."}
