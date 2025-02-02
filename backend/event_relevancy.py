@@ -684,9 +684,9 @@ def stream_relevant_events(
 
                 # iterate over infras and add nearby ones
                 event["infra"] = []
-                for facility in json.loads(
-                    open("company_site/Amazon_facilities.json", "r").read()
-                ):
+                facilities = json.loads(open("company_site/company.json", "r").read())['locations']
+                
+                for facility in facilities:
                     lat, lon = facility["latitude"], facility["longitude"]
                     coords_1 = (lat, lon)
                     coords_2 = (event["lat"], event["lon"])
