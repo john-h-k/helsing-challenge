@@ -479,6 +479,11 @@ const DecisionPane: React.FC<DecisionPaneProps> = ({
               focus:outline-none focus:border-white/20 transition-colors"
           />
           <button
+            onClick={() => {
+              let userDecision = { id: "user-decision", title: inputText, description: inputText }
+              setDecisions(prev => [...prev, userDecision])
+              onDecisionSelect(userDecision)}
+            }
             className="px-4 py-2 bg-gray-900/40 hover:bg-white/5 rounded-lg text-white/70 text-sm
               border border-white/10 hover:border-white/20 transition-all duration-200"
           >
