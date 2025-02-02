@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@dagrejs/dagre": "^1.1.4",
     "@emotion/styled": "^11.14.0",
     "@mapbox/mapbox-gl-draw": "^1.5.0",
     "@mui/icons-material": "^6.4.2",

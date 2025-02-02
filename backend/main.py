@@ -30,10 +30,16 @@ class EffectsInput(BaseModel):
     decision: str
 
 
+# @app.post("/effects")
+# def effects(e: EffectsInput):
+#     tree = effect_gen.generate_effects(e.company_context, e.decision)
+#     return tree
+
+
 @app.post("/effects")
-def effects(e: EffectsInput):
-    tree = effect_gen.generate_effects(e.company_context, e.decision)
-    return tree
+def stream_effects(e: EffectsInput):
+    it = effect_gen.generate_effects(e.company_context, e.decision)
+    return StreamingResponse(it)
 
 
 class DecisionsInput(BaseModel):

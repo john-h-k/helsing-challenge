@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json /app
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
 # Start the development server
 CMD ["npm", "start"]

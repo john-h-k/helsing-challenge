@@ -4,6 +4,7 @@ import EventsPane from './EventsPane';
 import DecisionPane from './DecisionPane';
 import { useSearchParams } from 'react-router-dom';
 import { checkEventInPolygon } from '../../utils/geometry';
+import { ReactFlowProvider } from 'reactflow';
 
 interface AnalyticsTabProps {
   events: Event[];
@@ -42,11 +43,13 @@ const AnalyticsTab: React.FC<AnalyticsTabProps> = ({ events, loading }) => {
 
       {/* Decision Making Pane */}
       <div className="flex-1 bg-gradient-to-b from-gray-900/90 to-gray-800/90">
+        <ReactFlowProvider>
         <DecisionPane
           event={selectedEvent}
           selectedDecision={selectedDecision}
           onDecisionSelect={setSelectedDecision}
         />
+        </ReactFlowProvider>
       </div>
     </div>
   );

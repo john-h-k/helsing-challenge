@@ -22,21 +22,20 @@ def generate_effects(company_context, policy_order, model="o1-mini", num_effects
         "description": string,
         "p_given_parent": map[string, float from 0..1] /* probability of occurrence given parent */
     }}
-    The top level structure should be:
-    {{
-        effects: list[Effect]
-    }}
+
     """
 
     user_prompt = f"""
     Generate {num_effects} structured cascading effects for the following policy order:
     "{policy_order}"
-    Output raw JSON only, that can be directly parsed as JSON
+    Output raw JSON only, that can be directly parsed as JSON.
+    The JSON should be SINGLE objects, seperated by the text 'NEWITEM' (without quotes). Do not output markdown, just plain text
     """
 
     response = client.chat.completions.create(
-        model="o3-mini",
-        reasoning_effort="high",
+        # model="o3-mini",
+        # reasoning_effort="high",
+        model="gpt-4o",
         messages=[
             {"role": "developer", "content": system_prompt},
             {
@@ -44,18 +43,38 @@ def generate_effects(company_context, policy_order, model="o1-mini", num_effects
                 "content": user_prompt,
             },
         ],
-        response_format={"type": "json_object"},
+        # response_format={"type": "json_object"},
+        stream=True,
     )
 
-    content = response.choices[0].message.content
+    # content = response.choices[0].message.content
 
-    if content.startswith("```json"):
-        content = content[7:]
-    if content.endswith("```"):
-        content = content[:-3]
+    # if content.startswith("```json"):
+    #     content = content[7:]
+    # if content.endswith("```"):
+    #     content = content[:-3]
 
-    effects = json.loads(content)
-    return effects
+    # effects = json.loads(content)
+    # return effects
+
+    buff = ""
+    for chunk in response:
+        print(chunk)
+        chunk = chunk.choices[0].delta.content
+
+        if chunk is None or chunk.strip() == "":
+            continue
+
+        buff += chunk
+
+        items = buff.split("NEWITEM")
+
+        if len(items) > 1:
+            for item in items[:-1]:
+                yield item
+                yield "\0"
+            buff = items[-1]
+
     # return build_effects_tree(effects)
 
 

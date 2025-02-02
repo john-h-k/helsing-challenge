@@ -11,7 +11,9 @@ import ReactFlow, {
   ReactFlowProvider,
   MiniMap,
   MarkerType,
+  useReactFlow,
 } from "reactflow";
+import Dagre from '@dagrejs/dagre';
 import "reactflow/dist/style.css";
 import { Event, Decision, Effect } from "../../types/Event";
 import { forEachStreamJson } from "utils/stream";
@@ -27,21 +29,19 @@ const EffectNode = ({ data }) => {
 
   return (
     <div
-      className={`px-4 py-3 rounded-lg border bg-gradient-to-br ${
-        orderColors[data.order]
-      }`}
+      className={`px-4 py-3 rounded-lg border bg-gradient-to-br ${orderColors[data.order]
+        } max-w-[300px] text-wrap break-words`}
     >
       <Handle type="target" position={Position.Top} className="!bg-white/30" />
-      <div className="min-w-[200px]">
+      <div className="min-w-[50px]">
         <div className="flex items-center gap-2 mb-2">
           <div
-            className={`w-2 h-2 rounded-full ${
-              data.order === 1
+            className={`w-2 h-2 rounded-full ${data.order === 1
                 ? "bg-blue-500"
                 : data.order === 2
-                ? "bg-purple-500"
-                : "bg-pink-500"
-            }`}
+                  ? "bg-purple-500"
+                  : "bg-pink-500"
+              }`}
           />
           <h3 className="font-medium text-white/90 text-sm">{data.name}</h3>
         </div>
@@ -63,6 +63,41 @@ const EffectNode = ({ data }) => {
 
 const nodeTypes = {
   effect: EffectNode,
+};
+
+const getLayoutedElements = (nodes, edges, options, reactFlowInstance) => {
+  const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
+  g.setGraph({ rankdir: options.direction, nodesep: 50, ranksep: 150 }); // spacing adjustments
+
+  edges.forEach((edge) => g.setEdge(edge.source, edge.target));
+
+  // measure node dimensions
+  const measuredNodes = nodes.map((node) => {
+    const domNode = reactFlowInstance?.getNode(node.id)?.domNode;
+    const rect = domNode ? domNode.getBoundingClientRect() : { width: 220, height: 80 }; // default estimate
+
+    return {
+      ...node,
+      measured: { width: Math.max(rect.width, 220), height: Math.max(rect.height, 80) }, // enforce min size
+    };
+  });
+
+  measuredNodes.forEach((node) =>
+    g.setNode(node.id, { width: node.measured.width, height: node.measured.height })
+  );
+
+  Dagre.layout(g);
+
+  return {
+    nodes: measuredNodes.map((node) => {
+      const position = g.node(node.id);
+      return {
+        ...node,
+        position: { x: position.x - node.measured.width / 2, y: position.y - node.measured.height / 2 },
+      };
+    }),
+    edges,
+  };
 };
 
 // Modify the createFlowElements helper to arrange effects by row instead of column
@@ -100,9 +135,9 @@ const createFlowElements = (effects: Effect[]) => {
         style:
           orderNum === 1
             ? {
-                background: "rgba(59, 130, 246, 0.1)",
-                borderRadius: "8px",
-              }
+              background: "rgba(59, 130, 246, 0.1)",
+              borderRadius: "8px",
+            }
             : undefined,
       });
     });
@@ -125,13 +160,17 @@ const createFlowElements = (effects: Effect[]) => {
     }
   });
 
-  // Find nodes for initial viewport focus
-  const focusNodes = nodes.filter((node) => {
-    const effect = node.data as Effect;
-    return effect.order <= 2; // Only first two levels
-  });
+  // // Find nodes for initial viewport focus
+  // const focusNodes = nodes.filter((node) => {
+  //   const effect = node.data as Effect;
+  //   return effect.order <= 2; // Only first two levels
+  // });
 
-  return { nodes, edges, focusNodes };
+  const layout = getLayoutedElements(nodes, edges, { direction: "TB" });
+
+  // setNodes([...layouted.nodes]);
+  // setEdges([...layouted.edges]);
+  return { nodes: layout.nodes, edges: layout.edges };
 };
 
 const FlowChart: React.FC<{
@@ -140,17 +179,20 @@ const FlowChart: React.FC<{
   onNodesChange: any;
   onEdgesChange: any;
 }> = ({ nodes, edges, onNodesChange, onEdgesChange }) => {
+  const reactFlowInstance = useReactFlow();
+
+
   const onInit = useCallback(
-    (reactFlowInstance) => {
+    (instance) => {
       const level1Nodes = nodes.filter(
         (node) => (node.data as Effect).order === 1
       );
 
       setTimeout(() => {
-        reactFlowInstance.fitView({
+        instance.fitView({
           padding: 0.2,
           maxZoom: 1,
-          minZoom: 2,
+          // minZoom: 2,
           duration: 800,
           nodes: level1Nodes,
         });
@@ -167,8 +209,16 @@ const FlowChart: React.FC<{
         // );
       }, 50);
     },
-    [nodes]
+    [nodes, edges]
   );
+
+  React.useEffect(() => {
+    if (reactFlowInstance && nodes.length > 0) {
+      setTimeout(() => {
+        reactFlowInstance.fitView({ padding: 0.2, duration: 800, maxZoom: 1 });
+      }, 100);
+    }
+  }, [nodes, reactFlowInstance]);
 
   return (
     <ReactFlow
@@ -195,8 +245,8 @@ const FlowChart: React.FC<{
           return effect.order === 1
             ? "#3b82f6"
             : effect.order === 2
-            ? "#8b5cf6"
-            : "#ec4899";
+              ? "#8b5cf6"
+              : "#ec4899";
         }}
       />
     </ReactFlow>
@@ -239,12 +289,12 @@ const DecisionPane: React.FC<DecisionPaneProps> = ({
 
   const [decisions, setDecisions] = useState<Decision[]>([])
 
-  React.useEffect(() => {  
+  React.useEffect(() => {
     if (event) {
       let body = { company_context: companyContext, event: event.title + "\n\n" + event.description }
       fetch(
         "http://localhost:8080/decisions",
-        { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)}
+        { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }
       ).then(res =>
         forEachStreamJson<Decision>(res, (decision) => setDecisions(prev => [...prev, decision]), () => setLoading(_ => false))
       );
@@ -263,14 +313,22 @@ const DecisionPane: React.FC<DecisionPaneProps> = ({
       let body = { company_context: companyContext, decision: selectedDecision.description }
       fetch(
         "http://localhost:8080/effects",
-        { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)}
-      ).then(res => res.json()).then(effects => {
-        console.log(effects)
-        const { nodes: newNodes, edges: newEdges } = createFlowElements(
-          effects["effects"]
-        );
-        setNodes(newNodes);
-        setEdges(newEdges);
+        { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }
+      ).then(res => {
+        let effects = []
+        forEachStreamJson<Decision>(res, (effect) => {
+          console.log(effect)
+          effects.push(effect)
+          setTimeout(() => { // ensure React Flow renders before layout
+            const { nodes: newNodes, edges: newEdges } = createFlowElements(
+              effects
+            );
+            // setNodes(prev => [prev, ...newNodes]);
+            // setEdges(prev => [...prev, ...newEdges]);
+            setNodes(newNodes)
+            setEdges(newEdges)
+          }, 10);
+        }, () => { })
       });
     }
   }, [selectedDecision, setNodes, setEdges]);
@@ -305,44 +363,44 @@ const DecisionPane: React.FC<DecisionPaneProps> = ({
           Potential Decisions
         </h3>
         <Flipper flipKey={decisions?.map((decision) => decision.id).join(",")}>
-        <div className="grid grid-cols-2 gap-4">
-          {reorderDecisions(decisions).map((decision) => (
-            <Flipped key={decision.id} flipId={decision.id} stagger>
-            <div>
-            <button
-              key={decision.id}
-              onClick={() => onDecisionSelect(decision)}
-              className="p-5 rounded-xl bg-emerald-950/30 border border-emerald-600/20 
+          <div className="grid grid-cols-2 gap-4">
+            {reorderDecisions(decisions).map((decision) => (
+              <Flipped key={decision.id} flipId={decision.id} stagger>
+                <div>
+                  <button
+                    key={decision.id}
+                    onClick={() => onDecisionSelect(decision)}
+                    className="p-5 rounded-xl bg-emerald-950/30 border border-emerald-600/20 
                 hover:bg-emerald-900/30 hover:border-emerald-500/30
                 transition-all duration-300 text-left group relative overflow-hidden"
-            >
-              <div className="flex items-start justify-between mb-3">
-                <h3 className="font-medium text-emerald-50/90 group-hover:text-emerald-50 transition-colors">
-                  {decision.title}
-                </h3>
-                <svg
-                  className="w-5 h-5 text-emerald-400/40 group-hover:text-emerald-400/60 transition-colors"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </div>
-              <p className="text-sm text-emerald-100/50 group-hover:text-emerald-100/70 transition-colors">
-                {decision.description}
-              </p>
-            </button>
-            </div>
-            </Flipped>
-          ))}
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <h3 className="font-medium text-emerald-50/90 group-hover:text-emerald-50 transition-colors">
+                        {decision.title}
+                      </h3>
+                      <svg
+                        className="w-5 h-5 text-emerald-400/40 group-hover:text-emerald-400/60 transition-colors"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </div>
+                    <p className="text-sm text-emerald-100/50 group-hover:text-emerald-100/70 transition-colors">
+                      {decision.description}
+                    </p>
+                  </button>
+                </div>
+              </Flipped>
+            ))}
 
-        </div>
+          </div>
         </Flipper>
       </div>
     );

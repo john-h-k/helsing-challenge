@@ -65,7 +65,6 @@ def generate_decisions(
 
         if len(items) > 1:
             for item in items[:-1]:
-                print(item)
                 yield item
                 yield "\0"
             buff = items[-1]
