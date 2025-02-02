@@ -617,7 +617,7 @@ def stream_relevant_events(
 
     batches = batch_events(
         list(sorted(events.values(), key=lambda k: k.get("country_code") == "MAGIC")),
-        batch_size=5,
+        batch_size=1,
     )
 
     with ThreadPoolExecutor() as executor:

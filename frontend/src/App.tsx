@@ -701,8 +701,8 @@ const Dashboard = ({
               }</p>
               <div class="grid grid-cols-2 gap-3 text-xs">
                 <div class="p-2 rounded-lg bg-white/5 border border-white/10">
-                  <span class="block text-white/50 mb-1">Source</span>
-                  <span class="text-white/90">${event.source || "N/A"}</span>
+                  <span class="block text-white/50 mb-1">Type</span>
+                  <span class="text-white/90">${event.type || "N/A"}</span>
                 </div>
                 <div class="p-2 rounded-lg bg-white/5 border border-white/10">
                   <span class="block text-white/50 mb-1">Location</span>
