@@ -114,7 +114,7 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
         "BR": [("policy/ft_BR.json", "Brazilian News")],
         "Brazil": [("policy/ft_BR.json", "Brazilian News")],
     }
-    events = []
+    events = {}
     for code in country_codes:
         if code in mapping:
             for map in mapping[code]:
@@ -124,9 +124,11 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
                         file_events = json.load(f)
                         for event in file_events:
                             event["type"] = event_type
-                            events.append(event)
+                            events[event["event_name"]] = event
                 except Exception as e:
                     print(f"Error loading file(s) {filename}: {e}")
+    events = list(events.values())
+    random.shuffle(events)
     return events
 
 
@@ -154,7 +156,7 @@ def assess_events_relevancy_batch(
     prompt = (
         "Today's date is February Second 2025\n"
         "For each of the following events, evaluate its relevance to the company's strategic decision-making "
-        "particularly in the context of regulatory risk. Use the company context and query "
+        "particularly in the context of regulatory risk. Use the company context "
         "provided to determine a relevance score as one of the following strings: 'not relevant', 'somewhat relevant', "
         "'relevant', or 'very relevant'.\n"
         "If an event ID ends in `MAGIC`, you MUST mark it as 'very relevant'"
@@ -169,10 +171,12 @@ def assess_events_relevancy_batch(
         "Provide `latitude` and `longitude` fields, floats, corresponding to this location\n"
         "If there is no clear latitude/longitude relevant, pick the capital of the country\n"
         '[{"id": "E123", "possibility": boolean, "relevancy_justification": "concise description of why this is relevant or not" "relevance_score": "relevant"}, ...]\n\n'
-        f'Company Query: "{query}"\n\n'
-        "Events:\n"
     )
+    if query.strip() != "":
+        prompt += f'Additional Query: "{query}"\n\n' "Events:\n"
+
     # Enumerate each event in the batch with its key details.
+
     for idx, event in enumerate(events_batch, start=1):
         prompt += (
             f"{idx}. Event ID: {event.get('id', '')}\n"
@@ -616,39 +620,45 @@ def stream_relevant_events(
         return []
 
     batches = batch_events(
-        list(sorted(events.values(), key=lambda k: k.get("country_code") == "MAGIC")),
-        batch_size=1,
+        list(sorted(events.values(), key=lambda k: k.get("region_codes") != "MAGIC")),
+        batch_size=10,
     )
 
-    with ThreadPoolExecutor() as executor:
-        futures = []
-        for batch in batches:
-            futures.append(
-                executor.submit(
-                    lambda: assess_events_relevancy_batch(batch, company_context, query)
-                )
+    ylded = 0
+    executor = ThreadPoolExecutor()
+    futures = []
+    for batch in batches:
+        futures.append(
+            executor.submit(
+                assess_events_relevancy_batch, batch, company_context, query
             )
-        for future in concurrent.futures.as_completed(futures):
-            batch_scores, batch_poss = future.result()
+        )
+    for future in concurrent.futures.as_completed(futures):
+        batch_scores, batch_poss = future.result()
 
-            for event_id, (poss, loc, (lat, lon)) in batch_poss.items():
-                events[event_id]["possibility"] = poss
-                events[event_id]["location"] = loc
-                events[event_id]["lat"] = lat
-                events[event_id]["lon"] = lon
+        for event_id, (poss, loc, (lat, lon)) in batch_poss.items():
+            events[event_id]["possibility"] = poss
+            events[event_id]["location"] = loc
+            events[event_id]["lat"] = lat
+            events[event_id]["lon"] = lon
 
-            for event_id, (numeric_score, justification) in batch_scores.items():
-                if numeric_score < Score.very_relevant:
-                    continue
+        for event_id, (numeric_score, justification) in batch_scores.items():
+            if numeric_score < Score.very_relevant:
+                continue
 
-                event = events[event_id]
-                # generate_relevant_latlong_single(event)
+            event = events[event_id]
+            # generate_relevant_latlong_single(event)
 
-                if "date" in event and event["date"].endswith("00:00:00.0"):
-                    event["date"] = event["date"][:-10]
+            if "date" in event and event["date"].endswith("00:00:00.0"):
+                event["date"] = event["date"][:-10]
 
-                yield json.dumps(event)
-                yield "\0"
+            yield json.dumps(event)
+            yield "\0"
+            ylded += 1
+
+            if ylded == max_events:
+                executor.shutdown(False)
+                return
 
 
 def get_relevant_events(
@@ -664,7 +674,6 @@ def get_relevant_events(
         return {"relevant_event_ids": [], "events": []}
 
     batches = batch_events(events, batch_size=100)
-    print(len(batches))
     all_scores = {}
 
     with ThreadPoolExecutor() as executor:

@@ -159,12 +159,14 @@ const generateRandomEvent = (index: number): Event => {
 };
 
 export async function* getRealEvents(companyContext: string, count: number): AsyncIterator<Event> {
+  companyContext = "UK Defence company focusing on exports to Nato and Western nations, preventing Chinese development of defence technologies, and running worldwide military logistics" +
+  ". Must stay intimately familar with American military politics";
   let body = {
     company_context: companyContext,
     // country_codes: ["CN", "GB"],
     country_codes: ["MAGIC", "GB"],
-    query: "Anything relating to UK manufacting, tariffs, tax, etc",
-    max_events: 10
+    query: "",
+    max_events: 15
   }
 
   let res = await fetch("http://localhost:8080/stream_relevant_events", { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)});

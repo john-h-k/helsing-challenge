@@ -1,11 +1,10 @@
 [
-    {
-        "event_name": "Trump threatens to invade Panama Canal",
-        "blurb": "President Trump continues his narrative around the Panama Canal, suggesting the US will take it back by military force if needed",
-        "body": "President Trump continues his narrative around the Panama Canal, suggesting the US will take it back by military force if needed",
-        "date": "2025-01-31",
-        "region_codes": "MAGIC",
-        "id": "4c2e5c0a-MAGIC"
-    }
+  {
+    "event_name": "Trump threatens to invade Panama Canal",
+    "blurb": "President Trump continues his narrative around the Panama Canal, suggesting the US will take it back by military force if needed",
+    "body": "President Trump continues his narrative around the Panama Canal, suggesting the US will take it back by military force if needed",
+    "date": "2025-01-31",
+    "region_codes": "MAGIC",
+    "id": "4c2e5c0a-MAGIC"
+  }
 ]
-
