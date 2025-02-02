@@ -179,6 +179,7 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                     <p className="text-white/70 mb-4 leading-relaxed">
                       <div className="flex gap-4">
                         {selectedEvent.questions?.map(q => (
+                          <a href={q.url} target="_blank">
                           <div key={q.market} className="flex items-center gap-2 bg-white/10 p-3 rounded-lg">
                             <img 
                               src={`${q.market}.${ { manifold: "jpg", metaculus: "jpeg", polymarket: "png" }[q.market] }`} 
@@ -187,15 +188,16 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                             />
                             <span className="text-lg font-medium">{Math.round(q.p * 100)}%</span>
                           </div>
+                          </a>
                         ))}
                       </div>
                     </p>
                   }
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div className="p-3 rounded-lg bg-white/5 border border-white/10">
-                      <span className="text-white/40 block mb-1">Source</span>
+                      <span className="text-white/40 block mb-1">Type</span>
                       <span className="text-white/90">
-                        {selectedEvent.source}
+                        {selectedEvent.type}
                       </span>
                     </div>
                     <div className="p-3 rounded-lg bg-white/5 border border-white/10">
@@ -289,10 +291,11 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                           <p className="mt-2 text-sm text-white/60 leading-relaxed pl-5 mb-2">
                             {event.description}
                           </p>
-                          ${event.possibility &&
+                          {event.possibility &&
                             <p className="text-white/70 mb-4 leading-relaxed">
                               <div className="flex gap-4">
-                                {event.questions?.map(q => (
+                                      {event.questions?.map(q => (
+                                  <a href={q.url} target="_blank">
                                   <div key={q.market} className="flex items-center gap-2 bg-white/10 p-3 rounded-lg">
                                     <img 
                                       src={`${q.market}.${ { manifold: "jpg", metaculus: "jpeg", polymarket: "png" }[q.market] }`} 
@@ -301,6 +304,7 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                                     />
                                     <span className="text-lg font-medium">{Math.round(q.p * 100)}%</span>
                                   </div>
+                                  </a>
                                 ))}
                               </div>
                             </p>

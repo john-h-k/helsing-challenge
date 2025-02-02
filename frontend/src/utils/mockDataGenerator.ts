@@ -184,6 +184,7 @@ export async function* getRealEvents(
       description: e.blurb,
       latitude: e.lat,
       possibility: e.possibility,
+      type: e.type,
       questions: [],
       longitude: e.lon,
       date: e.date ? new Date(e.date) : new Date(),

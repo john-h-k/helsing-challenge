@@ -63,7 +63,7 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
     Load events from JSON files corresponding to the provided country codes.
     """
     mapping = {
-        "MAGIC": [("policy/magic.json", "Upcoming actions")],
+        "MAGIC": [("policy/magic.json", "Breaking News")],
         "United States": [
             ("policy/us_bills.json", "Congress"),
             ("policy/ftc_actions.json", "FTC Action"),
@@ -149,13 +149,19 @@ def assess_events_relevancy_batch(
     Returns a mapping from event id to its numeric Score.
     """
     prompt = (
+        "Today's date is February Second 2025\n"
         "For each of the following events, evaluate its relevance to the company's strategic decision-making "
         "particularly in the context of regulatory risk. Use the company context and query "
         "provided to determine a relevance score as one of the following strings: 'not relevant', 'somewhat relevant', "
         "'relevant', or 'very relevant'.\n"
         "If an event ID ends in `MAGIC`, you MUST mark it as 'very relevant'"
         "Return only valid JSON as an array of objects in the following format:\n"
-        "The `possibility` field should be `false` if this is an event that has occurred, and `true` if it is a potential future event\n"
+        "The `possibility` field should be `false` if this is an event that has occurred, and `true` if it is a potential future event that is clearly falsifiable\n"
+        "If a field references something in the future, but an explicitly mentioned date IN THE ARTICLE is in the past, you MUST mark it possibility false"
+        "Past article dates may still be possibility true, only the dates in the text matter\n"
+        "Only events which are related to major potential future events, such as invasions, or bills passing, DIRECTLY, should be marked as possibilitiy true, otherwise possibility false\n"
+        "All threats or future military action, or major law passing with an explicitly future date, should be possibility true\n"
+        "Additionally, add a 'location' field which is the most appropriate location (city/country/region, but only one) for the event\n"
         '[{"id": "E123", "possibility": boolean, "relevancy_justification": "concise description of why this is relevant or not" "relevance_score": "relevant"}, ...]\n\n'
         f'Company Query: "{query}"\n\n'
         "Events:\n"
@@ -171,7 +177,7 @@ def assess_events_relevancy_batch(
 
     try:
         response = client.beta.chat.completions.parse(
-            model="gpt-4o-mini",  # Replace with the correct model if needed
+            model="gpt-4o",  # Replace with the correct model if needed
             messages=[
                 {
                     "role": "system",

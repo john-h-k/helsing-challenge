@@ -1050,15 +1050,15 @@ function App() {
             "http://localhost:5050/get_questions",
             { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)}
           ).then(res => res.json()).then(qs => {
-            let ps = qs.map(q => q.p).sort((a, b) => a - b)
-            const half = Math.floor(ps.length / 2);
-            let median = ps.length % 2
-                ? ps[half]
-                : (ps[half - 1] + ps[half]) / 2;
+            // let ps = qs.map(q => q.p).sort((a, b) => a - b)
+            // const half = Math.floor(ps.length / 2);
+            // let median = ps.length % 2
+            //     ? ps[half]
+            //     : (ps[half - 1] + ps[half]) / 2;
 
-            for (let q of qs) {
-              q.p = median + ((Math.random() / 5 - 0.1) * median)
-            }
+            // for (let q of qs) {
+            //   q.p = median + ((Math.random() / 5 - 0.1) * median)
+            // }
 
             value.questions = qs
             setEvents((prevEvents) => [value, ...prevEvents])

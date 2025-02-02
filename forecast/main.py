@@ -38,8 +38,9 @@ def get_market_prob(market_data):
 
     elif market == "manifold":
         response = requests.get(url)
-        match = re.search(r'"p":(\d+.\d+)', response.text)
-        return float(match.group(1)) if match else None
+        print(response.text)
+        match = re.search(r"probability=(\d+\.?\d*)%", response.text)
+        return float(match.group(1)) / 100 if match else None
 
     elif market == "kalshi":
         market_id = re.search(r"markets/(\d+)", url).group(1)
@@ -95,6 +96,27 @@ async def get_questions(q: GetQuestions):
     qs = []
 
     for source in hits:
+        response = client.beta.chat.completions.parse(
+            model="gpt-4o-mini",  # Replace with the correct model if needed
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are charged with determining whether a prediction market title is highly relevant to a question"
+                        "Respond with a single boolean value true/false plain text and nothing else"
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": f"Question: {q.question}\nMarket title: {source["title"]}",
+                },
+            ],
+            temperature=0,
+        )
+
+        if response.choices[0].message.content.strip() != "true":
+            continue
+
         try:
             qs.append(
                 {
