@@ -5,9 +5,10 @@ import DecisionPane from './DecisionPane';
 
 interface AnalyticsTabProps {
   events: Event[];
+  loading: boolean
 }
 
-const AnalyticsTab: React.FC<AnalyticsTabProps> = ({ events }) => {
+const AnalyticsTab: React.FC<AnalyticsTabProps> = ({ events, loading }) => {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [selectedDecision, setSelectedDecision] = useState<Decision | null>(null);
 
@@ -19,6 +20,7 @@ const AnalyticsTab: React.FC<AnalyticsTabProps> = ({ events }) => {
           events={events}
           selectedEvent={selectedEvent}
           onEventSelect={setSelectedEvent}
+          loading={loading}
         />
       </div>
 

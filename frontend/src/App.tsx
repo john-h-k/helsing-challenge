@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 import Timeline from "./components/Timeline";
 import EventPopup from "./components/EventPopup";
 import AnalyticsTab from "./components/analytics/AnalyticsTab";
-import { generateMockEvents } from "./utils/mockDataGenerator";
+import { generateMockEvents, getRealEvents } from "./utils/mockDataGenerator";
 import { Event } from "./types/Event";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -878,6 +878,7 @@ function App() {
   const mapContainer = useRef<HTMLDivElement>(null);
   // Updated state initialization for asynchronous events load
   const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [countries, setCountries] = useState([]);
 
@@ -894,8 +895,11 @@ function App() {
   useEffect(() => {
     const processNext = () => {
       it.next().then(({ value, done }) => {
-        if (done) return;
-        setEvents((prevEvents) => [...prevEvents, value]);
+        if (done) {
+          setLoading(_ => false);
+          return;
+        }
+        setEvents((prevEvents) => [value, ...prevEvents]);
         processNext(); // recursively process next item
       });
     };
@@ -931,7 +935,7 @@ function App() {
               />
             }
           />
-          <Route path="/analytics" element={<AnalyticsTab events={events} />} />
+          <Route path="/analytics" element={<AnalyticsTab events={events} loading={loading} />} />
           <Route
             path="/reports"
             element={

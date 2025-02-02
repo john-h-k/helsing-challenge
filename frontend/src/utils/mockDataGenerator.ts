@@ -159,9 +159,9 @@ const generateRandomEvent = (index: number): Event => {
 
 export async function* getRealEvents(count: number): AsyncIterator<Event> {
   let body = {
-    company_context: "chinese battery company",
+    company_context: "UK manufacturing company",
     country_codes: ["CN", "GB"],
-    query: "more electronics exporting",
+    query: "Anything relating to UK manufacting, tariffs, tax, etc",
     max_events: 10
   }
   let res = await fetch("http://localhost:8080/stream_relevant_events", { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)});

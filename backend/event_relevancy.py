@@ -157,10 +157,10 @@ def assess_events_relevancy_batch(
         return {}
 
 
-
 import urllib.request
 import json
 import random
+
 
 def is_point_in_polygon(x, y, poly):
     """Ray-casting algorithm to check if a point is inside a polygon."""
@@ -181,6 +181,7 @@ def is_point_in_polygon(x, y, poly):
         p1x, p1y = p2x, p2y
     return inside
 
+
 def country_code_2_to_3(alpha2):
     """
     Convert ISO 3166-1 alpha-2 country code to alpha-3 code.
@@ -195,56 +196,255 @@ def country_code_2_to_3(alpha2):
     """
     # ISO 3166-1 alpha-2 to alpha-3 mapping
     country_codes = {
-        'AF': 'AFG', 'AX': 'ALA', 'AL': 'ALB', 'DZ': 'DZA', 'AS': 'ASM',
-        'AD': 'AND', 'AO': 'AGO', 'AI': 'AIA', 'AQ': 'ATA', 'AG': 'ATG',
-        'AR': 'ARG', 'AM': 'ARM', 'AW': 'ABW', 'AU': 'AUS', 'AT': 'AUT',
-        'AZ': 'AZE', 'BS': 'BHS', 'BH': 'BHR', 'BD': 'BGD', 'BB': 'BRB',
-        'BY': 'BLR', 'BE': 'BEL', 'BZ': 'BLZ', 'BJ': 'BEN', 'BM': 'BMU',
-        'BT': 'BTN', 'BO': 'BOL', 'BQ': 'BES', 'BA': 'BIH', 'BW': 'BWA',
-        'BV': 'BVT', 'BR': 'BRA', 'IO': 'IOT', 'BN': 'BRN', 'BG': 'BGR',
-        'BF': 'BFA', 'BI': 'BDI', 'CV': 'CPV', 'KH': 'KHM', 'CM': 'CMR',
-        'CA': 'CAN', 'KY': 'CYM', 'CF': 'CAF', 'TD': 'TCD', 'CL': 'CHL',
-        'CN': 'CHN', 'CX': 'CXR', 'CC': 'CCK', 'CO': 'COL', 'KM': 'COM',
-        'CG': 'COG', 'CD': 'COD', 'CK': 'COK', 'CR': 'CRI', 'CI': 'CIV',
-        'HR': 'HRV', 'CU': 'CUB', 'CW': 'CUW', 'CY': 'CYP', 'CZ': 'CZE',
-        'DK': 'DNK', 'DJ': 'DJI', 'DM': 'DMA', 'DO': 'DOM', 'EC': 'ECU',
-        'EG': 'EGY', 'SV': 'SLV', 'GQ': 'GNQ', 'ER': 'ERI', 'EE': 'EST',
-        'SZ': 'SWZ', 'ET': 'ETH', 'FK': 'FLK', 'FO': 'FRO', 'FJ': 'FJI',
-        'FI': 'FIN', 'FR': 'FRA', 'GF': 'GUF', 'PF': 'PYF', 'TF': 'ATF',
-        'GA': 'GAB', 'GM': 'GMB', 'GE': 'GEO', 'DE': 'DEU', 'GH': 'GHA',
-        'GI': 'GIB', 'GR': 'GRC', 'GL': 'GRL', 'GD': 'GRD', 'GP': 'GLP',
-        'GU': 'GUM', 'GT': 'GTM', 'GG': 'GGY', 'GN': 'GIN', 'GW': 'GNB',
-        'GY': 'GUY', 'HT': 'HTI', 'HM': 'HMD', 'VA': 'VAT', 'HN': 'HND',
-        'HK': 'HKG', 'HU': 'HUN', 'IS': 'ISL', 'IN': 'IND', 'ID': 'IDN',
-        'IR': 'IRN', 'IQ': 'IRQ', 'IE': 'IRL', 'IM': 'IMN', 'IL': 'ISR',
-        'IT': 'ITA', 'JM': 'JAM', 'JP': 'JPN', 'JE': 'JEY', 'JO': 'JOR',
-        'KZ': 'KAZ', 'KE': 'KEN', 'KI': 'KIR', 'KP': 'PRK', 'KR': 'KOR',
-        'KW': 'KWT', 'KG': 'KGZ', 'LA': 'LAO', 'LV': 'LVA', 'LB': 'LBN',
-        'LS': 'LSO', 'LR': 'LBR', 'LY': 'LBY', 'LI': 'LIE', 'LT': 'LTU',
-        'LU': 'LUX', 'MO': 'MAC', 'MG': 'MDG', 'MW': 'MWI', 'MY': 'MYS',
-        'MV': 'MDV', 'ML': 'MLI', 'MT': 'MLT', 'MH': 'MHL', 'MQ': 'MTQ',
-        'MR': 'MRT', 'MU': 'MUS', 'YT': 'MYT', 'MX': 'MEX', 'FM': 'FSM',
-        'MD': 'MDA', 'MC': 'MCO', 'MN': 'MNG', 'ME': 'MNE', 'MS': 'MSR',
-        'MA': 'MAR', 'MZ': 'MOZ', 'MM': 'MMR', 'NA': 'NAM', 'NR': 'NRU',
-        'NP': 'NPL', 'NL': 'NLD', 'NC': 'NCL', 'NZ': 'NZL', 'NI': 'NIC',
-        'NE': 'NER', 'NG': 'NGA', 'NU': 'NIU', 'NF': 'NFK', 'MK': 'MKD',
-        'MP': 'MNP', 'NO': 'NOR', 'OM': 'OMN', 'PK': 'PAK', 'PW': 'PLW',
-        'PS': 'PSE', 'PA': 'PAN', 'PG': 'PNG', 'PY': 'PRY', 'PE': 'PER',
-        'PH': 'PHL', 'PN': 'PCN', 'PL': 'POL', 'PT': 'PRT', 'PR': 'PRI',
-        'QA': 'QAT', 'RE': 'REU', 'RO': 'ROU', 'RU': 'RUS', 'RW': 'RWA',
-        'BL': 'BLM', 'SH': 'SHN', 'KN': 'KNA', 'LC': 'LCA', 'MF': 'MAF',
-        'PM': 'SPM', 'VC': 'VCT', 'WS': 'WSM', 'SM': 'SMR', 'ST': 'STP',
-        'SA': 'SAU', 'SN': 'SEN', 'RS': 'SRB', 'SC': 'SYC', 'SL': 'SLE',
-        'SG': 'SGP', 'SX': 'SXM', 'SK': 'SVK', 'SI': 'SVN', 'SB': 'SLB',
-        'SO': 'SOM', 'ZA': 'ZAF', 'GS': 'SGS', 'SS': 'SSD', 'ES': 'ESP',
-        'LK': 'LKA', 'SD': 'SDN', 'SR': 'SUR', 'SJ': 'SJM', 'SE': 'SWE',
-        'CH': 'CHE', 'SY': 'SYR', 'TW': 'TWN', 'TJ': 'TJK', 'TZ': 'TZA',
-        'TH': 'THA', 'TL': 'TLS', 'TG': 'TGO', 'TK': 'TKL', 'TO': 'TON',
-        'TT': 'TTO', 'TN': 'TUN', 'TR': 'TUR', 'TM': 'TKM', 'TC': 'TCA',
-        'TV': 'TUV', 'UG': 'UGA', 'UA': 'UKR', 'AE': 'ARE', 'GB': 'GBR',
-        'US': 'USA', 'UM': 'UMI', 'UY': 'URY', 'UZ': 'UZB', 'VU': 'VUT',
-        'VE': 'VEN', 'VN': 'VNM', 'VG': 'VGB', 'VI': 'VIR', 'WF': 'WLF',
-        'EH': 'ESH', 'YE': 'YEM', 'ZM': 'ZMB', 'ZW': 'ZWE'
+        "AF": "AFG",
+        "AX": "ALA",
+        "AL": "ALB",
+        "DZ": "DZA",
+        "AS": "ASM",
+        "AD": "AND",
+        "AO": "AGO",
+        "AI": "AIA",
+        "AQ": "ATA",
+        "AG": "ATG",
+        "AR": "ARG",
+        "AM": "ARM",
+        "AW": "ABW",
+        "AU": "AUS",
+        "AT": "AUT",
+        "AZ": "AZE",
+        "BS": "BHS",
+        "BH": "BHR",
+        "BD": "BGD",
+        "BB": "BRB",
+        "BY": "BLR",
+        "BE": "BEL",
+        "BZ": "BLZ",
+        "BJ": "BEN",
+        "BM": "BMU",
+        "BT": "BTN",
+        "BO": "BOL",
+        "BQ": "BES",
+        "BA": "BIH",
+        "BW": "BWA",
+        "BV": "BVT",
+        "BR": "BRA",
+        "IO": "IOT",
+        "BN": "BRN",
+        "BG": "BGR",
+        "BF": "BFA",
+        "BI": "BDI",
+        "CV": "CPV",
+        "KH": "KHM",
+        "CM": "CMR",
+        "CA": "CAN",
+        "KY": "CYM",
+        "CF": "CAF",
+        "TD": "TCD",
+        "CL": "CHL",
+        "CN": "CHN",
+        "CX": "CXR",
+        "CC": "CCK",
+        "CO": "COL",
+        "KM": "COM",
+        "CG": "COG",
+        "CD": "COD",
+        "CK": "COK",
+        "CR": "CRI",
+        "CI": "CIV",
+        "HR": "HRV",
+        "CU": "CUB",
+        "CW": "CUW",
+        "CY": "CYP",
+        "CZ": "CZE",
+        "DK": "DNK",
+        "DJ": "DJI",
+        "DM": "DMA",
+        "DO": "DOM",
+        "EC": "ECU",
+        "EG": "EGY",
+        "SV": "SLV",
+        "GQ": "GNQ",
+        "ER": "ERI",
+        "EE": "EST",
+        "SZ": "SWZ",
+        "ET": "ETH",
+        "FK": "FLK",
+        "FO": "FRO",
+        "FJ": "FJI",
+        "FI": "FIN",
+        "FR": "FRA",
+        "GF": "GUF",
+        "PF": "PYF",
+        "TF": "ATF",
+        "GA": "GAB",
+        "GM": "GMB",
+        "GE": "GEO",
+        "DE": "DEU",
+        "GH": "GHA",
+        "GI": "GIB",
+        "GR": "GRC",
+        "GL": "GRL",
+        "GD": "GRD",
+        "GP": "GLP",
+        "GU": "GUM",
+        "GT": "GTM",
+        "GG": "GGY",
+        "GN": "GIN",
+        "GW": "GNB",
+        "GY": "GUY",
+        "HT": "HTI",
+        "HM": "HMD",
+        "VA": "VAT",
+        "HN": "HND",
+        "HK": "HKG",
+        "HU": "HUN",
+        "IS": "ISL",
+        "IN": "IND",
+        "ID": "IDN",
+        "IR": "IRN",
+        "IQ": "IRQ",
+        "IE": "IRL",
+        "IM": "IMN",
+        "IL": "ISR",
+        "IT": "ITA",
+        "JM": "JAM",
+        "JP": "JPN",
+        "JE": "JEY",
+        "JO": "JOR",
+        "KZ": "KAZ",
+        "KE": "KEN",
+        "KI": "KIR",
+        "KP": "PRK",
+        "KR": "KOR",
+        "KW": "KWT",
+        "KG": "KGZ",
+        "LA": "LAO",
+        "LV": "LVA",
+        "LB": "LBN",
+        "LS": "LSO",
+        "LR": "LBR",
+        "LY": "LBY",
+        "LI": "LIE",
+        "LT": "LTU",
+        "LU": "LUX",
+        "MO": "MAC",
+        "MG": "MDG",
+        "MW": "MWI",
+        "MY": "MYS",
+        "MV": "MDV",
+        "ML": "MLI",
+        "MT": "MLT",
+        "MH": "MHL",
+        "MQ": "MTQ",
+        "MR": "MRT",
+        "MU": "MUS",
+        "YT": "MYT",
+        "MX": "MEX",
+        "FM": "FSM",
+        "MD": "MDA",
+        "MC": "MCO",
+        "MN": "MNG",
+        "ME": "MNE",
+        "MS": "MSR",
+        "MA": "MAR",
+        "MZ": "MOZ",
+        "MM": "MMR",
+        "NA": "NAM",
+        "NR": "NRU",
+        "NP": "NPL",
+        "NL": "NLD",
+        "NC": "NCL",
+        "NZ": "NZL",
+        "NI": "NIC",
+        "NE": "NER",
+        "NG": "NGA",
+        "NU": "NIU",
+        "NF": "NFK",
+        "MK": "MKD",
+        "MP": "MNP",
+        "NO": "NOR",
+        "OM": "OMN",
+        "PK": "PAK",
+        "PW": "PLW",
+        "PS": "PSE",
+        "PA": "PAN",
+        "PG": "PNG",
+        "PY": "PRY",
+        "PE": "PER",
+        "PH": "PHL",
+        "PN": "PCN",
+        "PL": "POL",
+        "PT": "PRT",
+        "PR": "PRI",
+        "QA": "QAT",
+        "RE": "REU",
+        "RO": "ROU",
+        "RU": "RUS",
+        "RW": "RWA",
+        "BL": "BLM",
+        "SH": "SHN",
+        "KN": "KNA",
+        "LC": "LCA",
+        "MF": "MAF",
+        "PM": "SPM",
+        "VC": "VCT",
+        "WS": "WSM",
+        "SM": "SMR",
+        "ST": "STP",
+        "SA": "SAU",
+        "SN": "SEN",
+        "RS": "SRB",
+        "SC": "SYC",
+        "SL": "SLE",
+        "SG": "SGP",
+        "SX": "SXM",
+        "SK": "SVK",
+        "SI": "SVN",
+        "SB": "SLB",
+        "SO": "SOM",
+        "ZA": "ZAF",
+        "GS": "SGS",
+        "SS": "SSD",
+        "ES": "ESP",
+        "LK": "LKA",
+        "SD": "SDN",
+        "SR": "SUR",
+        "SJ": "SJM",
+        "SE": "SWE",
+        "CH": "CHE",
+        "SY": "SYR",
+        "TW": "TWN",
+        "TJ": "TJK",
+        "TZ": "TZA",
+        "TH": "THA",
+        "TL": "TLS",
+        "TG": "TGO",
+        "TK": "TKL",
+        "TO": "TON",
+        "TT": "TTO",
+        "TN": "TUN",
+        "TR": "TUR",
+        "TM": "TKM",
+        "TC": "TCA",
+        "TV": "TUV",
+        "UG": "UGA",
+        "UA": "UKR",
+        "AE": "ARE",
+        "GB": "GBR",
+        "US": "USA",
+        "UM": "UMI",
+        "UY": "URY",
+        "UZ": "UZB",
+        "VU": "VUT",
+        "VE": "VEN",
+        "VN": "VNM",
+        "VG": "VGB",
+        "VI": "VIR",
+        "WF": "WLF",
+        "EH": "ESH",
+        "YE": "YEM",
+        "ZM": "ZMB",
+        "ZW": "ZWE",
     }
 
     alpha2 = alpha2.upper()
@@ -252,6 +452,7 @@ def country_code_2_to_3(alpha2):
         raise ValueError(f"Invalid ISO 3166-1 alpha-2 country code: {alpha2}")
 
     return country_codes[alpha2]
+
 
 def get_random_country_coordinate(country_code):
     """
@@ -276,16 +477,16 @@ def get_random_country_coordinate(country_code):
     polygons = []
     exterior_coords = []
 
-    for feature in data['features']:
-        geom = feature['geometry']
-        if geom['type'] == 'Polygon':
-            rings = geom['coordinates']
+    for feature in data["features"]:
+        geom = feature["geometry"]
+        if geom["type"] == "Polygon":
+            rings = geom["coordinates"]
             if rings:
                 exterior = rings[0]
                 exterior_coords.extend(exterior)
                 polygons.append((exterior, rings[1:]))
-        elif geom['type'] == 'MultiPolygon':
-            for polygon in geom['coordinates']:
+        elif geom["type"] == "MultiPolygon":
+            for polygon in geom["coordinates"]:
                 if polygon:
                     exterior = polygon[0]
                     exterior_coords.extend(exterior)
@@ -322,10 +523,10 @@ def get_random_country_coordinate(country_code):
 
 def generate_relevant_latlong(events):
     for event in events:
-        region = event['region_codes']
+        region = event["region_codes"]
         lat, lon = get_random_country_coordinate(region)
-        event['lat'] = lat
-        event['lon'] = lon
+        event["lat"] = lat
+        event["lon"] = lon
     return events
 
 
@@ -356,6 +557,11 @@ def stream_relevant_events(
             batch_scores = future.result()
 
             for event_id, (numeric_score, justification) in batch_scores.items():
+                if numeric_score < Score.very_relevant:
+                    continue
+
+                print("found event")
+
                 event = events[event_id]
                 yield json.dumps(event)
                 yield "\0"

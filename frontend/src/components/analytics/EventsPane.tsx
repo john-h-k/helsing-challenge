@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Flipper, Flipped } from "react-flip-toolkit";
 import { Event, GeoObject } from "../../types/Event";
 import { format } from "date-fns";
 import ObjectMapView from "./ObjectMapView";
@@ -7,6 +8,7 @@ interface EventsPaneProps {
   events: Event[];
   selectedEvent: Event | null;
   onEventSelect: (event: Event | null) => void;
+  loading: boolean
 }
 
 const ObjectCard: React.FC<{ object: GeoObject }> = ({ object }) => (
@@ -101,6 +103,7 @@ const EventsPane: React.FC<EventsPaneProps> = ({
   events,
   selectedEvent,
   onEventSelect,
+  loading
 }) => {
   const [showMap, setShowMap] = useState(false);
 
@@ -205,7 +208,11 @@ const EventsPane: React.FC<EventsPaneProps> = ({
             </div>
           ) : (
             <div className="space-y-2">
+            <Flipper flipKey={events.map((event) => event.id).join(",")}>
+              <ul>
               {events.map((event) => (
+              <Flipped key={event.id} flipId={event.id} stagger>
+                <li>
                 <button
                   key={event.id}
                   onClick={() => onEventSelect(event)}
@@ -244,7 +251,11 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                     {event.description}
                   </p>
                 </button>
-              ))}
+              </li>
+            </Flipped>
+                ))}
+                </ul>
+            </Flipper>
             </div>
           )}
         </div>
