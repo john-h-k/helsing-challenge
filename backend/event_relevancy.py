@@ -51,8 +51,8 @@ class Event(BaseModel):
     possibility: bool
     relevance_score: str
     location: str
-    lat: str
-    lon: str
+    lat: float
+    lon: float
 
 
 # Because the LLM is instructed to return a JSON array (not an object with a key),
@@ -166,7 +166,8 @@ def assess_events_relevancy_batch(
         "All threats or future military action, or major law passing with an explicitly future date, should be possibility true\n"
         "An example of a possibility true event is Trump threatening to invade countries or regions\n"
         "Additionally, add a 'location' field which is the most appropriate location (city/country/region, but only one) for the event\n"
-        "Provide `latitude` and `longitude` fields, strings, corresponding to this location"
+        "Provide `latitude` and `longitude` fields, floats, corresponding to this location\n"
+        "If there is no clear latitude/longitude relevant, pick the capital of the country\n"
         '[{"id": "E123", "possibility": boolean, "relevancy_justification": "concise description of why this is relevant or not" "relevance_score": "relevant"}, ...]\n\n'
         f'Company Query: "{query}"\n\n'
         "Events:\n"
@@ -582,7 +583,7 @@ def get_random_country_coordinate(country_code):
 
 
 def generate_relevant_latlong_single(event):
-    if event["latitude"] and event["longitude"]:
+    if event["lat"] and event["lon"]:
         return
 
     region = event["region_codes"]
@@ -632,15 +633,16 @@ def stream_relevant_events(
 
             for event_id, (poss, loc, (lat, lon)) in batch_poss.items():
                 events[event_id]["possibility"] = poss
-                events[event_id]["latitude"] = lat
-                events[event_id]["longitude"] = lon
+                events[event_id]["location"] = loc
+                events[event_id]["lat"] = lat
+                events[event_id]["lon"] = lon
 
             for event_id, (numeric_score, justification) in batch_scores.items():
                 if numeric_score < Score.very_relevant:
                     continue
 
                 event = events[event_id]
-                generate_relevant_latlong_single(event)
+                # generate_relevant_latlong_single(event)
 
                 if "date" in event and event["date"].endswith("00:00:00.0"):
                     event["date"] = event["date"][:-10]
