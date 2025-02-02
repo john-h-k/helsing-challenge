@@ -9,6 +9,8 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   ReactFlowProvider,
+  MiniMap,
+  MarkerType,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { Event, Decision, Effect } from "../../types/Event";
@@ -61,45 +63,74 @@ const nodeTypes = {
   effect: EffectNode,
 };
 
-// Convert effects to nodes and edges
+// Modify the createFlowElements helper to arrange effects by row instead of column
 const createFlowElements = (effects: Effect[]) => {
   const nodes: Node[] = [];
   const edges: Edge[] = [];
 
-  effects.forEach((effect, index) => {
-    // Create node
-    nodes.push({
-      id: effect.name,
-      type: "effect",
-      data: effect,
-      position: {
-        x: 250,
-        y: index * 150,
-      },
-    });
+  // Group effects by order
+  const effectsByOrder: { [key: number]: Effect[] } = {};
+  effects.forEach((effect) => {
+    if (!effectsByOrder[effect.order]) {
+      effectsByOrder[effect.order] = [];
+    }
+    effectsByOrder[effect.order].push(effect);
+  });
 
-    // Create edges
+  const LEVEL_VERTICAL_SPACING = 150;
+  const HORIZONTAL_SPACING = 200;
+
+  // Arrange nodes so that each effect level is a row (top to bottom)
+  Object.entries(effectsByOrder).forEach(([order, orderEffects]) => {
+    const orderNum = parseInt(order);
+    // Y coordinate increases with level (order)
+    const y = (orderNum - 1) * LEVEL_VERTICAL_SPACING;
+    const count = orderEffects.length;
+    // Center nodes horizontally in the row
+    const startX = -((count - 1) * HORIZONTAL_SPACING) / 2;
+    orderEffects.forEach((effect, index) => {
+      const x = startX + index * HORIZONTAL_SPACING;
+      nodes.push({
+        id: effect.name,
+        type: "effect",
+        data: effect,
+        position: { x, y },
+        style:
+          orderNum === 1
+            ? {
+                background: "rgba(59, 130, 246, 0.1)",
+                borderRadius: "8px",
+              }
+            : undefined,
+      });
+    });
+  });
+
+  // Create edges with custom styling remains unchanged
+  effects.forEach((effect) => {
     if (effect.parent !== "root") {
       (effect.parent as string[]).forEach((parentId) => {
         edges.push({
           id: `${parentId}->${effect.name}`,
           source: parentId,
           target: effect.name,
-          style: { stroke: "#ffffff20" },
+          type: "smoothstep",
           animated: true,
+          style: { stroke: "#ffffff20", strokeWidth: 2 },
+          markerEnd: { type: MarkerType.ArrowClosed, color: "#ffffff20" },
         });
       });
     }
   });
 
-  return { nodes, edges };
-};
+  // Find nodes for initial viewport focus
+  const focusNodes = nodes.filter((node) => {
+    const effect = node.data as Effect;
+    return effect.order <= 2; // Only first two levels
+  });
 
-interface DecisionPaneProps {
-  event: Event | null;
-  selectedDecision: Decision | null;
-  onDecisionSelect: (decision: Decision | null) => void;
-}
+  return { nodes, edges, focusNodes };
+};
 
 const FlowChart: React.FC<{
   nodes: Node[];
@@ -107,24 +138,69 @@ const FlowChart: React.FC<{
   onNodesChange: any;
   onEdgesChange: any;
 }> = ({ nodes, edges, onNodesChange, onEdgesChange }) => {
+  const onInit = useCallback(
+    (reactFlowInstance) => {
+      setTimeout(() => {
+        reactFlowInstance.fitView({
+          padding: 0.2,
+          maxZoom: 1,
+          minZoom: 2,
+          duration: 800,
+        });
+
+        // Get current viewport state and only modify the zoom
+        // const { x, y } = reactFlowInstance.getViewport();
+        // reactFlowInstance.setViewport(
+        //   {
+        //     x,
+        //     y,
+        //     zoom: reactFlowInstance.getViewport().zoom * 0.8
+        //   },
+        //   { duration: 400 }
+        // );
+      }, 50);
+    },
+    [nodes]
+  );
+
   return (
     <ReactFlow
+      onInit={onInit}
       nodes={nodes}
       edges={edges}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       nodeTypes={nodeTypes}
-      fitView
+      fitView={false} // Disable automatic fit view
       className="bg-gray-900/30"
       minZoom={0.2}
       maxZoom={1.5}
-      defaultViewport={{ zoom: 0.8, x: 0, y: 0 }}
     >
       <Background color="#ffffff10" />
       <Controls className="!bg-gray-900/50 !border-white/5" />
+      <MiniMap
+        style={{
+          backgroundColor: "rgba(17, 24, 39, 0.9)",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+        }}
+        nodeColor={(node) => {
+          const effect = node.data as Effect;
+          return effect.order === 1
+            ? "#3b82f6"
+            : effect.order === 2
+            ? "#8b5cf6"
+            : "#ec4899";
+        }}
+      />
     </ReactFlow>
   );
 };
+
+interface DecisionPaneProps {
+  event: Event | null;
+  selectedDecision: Decision | null;
+  onDecisionSelect: (decision: Decision | null) => void;
+}
 
 const DecisionPane: React.FC<DecisionPaneProps> = ({
   event,
@@ -148,21 +224,12 @@ const DecisionPane: React.FC<DecisionPaneProps> = ({
 
   const renderFlow = () => (
     <div className="h-full">
-      <ReactFlow
+      <FlowChart
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        nodeTypes={nodeTypes}
-        fitView
-        className="bg-gray-900/30"
-        minZoom={0.2}
-        maxZoom={1.5}
-        defaultViewport={{ zoom: 0.8, x: 0, y: 0 }}
-      >
-        <Background color="#ffffff10" />
-        <Controls className="!bg-gray-900/50 !border-white/5" />
-      </ReactFlow>
+      />
     </div>
   );
 
