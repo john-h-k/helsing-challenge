@@ -9,6 +9,16 @@ import json
 import os
 import random
 
+COUNTRY_CODES = {
+    "world-uk": "UK",
+    "us": "US",
+    "india": "IN",
+    "united-arab-emirates": "AE",
+    "china": "CN",
+    "singapore": "SG",
+    "brazil": "BR",
+}
+
 
 class FTScraper:
     def __init__(self):
@@ -24,6 +34,10 @@ class FTScraper:
         self.logger = logging.getLogger(__name__)
 
     def get_articles(self, section="", page=0):
+        if random.randint(1, 5) <= 3:
+            time.sleep(2.5)
+        else:
+            time.sleep(0.5)
         """
         Scrape headlines from FT's homepage or specified section
         Returns a list of dictionaries containing article information
@@ -76,11 +90,11 @@ class FTScraper:
             return []
 
     def get_article_content(self, url, from_tag):
-        time.sleep(0.03)
+        time.sleep(0.06)
         try:
             cookies = {
                 "FTSession_s": (
-                    "07UWyfoqUkLS053PUfVlHvcl0wAAAZHrq5hlw8I.MEQCID8uRj61TJAX6rEYngYcbrTJknTgJ4reARviUd0xJCSLAiBLNJ7u3Po3iFh_-Nn1E20dUH4I222SFhzJnEfR5OzL4w"
+                    "07UWyfoqUkLS053PUfVlHvcl0wAAAZTE6cDOw8I.MEUCIQCHLY_V8TNnjflk9J-mRnVw7PgjVTYbwuj2PcYzbdp1dgIgXTcZS4FnORJvVCD3nYBpbBmIBPygwVTN2Ol_MsfdHMs"
                 )
             }
 
@@ -105,21 +119,23 @@ class FTScraper:
                 article_data = json.loads(script_tag.string)
 
                 article_info = {
-                    "uuid4": str(uuid.uuid4()),
-                    "title": article_data.get("headline"),
-                    "description": article_data.get("description"),
-                    "author": (
-                        article_data.get("author", [{}])[0].get("name")
-                        if article_data["author"]
-                        else "John Doe"
-                    ),
-                    "published_date": article_data.get("datePublished"),
+                    "id": str(uuid.uuid4()),
+                    "event_name": article_data.get("headline"),
+                    "blurb": article_data.get("description"),
+                    # "author": (
+                    #     article_data.get("author", [{}])[0].get("name")
+                    #     if article_data["author"]
+                    #     else "John Doe"
+                    # ),
+                    "date": article_data.get("datePublished").split("T")[0]
+                    + "00:00:00.0",
                     # 'modified_date': article_data.get('dateModified'),
-                    "content": article_data.get("articleBody"),
+                    "body": article_data.get("articleBody"),
                     # 'word_count': article_data.get('wordCount'),
-                    "tag": from_tag,
-                    "url": url,
+                    "region_codes": [COUNTRY_CODES[from_tag.split("?")[0]]],
+                    # "url": url,
                     # "main_image_url": article_data.get("image", {}).get("url"),
+                    "metadata": {"url": url},
                 }
                 # print(article_info)
 
@@ -138,7 +154,15 @@ if __name__ == "__main__":
 
     # sections_to_scrape = ["world", "world-uk", "companies", "technology", "markets", "climate-capital", "opinion", "lex"]
     RANGE = range(1, 10)
-    sections_to_scrape = ["world-uk", "us", "china", "singapore", "india"]
+    sections_to_scrape = [
+        "world-uk",
+        "us",
+        "china",
+        "singapore",
+        "india",
+        "united-arab-emirates",
+        "brazil",
+    ]
     articles = []
     for i in RANGE:
         articles.extend(
@@ -149,10 +173,8 @@ if __name__ == "__main__":
             ]
         )
 
-    # print(articles)
-    # articles = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "out", "older_articles.json")))
-
-    article_contents = []
+    # Group articles by country code
+    articles_by_country = {}
     seen = set()
     for article in articles:
         if not article:
@@ -164,22 +186,20 @@ if __name__ == "__main__":
                 article["url"], from_tag=article["section"]
             )
             if content:
-                article_contents.append(content)
+                country_code = content["region_codes"][0]
+                if country_code not in articles_by_country:
+                    articles_by_country[country_code] = []
+                articles_by_country[country_code].append(content)
         else:
             print("duplicate", end=" ")
-        if len(seen) % 30 == 0:
+        if len(seen) % 50 == 0:
             print(f"\nLEN {len(seen)}")
 
-    # article_contents = [
-    #     scraper.get_article_content_with_img(article["url"]) for article in articles
-    # ]
-
     out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-
-    # Create the directory if it doesn't exist
     os.makedirs(out_dir, exist_ok=True)
 
-    file_path = os.path.join(out_dir, "ft_articles_BIG.json")
-
-    with open(file_path, "w") as f:
-        json.dump(article_contents, f)
+    # Save separate files for each country
+    for country_code, country_articles in articles_by_country.items():
+        file_path = os.path.join(out_dir, f"ft_{country_code}.json")
+        with open(file_path, "w") as f:
+            json.dump(country_articles, f)
