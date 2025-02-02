@@ -185,10 +185,11 @@ export async function* getRealEvents(
     "UK supply chain & defence company. Needs bills related to logistics and national trade, as well as news articles about major political events";
   let body = {
     company_context: companyContext,
-    country_codes: ["MAGIC", "GB"],
-    query: "",
-    max_events: 15,
-  };
+    // country_codes: ["CN", "GB"],
+    country_codes: ["MAGIC", "GB", "SG", "US"],
+    query: "Arrow Electronics is expanding its businesses and is concerned about regulatory risks and tarrif risks. They are concerned more with regulatory and legal risk than news.",
+    max_events: 15
+  }
 
   let res = await fetch("http://localhost:8080/stream_relevant_events", {
     method: "POST",

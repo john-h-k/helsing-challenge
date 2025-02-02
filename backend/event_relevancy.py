@@ -706,6 +706,9 @@ def get_relevant_events(
     Returns a dictionary with:
       - "relevant_event_ids": an ordered list of event IDs (by descending relevancy),
       - "events": the full JSON objects for the top events.
+      
+    This modified version hard prioritizes events that are not news and limits the number
+    of news events to a maximum (here set to 4).
     """
     events = load_events(country_codes)
     if not events:
@@ -723,10 +726,10 @@ def get_relevant_events(
                 )
             )
         for future in concurrent.futures.as_completed(futures):
-            batch_scores = future.result()
+            batch_scores, _ = future.result()
             all_scores.update(batch_scores)
 
-    # Attach the numeric score to each event.
+    # Attach the numeric score and justification to each event.
     for event in events:
         event_id = event.get("id", "")
         numeric_score, justification = all_scores.get(
@@ -735,15 +738,35 @@ def get_relevant_events(
         event["numeric_score"] = numeric_score
         event["justification"] = justification
 
-    # Sort events by the numeric score in descending order.
+    # Sort events using a composite key:
+    #   1. Magic events (identified by country_code == "MAGIC") always come first.
+    #   2. Among the rest, events whose "type" does not include "news" are prioritized.
+    #   3. Finally, sort by the numeric score (in descending order).
     sorted_events = sorted(
         events,
-        key=lambda x: 10000000000
-        if x["country_code"] == "MAGIC"
-        else x["numeric_score"],
-        reverse=True,
+        key=lambda x: (
+            -1 if x.get("country_code", "") == "MAGIC" else 0,
+            1 if "news" in x.get("type", "").lower() else 0,
+            -x["numeric_score"]
+        )
     )
-    selected_events = sorted_events[:max_events]
+
+    # Build the final list of selected events with a cap on news events.
+    selected_events = []
+    news_count = 0
+    max_news = 4  # maximum allowed news articles
+    for event in sorted_events:
+        if len(selected_events) >= max_events:
+            break
+
+        event_type = event.get("type", "").lower()
+        # If the event is of type news, only add if we haven't reached the news cap.
+        if "news" in event_type:
+            if news_count >= max_news:
+                continue
+            news_count += 1
+
+        selected_events.append(event)
 
     # Convert numeric scores back into string values for output.
     for event in selected_events:
@@ -755,6 +778,8 @@ def get_relevant_events(
         "events": generate_relevant_latlong(selected_events),
     }
     return result
+
+
 
 
 if __name__ == "__main__":
