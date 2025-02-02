@@ -64,18 +64,29 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
         "United States": [
             ("policy/us_bills.json", "Congress"),
             ("policy/ftc_actions.json", "FTC Action"),
+            ("policy/executive_orders.json", "US Executive Orders"),
+            ("policy/ft_US.json", "US News")
         ],
         "US": [
             ("policy/us_bills.json", "Congress"),
             ("policy/ftc_actions.json", "FTC Action"),
+            ("policy/executive_orders.json", "US Executive Orders"),
+            ("policy/ft_US.json", "US News")
         ],
-        "United Kingdom": [("policy/uk_bills.json", "House of Commons")],
-        "GB": [("policy/uk_bills.json", "House of Commons")],
-        "UK": [("policy/uk_bills.json", "House of Commons")],
-        "Singapore": [("policy/sg_bills.json", "Parliament of Singapore")],
-        "SG": [("policy/sg_bills.json", "Parliament of Singapore")],
-        "India": [("policy/india_bills.json", "Lok Sabha")],
-        "IN": [("policy/india_bills.json", "Lok Sabha")],
+        "United Kingdom": [("policy/uk_bills.json", "House of Commons"), ("policy/ft_UK.json", "UK News")],
+        "GB": [("policy/uk_bills.json", "House of Commons"), ("policy/ft_UK.json", "UK News")],
+        "UK": [("policy/uk_bills.json", "House of Commons"), ("policy/ft_UK.json", "UK News")],
+        "Singapore": [("policy/sg_bills.json", "Parliament of Singapore"), ("policy/ft_SG.json", "Singaporean News")],
+        "SG": [("policy/sg_bills.json", "Parliament of Singapore"), ("policy/ft_SG.json", "Singaporean News")],
+        "India": [("policy/india_bills.json", "Lok Sabha"), ("policy/ft_IN.json", "Indian News")],
+        "IN": [("policy/india_bills.json", "Lok Sabha"), ("policy/ft_IN.json", "Indian News")],
+        "CN": [("policy/ft_CN.json", "Chinese News")],
+        "China": [("policy/ft_CN.json", "Chinese News")],
+        "AE": [("policy/ft_AE.json", "UAE News")],
+        "United Arab Emirates": [("policy/ft_AE.json", "UAE News")],
+        "BR": [("policy/ft_BR.json", "Brazilian News")],
+        "Brazil": [("policy/ft_BR.json", "Brazilian News")],
+        
     }
     events = []
     for code in country_codes:
