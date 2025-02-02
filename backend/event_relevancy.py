@@ -1,3 +1,4 @@
+# TODO SUHAS: maybe sample diversity of events for most relevant surfacing, maybe do prediction market integration if mcdonald hasnt, add infra surfacing
 import json
 import os
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
@@ -100,7 +101,7 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
                             event["type"] = event_type
                             events.append(event)
                 except Exception as e:
-                    print(f"Error loading file(s) {filenames}: {e}")
+                    print(f"Error loading file(s) {filename}: {e}")
     return events
 
 
@@ -171,11 +172,12 @@ def assess_events_relevancy_batch(
             justification = item.relevancy_justification.strip()
             numeric_score = score_mapping.get(score_str, Score.not_relevant)
             scores[event_id] = (numeric_score, justification)
+        print("FINISHED BATCH")
         return scores
     except Exception as e:
         print(f"Error in batched relevancy assessment: {e}")
         return {}
-
+    
 
 import urllib.request
 import json
@@ -605,6 +607,7 @@ def get_relevant_events(
         return {"relevant_event_ids": [], "events": []}
 
     batches = batch_events(events, batch_size=100)
+    print(len(batches))
     all_scores = {}
 
     with ThreadPoolExecutor() as executor:
