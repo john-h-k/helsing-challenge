@@ -21,7 +21,7 @@ def generate_blurb(event):
     # Create the prompt using the event data.
     prompt = (
         "Generate a concise and informative blurb for the given event. "
-        "Make sure to mention any actionable or important details about the event as well as important takeaways. Keep it as free flowing text. "
+        "Make sure to mention any actionable or important details about the event as well as important takeaways. Keep it as a concise and direct summary and just as plain text. It should not exceed 75 tokens."
         "Keep it concise.\n\n"
         f"Title: {event.get('title', event.get('event_name', ''))}\n"
         f"Existing Blurb: {event.get('blurb', '')}\n"
@@ -32,11 +32,11 @@ def generate_blurb(event):
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant that writes concise and informative summaries of legislative and policy events."},
+                {"role": "system", "content": "You are a helpful assistant that writes very concise and informative summaries of legislative and policy events."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.5,
-            max_tokens=100
+            max_completion_tokens=100
         )
         new_blurb = response.choices[0].message.content.strip()
         return new_blurb
