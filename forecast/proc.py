@@ -36,11 +36,14 @@ total = len(data)
 
 
 def get_embedding(entry):
+    global n
     print(f"{n}/{total}")
     n += 1
-    embedding = client.embeddings.create(
-        model="text-embedding-ada-002", input=entry["title"]
-    )["data"][0]["embedding"]
+    embedding = (
+        client.embeddings.create(model="text-embedding-ada-002", input=entry["title"])
+        .data[0]
+        .embedding
+    )
     entry["title_vector"] = embedding
     return entry
 
