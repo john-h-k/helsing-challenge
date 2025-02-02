@@ -230,7 +230,7 @@ const EventsPane: React.FC<EventsPaneProps> = ({
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-md font-medium text-white/90">
-                    Related Objects
+                    Nearby Objects
                   </h3>
                   <Toggle checked={showMap} onChange={setShowMap} />
                 </div>

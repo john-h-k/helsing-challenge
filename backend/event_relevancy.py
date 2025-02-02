@@ -692,7 +692,7 @@ def stream_relevant_events(
                 coords_1 = (lat, lon)
                 coords_2 = (event["lat"], event["lon"])
                 distance = geodesic(coords_1, coords_2)
-                if distance.miles < 500:
+                if distance.miles < 200:
                     event["infra"].append(facility)
 
             yield json.dumps(event)
