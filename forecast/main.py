@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from elasticsearch import AsyncElasticsearch
 from openai import OpenAI
-import os
+from pydantic import BaseModel
+
+import re
+import requests
 
 app = FastAPI()
 es = AsyncElasticsearch("http://elasticsearch:9200")
@@ -10,10 +13,45 @@ client = OpenAI(
 )
 
 
+def get_market_prob(market_data):
+    market = market_data["market"]
+    url = market_data["url"]
+
+    if market == "metaculus":
+        question_id = re.search(r"questions/(\d+)/", url).group(1)
+        api_url = f"https://www.metaculus.com/api2/questions/{question_id}/"
+        response = requests.get(api_url).json()
+        return response.get("community_prediction", {}).get("full", {}).get("q2", None)
+
+    elif market == "manifold":
+        response = requests.get(url)
+        match = re.search(r'"p":(\d+.\d+)', response.text)
+        return float(match.group(1)) if match else None
+
+    elif market == "kalshi":
+        market_id = re.search(r"markets/(\d+)", url).group(1)
+        api_url = f"https://trading-api.kalshi.com/v1/markets/{market_id}"
+        response = requests.get(api_url).json()
+        return response.get("yes_bid", None)
+
+    elif market == "polymarket":
+        market_id = re.search(r"\/market\/([a-f0-9-]+)", url).group(1)
+        api_url = f"https://strapi-api.prod.polymarket.com/markets/{market_id}"
+        response = requests.get(api_url).json()
+        return response.get("probability", None)
+
+    return None
+
+
+class GetQuestions(BaseModel):
+    question: str
+    k: int
+
+
 @app.post("/get_questions")
-async def get_questions(question: str, k: int):
+async def get_questions(q: GetQuestions):
     embedding = (
-        client.embeddings.create(model="text-embedding-ada-002", input=question)
+        client.embeddings.create(model="text-embedding-ada-002", input=q.question)
         .data[0]
         .embedding
     )
@@ -21,7 +59,7 @@ async def get_questions(question: str, k: int):
     query = {
         "bool": {
             "should": [
-                {"match": {"title": question}},
+                {"match": {"title": q.question}},
                 {
                     "script_score": {
                         "query": {"match_all": {}},
@@ -35,5 +73,19 @@ async def get_questions(question: str, k: int):
         }
     }
 
-    res = await es.search(index="markets", query=query, size=k)
-    return [hit["_source"] for hit in res["hits"]["hits"]]
+    res = await es.search(index="markets", query=query, size=q.k)
+    qs = []
+
+    for hit in res["hits"]["hits"]:
+        source = hit["_source"]
+        qs.append(
+            {
+                "id": source["id"],
+                "title": source["title"],
+                "market": source["market"],
+                "url": source["url"],
+                "p": get_market_prob(hit),
+            }
+        )
+
+    return qs

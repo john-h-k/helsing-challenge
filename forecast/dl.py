@@ -5,6 +5,27 @@ from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
 
 
+def fetch_polymarket():
+    with open("../polymarket/results.json") as file:
+        data = json.load(file)
+
+    def _get_url(cid):
+        r = requests.get(
+            f"https://gamma-api.polymarket.com/markets?condition_ids={cid}"
+        ).json()
+        return f"https://polymarket.com/event/{r["slug"]}"
+
+    return [
+        {
+            "id": str(q["id"]),
+            "title": q["name"],
+            "url": _get_url(q["id"]),
+            "market": "polymarket",
+        }
+        for q in data
+    ]
+
+
 def fetch_metaculus():
     url = "https://www.metaculus.com/api2/questions/?order_by=-popularity&limit=1000"
     response = requests.get(url)
@@ -45,30 +66,6 @@ def fetch_kalshi():
     #     }
     #     for q in data[:1000]
     # ]
-
-
-def get_market_prob(market_data):
-    market = market_data["market"]
-    url = market_data["url"]
-
-    if market == "metaculus":
-        question_id = re.search(r"questions/(\d+)/", url).group(1)
-        api_url = f"https://www.metaculus.com/api2/questions/{question_id}/"
-        response = requests.get(api_url).json()
-        return response.get("community_prediction", {}).get("full", {}).get("q2", None)
-
-    elif market == "manifold":
-        response = requests.get(url)
-        match = re.search(r'"p":(\d+.\d+)', response.text)
-        return float(match.group(1)) if match else None
-
-    elif market == "kalshi":
-        market_id = re.search(r"markets/(\d+)", url).group(1)
-        api_url = f"https://trading-api.kalshi.com/v1/markets/{market_id}"
-        response = requests.get(api_url).json()
-        return response.get("yes_bid", None)
-
-    return None
 
 
 def main():
