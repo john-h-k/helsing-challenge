@@ -199,7 +199,7 @@ def assess_events_relevancy_batch(
         return scores, poss
     except Exception as e:
         print(f"Error in batched relevancy assessment: {e}")
-        return {}
+        return {}, {}
 
 
 import urllib.request
@@ -568,6 +568,8 @@ def get_random_country_coordinate(country_code):
 
 def generate_relevant_latlong_single(event):
     region = event["region_codes"]
+    if isinstance(region, list):
+        region = region[0]
     lat, lon = get_random_country_coordinate(region)
     event["lat"] = lat
     event["lon"] = lon
@@ -592,7 +594,7 @@ def stream_relevant_events(
         print("no events")
         return []
 
-    batches = batch_events(list(events.values()), batch_size=10)
+    batches = batch_events(list(events.values()), batch_size=100)
 
     with ThreadPoolExecutor() as executor:
         futures = []
@@ -612,10 +614,12 @@ def stream_relevant_events(
                 if numeric_score < Score.very_relevant:
                     continue
 
-                print("found event")
-
                 event = events[event_id]
                 generate_relevant_latlong_single(event)
+
+                if "date" in event and event["date"].endswith("00:00:00.0"):
+                    event["date"] = event["date"][:-10]
+
                 yield json.dumps(event)
                 yield "\0"
 

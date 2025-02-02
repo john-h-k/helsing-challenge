@@ -59,7 +59,6 @@ def generate_effects(company_context, policy_order, model="o1-mini", num_effects
 
     buff = ""
     for chunk in response:
-        print(chunk)
         chunk = chunk.choices[0].delta.content
 
         if chunk is None or chunk.strip() == "":

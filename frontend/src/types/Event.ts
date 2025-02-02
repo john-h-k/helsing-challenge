@@ -16,6 +16,13 @@ export interface GeoObject {
   status: "active" | "inactive" | "unknown";
 }
 
+export interface Question {
+  id: string
+  title: string
+  description: string
+  market: "polymarket" | "kalshi" | "metaculus" | "manifold"
+}
+
 export interface Event {
   id: string;
   title: string;
@@ -23,11 +30,13 @@ export interface Event {
   latitude?: number;
   longitude?: number;
   date: Date;
+  possibility: boolean;
   severity: "low" | "medium" | "high";
   potentialEvents?: PotentialEvent[];
   source?: string;
   location?: string;
   decisions?: Decision[];
+  questions: Question[];
   objects: GeoObject[];
 }
 

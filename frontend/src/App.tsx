@@ -1043,7 +1043,21 @@ function App() {
   useEffect(() => {
     forEachStream(
       it,
-      (value) => setEvents((prevEvents) => [value, ...prevEvents]),
+      (value) => {
+        if (value.possibility) {
+          let body = { "question": value.title, "k": 3 }
+          fetch(
+            "http://localhost:8080/stream_relevant_events",
+            { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)}
+          ).then(res => res.json()).then(qs => {
+            console.log(qs)
+            value.questions = qs
+            setEvents((prevEvents) => [value, ...prevEvents])        
+          })
+        } else {
+          setEvents((prevEvents) => [value, ...prevEvents])        
+        }
+      },
       () => setLoading((_) => false)
     );
   }, []);

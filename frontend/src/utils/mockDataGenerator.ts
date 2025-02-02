@@ -166,13 +166,14 @@ export async function* getRealEvents(companyContext: string, count: number): Asy
     max_events: 10
   }
   let res = await fetch("http://localhost:8080/stream_relevant_events", { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)});
-
+  
   for await (const e of streamJson(res)) {
     yield {
       id: e.id,
       title: e.event_name,
       description: e.blurb,
       latitude: e.lat,
+      possibility: e.possibility,
       longitude: e.lon,
       date: e.date ? new Date(e.date) : new Date(),
       severity: "high",
@@ -192,6 +193,7 @@ export async function* generateMockEvents(count: number): AsyncGenerator<Event> 
       description: `This is the description for event ${i}.`,
       date: addDays(subDays(new Date(), 30), i), // Added date property
       severity: i % 3 === 0 ? "high" : i % 3 === 1 ? "medium" : "low",
+      possibility: Math.random() > 0.7 ? true : false,
       latitude: (Math.random() - 0.5) * 180,
       longitude: (Math.random() - 0.5) * 360,
       source: "system",
