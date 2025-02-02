@@ -18,7 +18,7 @@ class LlamaIndexRetriever:
     def __init__(
         self,
         data_dir: str = "main_data",
-        chroma_path: str = "IRIS",
+        chroma_path: str = "rag/IRIS",
         collection_name: str = "quickstart",
     ):
 
