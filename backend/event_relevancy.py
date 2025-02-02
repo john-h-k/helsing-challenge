@@ -48,6 +48,7 @@ def score_to_string(score: Score) -> str:
 class Event(BaseModel):
     id: str
     relevancy_justification: str
+    possibility: bool
     relevance_score: str
 
 
@@ -66,28 +67,48 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
             ("policy/us_bills.json", "Congress"),
             ("policy/ftc_actions.json", "FTC Action"),
             ("policy/executive_orders.json", "US Executive Orders"),
-            ("policy/ft_US.json", "US News")
+            ("policy/ft_US.json", "US News"),
         ],
         "US": [
             ("policy/us_bills.json", "Congress"),
             ("policy/ftc_actions.json", "FTC Action"),
             ("policy/executive_orders.json", "US Executive Orders"),
-            ("policy/ft_US.json", "US News")
+            ("policy/ft_US.json", "US News"),
         ],
-        "United Kingdom": [("policy/uk_bills.json", "House of Commons"), ("policy/ft_UK.json", "UK News")],
-        "GB": [("policy/uk_bills.json", "House of Commons"), ("policy/ft_UK.json", "UK News")],
-        "UK": [("policy/uk_bills.json", "House of Commons"), ("policy/ft_UK.json", "UK News")],
-        "Singapore": [("policy/sg_bills.json", "Parliament of Singapore"), ("policy/ft_SG.json", "Singaporean News")],
-        "SG": [("policy/sg_bills.json", "Parliament of Singapore"), ("policy/ft_SG.json", "Singaporean News")],
-        "India": [("policy/india_bills.json", "Lok Sabha"), ("policy/ft_IN.json", "Indian News")],
-        "IN": [("policy/india_bills.json", "Lok Sabha"), ("policy/ft_IN.json", "Indian News")],
+        "United Kingdom": [
+            ("policy/uk_bills.json", "House of Commons"),
+            ("policy/ft_UK.json", "UK News"),
+        ],
+        "GB": [
+            ("policy/uk_bills.json", "House of Commons"),
+            ("policy/ft_UK.json", "UK News"),
+        ],
+        "UK": [
+            ("policy/uk_bills.json", "House of Commons"),
+            ("policy/ft_UK.json", "UK News"),
+        ],
+        "Singapore": [
+            ("policy/sg_bills.json", "Parliament of Singapore"),
+            ("policy/ft_SG.json", "Singaporean News"),
+        ],
+        "SG": [
+            ("policy/sg_bills.json", "Parliament of Singapore"),
+            ("policy/ft_SG.json", "Singaporean News"),
+        ],
+        "India": [
+            ("policy/india_bills.json", "Lok Sabha"),
+            ("policy/ft_IN.json", "Indian News"),
+        ],
+        "IN": [
+            ("policy/india_bills.json", "Lok Sabha"),
+            ("policy/ft_IN.json", "Indian News"),
+        ],
         "CN": [("policy/ft_CN.json", "Chinese News")],
         "China": [("policy/ft_CN.json", "Chinese News")],
         "AE": [("policy/ft_AE.json", "UAE News")],
         "United Arab Emirates": [("policy/ft_AE.json", "UAE News")],
         "BR": [("policy/ft_BR.json", "Brazilian News")],
         "Brazil": [("policy/ft_BR.json", "Brazilian News")],
-        
     }
     events = []
     for code in country_codes:
@@ -121,7 +142,7 @@ def batch_events(
 
 def assess_events_relevancy_batch(
     events_batch: List[Dict[str, Any]], company_context: str, query: str
-) -> Dict[str, Score]:
+) -> tuple[dict[str, Score], dict[str, bool]]:
     """
     Takes a batch of events and uses a single API call to assess their relevancy.
     Returns a mapping from event id to its numeric Score.
@@ -132,7 +153,8 @@ def assess_events_relevancy_batch(
         "provided to determine a relevance score as one of the following strings: 'not relevant', 'somewhat relevant', "
         "'relevant', or 'very relevant'.\n"
         "Return only valid JSON as an array of objects in the following format:\n"
-        '[{"id": "E123", "relevancy_justification": "concise description of why this is relevant or not" "relevance_score": "relevant"}, ...]\n\n'
+        "The `possibility` field should be `false` if this is an event that has occurred, and `true` if it is a potential future event\n"
+        '[{"id": "E123", "possibility": boolean, "relevancy_justification": "concise description of why this is relevant or not" "relevance_score": "relevant"}, ...]\n\n'
         f'Company Query: "{query}"\n\n'
         "Events:\n"
     )
@@ -166,18 +188,19 @@ def assess_events_relevancy_batch(
         raw_content = response.choices[0].message.content.strip()
         parsed_response = ListOfRelevantEvents.model_validate_json(raw_content)
         scores = {}
+        poss = {}
         for item in parsed_response.events:
             event_id = item.id
             score_str = item.relevance_score.strip().lower()
             justification = item.relevancy_justification.strip()
             numeric_score = score_mapping.get(score_str, Score.not_relevant)
             scores[event_id] = (numeric_score, justification)
-        print("FINISHED BATCH")
-        return scores
+            poss[event_id] = item.possibility
+        return scores, poss
     except Exception as e:
         print(f"Error in batched relevancy assessment: {e}")
         return {}
-    
+
 
 import urllib.request
 import json
@@ -580,7 +603,10 @@ def stream_relevant_events(
                 )
             )
         for future in concurrent.futures.as_completed(futures):
-            batch_scores = future.result()
+            batch_scores, batch_poss = future.result()
+
+            for event_id, poss in batch_poss.items():
+                events[event_id]["possibility"] = poss
 
             for event_id, (numeric_score, justification) in batch_scores.items():
                 if numeric_score < Score.very_relevant:
