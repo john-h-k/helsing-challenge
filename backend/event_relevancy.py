@@ -663,6 +663,8 @@ def stream_relevant_events(
                 assess_events_relevancy_batch, batch, company_context, query
             )
         )
+
+    yded = 0
     for future in concurrent.futures.as_completed(futures):
         batch_scores, batch_poss = future.result()
 
@@ -725,18 +727,23 @@ def stream_relevant_events(
             )
 
             event["reasoning"] = response.choices[0].message.content.strip()
-            
-            if event['id'] == 'exec':
-                event['type'] = 'US Executive Order'
-            if event['id'] == 'repair':
-                event['type'] = 'FTC Action'
-            if event['id'] == 'british':
-                event['type'] == 'House of Commons'
-            if event['id'] == 'singa':
-                event['type'] == 'Parliament of Singapore'
+
+            if event["id"] == "exec":
+                event["type"] = "US Executive Order"
+            if event["id"] == "repair":
+                event["type"] = "FTC Action"
+            if event["id"] == "british":
+                event["type"] == "House of Commons"
+            if event["id"] == "singa":
+                event["type"] == "Parliament of Singapore"
 
             yield json.dumps(event)
             yield "\0"
+
+            if yded == max_events:
+                return
+
+            yded += 1
 
 
 def get_relevant_events(
