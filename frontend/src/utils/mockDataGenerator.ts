@@ -158,18 +158,26 @@ const generateRandomEvent = (index: number): Event => {
   };
 };
 
-export async function* getRealEvents(companyContext: string, count: number): AsyncIterator<Event> {
+export async function* getRealEvents(
+  companyContext: string,
+  count: number
+): AsyncIterator<Event> {
   let body = {
     company_context: companyContext,
     // country_codes: ["CN", "GB"],
     country_codes: ["MAGIC", "GB"],
     query: "Anything relating to UK manufacting, tariffs, tax, etc",
-    max_events: 10
-  }
+    max_events: 10,
+  };
 
-  let res = await fetch("http://localhost:8080/stream_relevant_events", { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)});
-  
+  let res = await fetch("http://localhost:8080/stream_relevant_events", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
   for await (const e of streamJson(res)) {
+    console.log(e);
     yield {
       id: e.id,
       title: e.event_name,
@@ -180,12 +188,15 @@ export async function* getRealEvents(companyContext: string, count: number): Asy
       longitude: e.lon,
       date: e.date ? new Date(e.date) : new Date(),
       severity: "high",
-      objects: []
+      objects: [],
+      type: e.type,
     };
   }
 }
 
-export async function* generateMockEvents(count: number): AsyncGenerator<Event> {
+export async function* generateMockEvents(
+  count: number
+): AsyncGenerator<Event> {
   // Simulate async delay (e.g., mimicking API call)
   for (let i = 0; i < count; i++) {
     await new Promise((resolve) => setTimeout(resolve, 100));

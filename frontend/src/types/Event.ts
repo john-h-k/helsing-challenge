@@ -17,10 +17,10 @@ export interface GeoObject {
 }
 
 export interface Question {
-  id: string
-  title: string
-  description: string
-  market: "polymarket" | "kalshi" | "metaculus" | "manifold"
+  id: string;
+  title: string;
+  description: string;
+  market: "polymarket" | "kalshi" | "metaculus" | "manifold";
 }
 
 export interface Event {
@@ -38,6 +38,7 @@ export interface Event {
   decisions?: Decision[];
   questions: Question[];
   objects: GeoObject[];
+  type: string;
 }
 
 export interface PotentialEvent {
