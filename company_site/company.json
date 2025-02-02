@@ -1,6 +1,6 @@
 {
-  "name": "Amazon",
-  "summary": "Amazon.com, Inc. is a global technology and e-commerce leader known for revolutionizing online shopping, cloud computing, digital streaming, and artificial intelligence. With its expansive product catalog, efficient delivery network, and innovative technologies, Amazon has transformed retail and continues to set industry standards in logistics, customer service, and technological innovation. Its diversified portfolio includes the flagship e-commerce platform, Amazon Web Services (AWS), digital media offerings, and smart devices, making it a pivotal player in numerous industries worldwide.",
+  "name": "Arrow Electronics",
+  "summary": "Arrow Electronics is a global technology solutions provider specializing in electronic components distribution, enterprise computing solutions, and engineering services. The company supplies semiconductors, connectors, resistors, capacitors, microcontrollers, sensors, power solutions, and networking products. It also offers IT solutions, cloud computing, cybersecurity, AI, and IoT integration services. Arrow serves industries such as aerospace, automotive, industrial, healthcare, and consumer electronics. Arrow Electronics operates globally through various subsidiaries specializing in electronic components and computing solutions. Notable subsidiaries include Arrow Electronics (UK) Ltd., Arrow ECS GmbH (Germany), Arrow Electronics Canada Ltd., and Arrow ECS France SAS, each focusing on distribution and enterprise solutions in their respective regions.",
   "country_list": [
       "United States",
       "Canada",
@@ -24,17 +24,17 @@
   ],
   "locations": [
     {
-      "id": "amazon-us-1",
-      "name": "Amazon Seattle Headquarters",
+      "id": "arrow-us-1",
+      "name": "Arrow Seattle Headquarters",
       "type": "corporate_office",
-      "description": "Global headquarters overseeing e-commerce, AWS, and Amazon subsidiaries.",
+      "description": "Global headquarters overseeing distribution IT consulting business.",
       "latitude": 47.6226,
       "longitude": -122.3365,
       "countries": ["United States"],
       "status": "active"
     },
     {
-      "id": "amazon-us-2",
+      "id": "arrow-us-2",
       "name": "HQ2 (Arlington)",
       "type": "corporate_office",
       "description": "Second headquarters focusing on policy, operations, and tech innovation.",
@@ -44,7 +44,7 @@
       "status": "active"
     },
     {
-      "id": "amazon-us-3",
+      "id": "arrow-us-3",
       "name": "AWS US East (N. Virginia)",
       "type": "data_center",
       "description": "Largest AWS cloud region, supporting government and enterprise workloads.",
@@ -54,7 +54,7 @@
       "status": "active"
     },
     {
-      "id": "amazon-ie-1",
+      "id": "arrow-ie-1",
       "name": "AWS EU (Ireland)",
       "type": "data_center",
       "description": "Key European cloud hub for EMEA customers.",
@@ -64,7 +64,7 @@
       "status": "active"
     },
     {
-      "id": "amazon-jp-1",
+      "id": "arrow-jp-1",
       "name": "AWS Asia Pacific (Tokyo)",
       "type": "data_center",
       "description": "Major APAC cloud infrastructure hub.",
@@ -74,7 +74,7 @@
       "status": "active"
     },
     {
-      "id": "amazon-us-4",
+      "id": "arrow-us-4",
       "name": "Phoenix Fulfillment Center",
       "type": "fulfillment_center",
       "description": "Massive logistics hub for Southwestern U.S. order processing.",
@@ -84,7 +84,7 @@
       "status": "active"
     },
     {
-      "id": "amazon-de-1",
+      "id": "arrow-de-1",
       "name": "Berlin Fulfillment Center",
       "type": "fulfillment_center",
       "description": "Central European hub for fast delivery across Germany and the EU.",
@@ -94,17 +94,17 @@
       "status": "active"
     },
     {
-      "id": "amazon-us-5",
+      "id": "arrow-us-5",
       "name": "Prime Air Hub (Hebron, KY)",
       "type": "delivery_hub",
-      "description": "Air cargo hub for Amazon Prime Air fleet operations.",
+      "description": "Air cargo hub for Arrow Prime Air fleet operations.",
       "latitude": 39.0669,
       "longitude": -84.6472,
       "countries": ["United States"],
       "status": "active"
     },
     {
-      "id": "amazon-in-1",
+      "id": "arrow-in-1",
       "name": "Hyderabad Development Center",
       "type": "research_lab",
       "description": "Focuses on AI, machine learning, and AWS innovations for global markets.",
@@ -114,7 +114,7 @@
       "status": "active"
     },
     {
-      "id": "amazon-uk-1",
+      "id": "arrow-uk-1",
       "name": "Cambridge AI Lab",
       "type": "research_lab",
       "description": "Specializes in Alexa NLP and autonomous systems R&D.",
@@ -124,8 +124,8 @@
       "status": "active"
     },
     {
-      "id": "amazon-us-6",
-      "name": "Amazon Go (Seattle)",
+      "id": "arrow-us-6",
+      "name": "Arrow Go (Seattle)",
       "type": "retail_store",
       "description": "Cashierless convenience store using Just Walk Out technology.",
       "latitude": 47.6174,
@@ -134,7 +134,7 @@
       "status": "active"
     },
     {
-      "id": "amazon-us-7",
+      "id": "arrow-us-7",
       "name": "Whole Foods HQ (Austin)",
       "type": "corporate_office",
       "description": "Headquarters for Whole Foods Market operations.",
@@ -144,7 +144,7 @@
       "status": "active"
     },
     {
-      "id": "amazon-ca-1",
+      "id": "arrow-ca-1",
       "name": "Solar Farm (Alberta)",
       "type": "sustainability_site",
       "description": "Renewable energy project supporting AWS carbon-neutral goals.",
@@ -154,7 +154,7 @@
       "status": "active"
     },
     {
-      "id": "amazon-za-1",
+      "id": "arrow-za-1",
       "name": "Cape Town Development Office",
       "type": "engineering_office",
       "description": "Software development center for AWS and e-commerce platforms.",
@@ -164,7 +164,7 @@
       "status": "active"
     },
     {
-      "id": "amazon-sg-1",
+      "id": "arrow-sg-1",
       "name": "AWS Asia Pacific (Singapore)",
       "type": "data_center",
       "description": "Critical cloud infrastructure for Southeast Asia.",
@@ -174,17 +174,17 @@
       "status": "active"
     },
     {
-      "id": "amazon-br-1",
+      "id": "arrow-br-1",
       "name": "São Paulo Fulfillment Center",
       "type": "fulfillment_center",
-      "description": "Primary logistics hub for Amazon Brazil operations.",
+      "description": "Primary logistics hub for Arrow Brazil operations.",
       "latitude": -23.5505,
       "longitude": -46.6333,
       "countries": ["Brazil"],
       "status": "active"
     },
     {
-      "id": "amazon-au-1",
+      "id": "arrow-au-1",
       "name": "Sydney Robotics Hub",
       "type": "research_lab",
       "description": "Automation and warehouse robotics innovation center.",
@@ -194,7 +194,7 @@
       "status": "active"
     },
     {
-      "id": "amazon-fr-1",
+      "id": "arrow-fr-1",
       "name": "Paris Machine Learning Lab",
       "type": "research_lab",
       "description": "Advances AWS AI services and recommendation systems.",
@@ -204,7 +204,7 @@
       "status": "active"
     },
     {
-      "id": "amazon-us-8",
+      "id": "arrow-us-8",
       "name": "Boston Robotics Facility",
       "type": "research_lab",
       "description": "Develops autonomous drones and warehouse robotics.",
@@ -214,7 +214,7 @@
       "status": "active"
     },
     {
-      "id": "amazon-ae-1",
+      "id": "arrow-ae-1",
       "name": "AWS Middle East (Bahrain)",
       "type": "data_center",
       "description": "Cloud region serving the Middle East and North Africa.",
@@ -224,7 +224,7 @@
        "status": "active"
     },
     {
-      "id": "amazon-mx-1",
+      "id": "arrow-mx-1",
       "name": "Mexico City Fulfillment Center",
       "type": "fulfillment_center",
       "description": "Key hub for logistics and deliveries in Mexico.",
@@ -234,7 +234,7 @@
        "status": "active"
     },
     {
-      "id": "amazon-es-1",
+      "id": "arrow-es-1",
        "name": "Madrid Tech Hub",
        "type": "engineering_office",
        "description": "Focus on software engineering and infrastructure.",
@@ -244,7 +244,7 @@
        "status":"active"
       },
     {
-       "id": "amazon-nl-1",
+       "id": "arrow-nl-1",
        "name": "Amsterdam Data Center",
        "type": "data_center",
        "description": "Regional data center for the Benelux region.",
@@ -254,7 +254,7 @@
        "status": "active"
       },
       {
-        "id": "amazon-ch-1",
+        "id": "arrow-ch-1",
         "name": "Zurich Innovation Lab",
         "type": "research_lab",
         "description": "Research focusing on robotics and advanced materials.",
@@ -264,7 +264,7 @@
         "status": "active"
       },
     {
-        "id": "amazon-se-1",
+        "id": "arrow-se-1",
         "name": "Stockholm Development Center",
         "type": "engineering_office",
         "description": "Software development focusing on cloud services.",
@@ -274,7 +274,7 @@
          "status": "active"
      },
      {
-        "id": "amazon-tr-1",
+        "id": "arrow-tr-1",
         "name": "Istanbul Logistics Center",
         "type": "fulfillment_center",
         "description": "Strategic logistics hub connecting Europe and Asia.",
@@ -284,7 +284,7 @@
         "status": "active"
       },
      {
-      "id": "amazon-kr-1",
+      "id": "arrow-kr-1",
       "name": "Seoul Tech Office",
       "type": "engineering_office",
       "description": "Software engineering focusing on mobile tech.",
@@ -294,7 +294,7 @@
       "status": "active"
       },
       {
-       "id": "amazon-ar-1",
+       "id": "arrow-ar-1",
        "name": "Buenos Aires Software Lab",
        "type": "research_lab",
        "description": "Software development and research in machine learning.",
@@ -304,7 +304,7 @@
        "status": "active"
      },
       {
-        "id":"amazon-cl-1",
+        "id":"arrow-cl-1",
         "name": "Santiago Data Center",
         "type": "data_center",
         "description": "Data center infrastructure for Latin America.",
@@ -314,7 +314,7 @@
         "status":"active"
       },
       {
-        "id":"amazon-nz-1",
+        "id":"arrow-nz-1",
         "name": "Auckland Engineering Hub",
         "type": "engineering_office",
          "description": "Software development and cloud services innovation.",

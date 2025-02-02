@@ -9,6 +9,7 @@ COPY package*.json /app
 
 # Install dependencies
 RUN npm install
+# RUN npm run build
 
 # Start the development server
 CMD ["npm", "start"]
