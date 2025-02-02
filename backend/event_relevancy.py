@@ -8,6 +8,9 @@ from enum import IntEnum
 
 from pydantic import BaseModel
 from openai import OpenAI
+from enum import Enum
+
+import geopy
 
 import geopandas as gpd
 
@@ -23,6 +26,31 @@ class Score(IntEnum):
     somewhat_relevant = 1
     relevant = 2
     very_relevant = 3
+
+
+class ObjectType(Enum):
+  military = 0
+  economic = 1
+  political = 2
+  infrastructure = 3
+  facility = 4
+  
+  
+class Status(Enum):
+    ACTIVE = "active"
+    INACTIVE = "inactive"
+    UNKNOWN = "unknown"
+
+
+class GeoObject(BaseModel):
+  id: str
+  name: str
+  type: ObjectType
+  description: str
+  latitude: float
+  longitude: float
+  countries: list[str]
+  status: Status
 
 
 # Mapping from the string score (returned by the API) to our Score enum.
@@ -214,6 +242,7 @@ def assess_events_relevancy_batch(
             numeric_score = score_mapping.get(score_str, Score.not_relevant)
             scores[event_id] = (numeric_score, justification)
             poss[event_id] = (item.possibility, item.location, (item.lat, item.lon))
+            
         return scores, poss
     except Exception as e:
         print(f"Error in batched relevancy assessment: {e}")
@@ -652,13 +681,19 @@ def stream_relevant_events(
             if "date" in event and event["date"].endswith("00:00:00.0"):
                 event["date"] = event["date"][:-10]
 
-            yield json.dumps(event)
-            yield "\0"
-            ylded += 1
+                # iterate over infras and add nearby ones
+                event["infra"] = []
+                for facility in json.loads(open("Amazon_facilities.json", "r").read()):
+                    lat, lon = facility["latitude"], facility["longitude"]
+                    coords_1 = (lat, lon)
+                    coords_2 = (event["lat"], event["lon"])
+                    distance = geopy.distance.distance(coords_1, coords_2)
+                    if distance < 100:
+                        print("DISTANCE THRESHOLD")
+                        event["infra"].append(facility)
 
-            if ylded == max_events:
-                executor.shutdown(False)
-                return
+                yield json.dumps(event)
+                yield "\0"
 
 
 def get_relevant_events(
