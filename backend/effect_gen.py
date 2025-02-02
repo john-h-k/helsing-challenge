@@ -16,7 +16,7 @@ def generate_effects(company_context, policy_order, model="o1-mini", num_effects
     The company context is {company_context}
     Each effect should be structured as follows:
     {{
-        "name": string, /* succinct unique name for effect */
+        "name": string, /* succinct unique name for effect. Keep it in title case and spaced, so readable */
         "order": integer, /* first/second/third order effect */
         "parent": "root" | array[string], /* root for first order effect, else the "name"s of the effects it occurs from, */
         "description": string,

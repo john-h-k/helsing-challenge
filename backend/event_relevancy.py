@@ -50,6 +50,9 @@ class Event(BaseModel):
     relevancy_justification: str
     possibility: bool
     relevance_score: str
+    location: str
+    lat: str
+    lon: str
 
 
 # Because the LLM is instructed to return a JSON array (not an object with a key),
@@ -161,7 +164,9 @@ def assess_events_relevancy_batch(
         "Past article dates may still be possibility true, only the dates in the text matter\n"
         "Only events which are related to major potential future events, such as invasions, or bills passing, DIRECTLY, should be marked as possibilitiy true, otherwise possibility false\n"
         "All threats or future military action, or major law passing with an explicitly future date, should be possibility true\n"
+        "An example of a possibility true event is Trump threatening to invade countries or regions\n"
         "Additionally, add a 'location' field which is the most appropriate location (city/country/region, but only one) for the event\n"
+        "Provide `latitude` and `longitude` fields, strings, corresponding to this location"
         '[{"id": "E123", "possibility": boolean, "relevancy_justification": "concise description of why this is relevant or not" "relevance_score": "relevant"}, ...]\n\n'
         f'Company Query: "{query}"\n\n'
         "Events:\n"
@@ -203,7 +208,7 @@ def assess_events_relevancy_batch(
             justification = item.relevancy_justification.strip()
             numeric_score = score_mapping.get(score_str, Score.not_relevant)
             scores[event_id] = (numeric_score, justification)
-            poss[event_id] = item.possibility
+            poss[event_id] = (item.possibility, item.location, (item.lat, item.lon))
         return scores, poss
     except Exception as e:
         print(f"Error in batched relevancy assessment: {e}")
@@ -577,6 +582,9 @@ def get_random_country_coordinate(country_code):
 
 
 def generate_relevant_latlong_single(event):
+    if event["latitude"] and event["longitude"]:
+        return
+
     region = event["region_codes"]
     if isinstance(region, list):
         region = region[0]
@@ -622,8 +630,10 @@ def stream_relevant_events(
         for future in concurrent.futures.as_completed(futures):
             batch_scores, batch_poss = future.result()
 
-            for event_id, poss in batch_poss.items():
+            for event_id, (poss, loc, (lat, lon)) in batch_poss.items():
                 events[event_id]["possibility"] = poss
+                events[event_id]["latitude"] = lat
+                events[event_id]["longitude"] = lon
 
             for event_id, (numeric_score, justification) in batch_scores.items():
                 if numeric_score < Score.very_relevant:

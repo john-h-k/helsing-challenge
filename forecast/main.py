@@ -31,14 +31,12 @@ def get_market_prob(market_data):
     if market == "metaculus":
         api_url = f"https://www.metaculus.com/api2/questions/{market_data["id"]}/"
         res = requests.get(api_url).json()
-        print(res.keys())
         return float(
             res["question"]["aggregations"]["recency_weighted"]["latest"]["means"][0]
         )
 
     elif market == "manifold":
         response = requests.get(url)
-        print(response.text)
         match = re.search(r"probability=(\d+\.?\d*)%", response.text)
         return float(match.group(1)) / 100 if match else None
 

@@ -175,7 +175,7 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                   <p className="text-white/70 mb-4 leading-relaxed">
                     {selectedEvent.description}
                   </p>
-                  ${selectedEvent.possibility &&
+                  {selectedEvent.possibility &&
                     <p className="text-white/70 mb-4 leading-relaxed">
                       <div className="flex gap-4">
                         {selectedEvent.questions?.map(q => (
@@ -210,10 +210,11 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                       <span className="text-white/40 block mb-1">Location</span>
                       <div className="flex items-center gap-2">
                         <span className="text-white/90 font-mono">
-                          {formatCoordinates(
-                            selectedEvent.latitude,
-                            selectedEvent.longitude
-                          )}
+                          {selectedEvent.location}
+                          {/* {formatCoordinates(
+                             selectedEvent.latitude,
+                             selectedEvent.longitude
+                          )} */}
                         </span>
                         {selectedEvent.location && (
                           <span className="text-white/50">
