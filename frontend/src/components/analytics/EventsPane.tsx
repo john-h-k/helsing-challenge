@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Flipper, Flipped } from "react-flip-toolkit";
 import { Event, GeoObject } from "../../types/Event";
 import { format } from "date-fns";
@@ -110,6 +110,37 @@ const formatCoordinates = (
   return `${lat.toFixed(3)}°N, ${lng.toFixed(3)}°E`;
 };
 
+// Add this helper function at the top level
+const getCategoryColor = (category: string) => {
+  switch (category) {
+    case "military":
+      return "from-red-500/20 to-red-600/20 border-red-500/30";
+    case "economic":
+      return "from-emerald-500/20 to-emerald-600/20 border-emerald-500/30";
+    case "political":
+      return "from-blue-500/20 to-blue-600/20 border-blue-500/30";
+    case "infrastructure":
+      return "from-amber-500/20 to-amber-600/20 border-amber-500/30";
+    default:
+      return "from-purple-500/20 to-purple-600/20 border-purple-500/30";
+  }
+};
+
+const getCategoryDot = (category: string) => {
+  switch (category) {
+    case "military":
+      return "bg-red-400";
+    case "economic":
+      return "bg-emerald-400";
+    case "political":
+      return "bg-blue-400";
+    case "infrastructure":
+      return "bg-amber-400";
+    default:
+      return "bg-purple-400";
+  }
+};
+
 const EventsPane: React.FC<EventsPaneProps> = ({
   events,
   selectedEvent,
@@ -118,6 +149,21 @@ const EventsPane: React.FC<EventsPaneProps> = ({
   title = "Events", // Default to "Events" if not provided
 }) => {
   const [showMap, setShowMap] = useState(false);
+
+  // Group events by category
+  const groupedEvents = useMemo(() => {
+    const groups = events.reduce((acc, event) => {
+      const category = event.type || 'other';
+      if (!acc[category]) {
+        acc[category] = [];
+      }
+      acc[category].push(event);
+      return acc;
+    }, {} as Record<string, Event[]>);
+
+    // Sort categories
+    return Object.entries(groups).sort((a, b) => a[0].localeCompare(b[0]));
+  }, [events]);
 
   return (
     <div className="h-full flex flex-col">
@@ -273,110 +319,83 @@ const EventsPane: React.FC<EventsPaneProps> = ({
               </div>
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-6">
               {loading && events.length === 0 && <LoadingDots />}
-              <Flipper flipKey={events.map((event) => event.id).join(",")}>
-                <ul>
-                  {events.map((event) => (
-                    <Flipped key={event.id} flipId={event.id} stagger>
-                      <li>
-                        <button
-                          key={event.id}
-                          onClick={() => onEventSelect(event)}
-                          className="group w-full text-left p-4 rounded-xl bg-gray-900/40 border border-white/10 
-                      transition-all duration-300 hover:border-white/20"
-                        >
-                          <div className="flex items-start justify-between">
-                            <div className="flex items-center gap-3">
-                              <div
-                                className={`w-2 h-2 rounded-full ${
-                                  event.severity === "high"
-                                    ? "bg-red-400"
-                                    : event.severity === "medium"
-                                    ? "bg-amber-400"
-                                    : "bg-emerald-400"
-                                }`}
-                              />
-                              <h3 className="font-medium text-white/90">
-                                {event.title}
-                              </h3>
-                            </div>
-                            <span
-                              className={`px-2.5 py-1 rounded-full text-[11px] font-medium
-                        ${
-                          event.severity === "high"
-                            ? "bg-red-500/10 text-red-400 border border-red-500/20"
-                            : event.severity === "medium"
-                            ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                            : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                        }`}
+              {groupedEvents.map(([category, categoryEvents]) => (
+                <div key={category} className="space-y-2">
+                  <div className="flex items-center gap-3 px-2 mb-4">
+                    <div className={`w-2 h-2 rounded-full ${getCategoryDot(category)}`} />
+                    <h3 className="text-sm font-medium text-white/80 uppercase">
+                      {category}
+                    </h3>
+                  </div>
+                  <Flipper flipKey={categoryEvents.map((event) => event.id).join(",")}>
+                    <ul className="space-y-2">
+                      {categoryEvents.map((event) => (
+                        <Flipped key={event.id} flipId={event.id}>
+                          <li>
+                            <button
+                              onClick={() => onEventSelect(event)}
+                              className="group w-full text-left p-4 rounded-xl bg-gray-900/40 border border-white/10 
+                                transition-all duration-300 hover:border-white/20"
                             >
-                              {event.possibility
-                                ? "?"
-                                : event.severity.toUpperCase()}
-                            </span>
-                          </div>
-                          <p className="mt-2 text-sm text-white/60 leading-relaxed pl-5 mb-2">
-                            {event.description}
-                          </p>
-                          {event.reasoning && (
-                            <>
-                              <div className="my-3 border-t border-white/10" />
-                              <div className="text-sm text-white/60 leading-relaxed p-3 rounded-lg bg-white/5 mx-5">
-                                <div className="font-medium text-white/70 mb-2">
-                                  Reasoning:
+                              <div className="flex items-start justify-between">
+                                <div className="flex items-center gap-3">
+                                  <div
+                                    className={`w-2 h-2 rounded-full ${
+                                      event.severity === "high"
+                                        ? "bg-red-400"
+                                        : event.severity === "medium"
+                                        ? "bg-amber-400"
+                                        : "bg-emerald-400"
+                                    }`}
+                                  />
+                                  <h3 className="font-medium text-white/90">
+                                    {event.title}
+                                  </h3>
                                 </div>
-                                {event.reasoning}
+                                <span
+                                  className={`px-2.5 py-1 rounded-full text-[11px] font-medium
+                                  ${
+                                    event.severity === "high"
+                                      ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                                      : event.severity === "medium"
+                                        ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                                        : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                                  }`}
+                                >
+                                  {event.possibility ? "?" : event.severity.toUpperCase()}
+                                </span>
                               </div>
-                              <div className="my-3 border-t border-white/10" />
-                            </>
-                          )}
-                          {event.possibility && (
-                            <p className="text-white/70 mb-4 leading-relaxed">
-                              <div className="flex gap-4">
-                                {event.questions?.map((q) => (
-                                  <a href={q.url} target="_blank">
-                                    <div
-                                      key={q.market}
-                                      className="flex items-center gap-2 bg-white/10 p-3 rounded-lg"
-                                    >
-                                      <img
-                                        src={`${q.market}.${
-                                          {
-                                            manifold: "jpg",
-                                            metaculus: "jpeg",
-                                            polymarket: "png",
-                                          }[q.market]
-                                        }`}
-                                        alt={q.market}
-                                        className="w-10 h-10 rounded-md"
-                                      />
-                                      <span className="text-lg font-medium">
-                                        {Math.round(q.p * 100)}%
-                                      </span>
+                              <p className="mt-2 text-sm text-white/60 leading-relaxed pl-5 mb-2">
+                                {event.description}
+                              </p>
+                              {event.reasoning && (
+                                <>
+                                  <div className="my-3 border-t border-white/10" />
+                                  <div className="text-sm text-white/60 leading-relaxed p-3 rounded-lg bg-white/5 mx-5">
+                                    <div className="font-medium text-white/70 mb-2">
+                                      Reasoning:
                                     </div>
-                                  </a>
-                                ))}
+                                    {event.reasoning}
+                                  </div>
+                                  <div className="my-3 border-t border-white/10" />
+                                </>
+                              )}
+                              <div className="mt-3 pl-5 flex items-center gap-2 text-xs">
+                                <span className="text-white/40">Location:</span>
+                                <span className="font-mono text-white/60">
+                                  {event.location || formatCoordinates(event.latitude, event.longitude)}
+                                </span>
                               </div>
-                            </p>
-                          )}
-
-                          <div className="mt-3 pl-5 flex items-center gap-2 text-xs">
-                            <span className="text-white/40">Location:</span>
-                            <span className="font-mono text-white/60">
-                              {event.location}
-                              {/*formatCoordinates(
-                                event.latitude,
-                                event.longitude
-                              )*/}
-                            </span>
-                          </div>
-                        </button>
-                      </li>
-                    </Flipped>
-                  ))}
-                </ul>
-              </Flipper>
+                            </button>
+                          </li>
+                        </Flipped>
+                      ))}
+                    </ul>
+                  </Flipper>
+                </div>
+              ))}
             </div>
           )}
         </div>

@@ -686,6 +686,9 @@ def stream_relevant_events(
 
             if event is None or ("News" in event["type"] and random.random() < 0.5):
                 continue
+            
+            if "FTC" in event["type"] and random.random() < 0.7:
+                continue
 
             if "date" in event and event["date"].endswith("00:00:00.0"):
                 event["date"] = event["date"][:-10]
@@ -716,7 +719,7 @@ def stream_relevant_events(
                         "role": "developer",
                         "content": (
                             "You are to provide concise, 2 line summary, reasoning linking the company to this event, bill, or article, explaining why it is important"
-                            "Style it as if you are a profession analyst of the company"
+                            "Style it as if you are a profession analyst of the company and do not provide fluffy points about the company before explaining the link."
                         ),
                     },
                     {
