@@ -61,24 +61,25 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
     Load events from JSON files corresponding to the provided country codes.
     """
     mapping = {
-        "United States": ["policy/us_bills.json", "policy/ftc_actions.json"],
-        "US": ["policy/us_bills.json", "policy/ftc_bills.json"],
-        "United Kingdom": ["policy/uk_bills.json"],
-        "GB": ["policy/uk_bills.json"],
-        "Singapore":["policy/sg_bills.json"],
-        "SG": ["policy/sg_bills.json"],
-        "India": ["policy/india_bills.json"],
-        "IN": ["policy/india_bills.json"],
+        "United States": [("policy/us_bills.json", "Congress"), ("policy/ftc_actions.json","FTC Action")],
+        "US": [("policy/us_bills.json", "Congress"), ("policy/ftc_actions.json","FTC Action")],
+        "United Kingdom": [("policy/uk_bills.json", "House of Commons")],
+        "GB": [("policy/uk_bills.json", "House of Commons")],
+        "Singapore":[("policy/sg_bills.json", "Parliament of Singapore")],
+        "SG": [("policy/sg_bills.json", "Parliament of Singapore")],
+        "India": [("policy/india_bills.json", "Lok Sabha")],
+        "IN": [("policy/india_bills.json", "Lok Sabha")],
     }
     events = []
     for code in country_codes:
         if code in mapping:
-            filenames = mapping[code]
+            filenames, event_type = mapping[code]
             try:
                 for filename in filenames:
                     with open(filename, "r") as f:
                         file_events = json.load(f)
                         for event in file_events:
+                            event['type'] = event_type
                             events.append(event)
             except Exception as e:
                 print(f"Error loading file(s) {filenames}: {e}")
