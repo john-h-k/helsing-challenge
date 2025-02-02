@@ -197,7 +197,7 @@ def assess_events_relevancy_batch(
         '[{"id": "E123", "possibility": boolean, "relevancy_justification": "concise description of why this is relevant or not" "relevance_score": "relevant"}, ...]\n\n'
     )
     if query.strip() != "":
-        prompt += f'Additional Query: "{query}"\n\n' "Events:\n"
+        prompt += f'Additional Query: "{query}"\n\nEvents:\n'
 
     # Enumerate each event in the batch with its key details.
 
@@ -679,10 +679,10 @@ def stream_relevant_events(
             if numeric_score < Score.very_relevant:
                 continue
 
-            event = events[event_id]
+            event = events.get(event_id)
             # generate_relevant_latlong_single(event)
 
-            if "News" in event["type"] and random.random() < 0.5:
+            if event is None or ("News" in event["type"] and random.random() < 0.5):
                 continue
 
             if "date" in event and event["date"].endswith("00:00:00.0"):
