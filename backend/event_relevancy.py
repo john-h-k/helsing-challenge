@@ -9,6 +9,7 @@ from enum import IntEnum
 from pydantic import BaseModel
 from openai import OpenAI
 from enum import Enum
+from geopy.distance import geodesic
 
 import geopy
 
@@ -687,8 +688,8 @@ def stream_relevant_events(
                     lat, lon = facility["latitude"], facility["longitude"]
                     coords_1 = (lat, lon)
                     coords_2 = (event["lat"], event["lon"])
-                    distance = geopy.distance.distance(coords_1, coords_2)
-                    if distance < 100:
+                    distance = geodesic(coords_1, coords_2)
+                    if distance.miles < 100:
                         print("DISTANCE THRESHOLD")
                         event["infra"].append(facility)
 
