@@ -138,6 +138,22 @@ const Dashboard = ({
   // Add state for visible events
   const [visibleEvents, setVisibleEvents] = useState<Event[]>(events);
 
+  // Add new state for managing deselected event types
+  const [deselectedEventTypes, setDeselectedEventTypes] = useState<string[]>(
+    []
+  );
+
+  // Get unique event types/sources from events
+  const eventTypes = useMemo(() => {
+    const types = new Set(events.map((event) => event.type));
+    return Array.from(types);
+  }, [events]);
+
+  // Filter events based on deselected types
+  const filteredEvents = useMemo(() => {
+    return events.filter((event) => !deselectedEventTypes.includes(event.type));
+  }, [events, deselectedEventTypes]);
+
   // Function to calculate polygon area (simplified version)
   const calculateArea = (points: number[][]) => {
     let area = 0;
@@ -257,13 +273,13 @@ const Dashboard = ({
     if (!map.current) return;
 
     const bounds = map.current.getBounds();
-    const visible = events.filter((event) => {
+    const visible = filteredEvents.filter((event) => {
       if (event.longitude == null || event.latitude == null) return false;
       return bounds.contains([event.longitude, event.latitude]);
     });
 
     setVisibleEvents(visible);
-  }, [events]);
+  }, [filteredEvents]);
 
   const facilityIcons = {
     military: "🎯",
@@ -282,6 +298,307 @@ const Dashboard = ({
       case "unknown":
         return "#F59E0B";
     }
+  };
+
+  // Modify the createMarkers function to store markers with their event IDs
+  const markersByEventId = useRef<Map<string, mapboxgl.Marker>>(new Map());
+
+  // Add this function to update marker visibility
+  const updateMarkerVisibility = useCallback(() => {
+    markersByEventId.current.forEach((marker, eventId) => {
+      const event = events.find((e) => e.id === eventId);
+      if (event && !deselectedEventTypes.includes(event.type)) {
+        marker.addTo(map.current!);
+      } else {
+        marker.remove();
+      }
+    });
+  }, [events, deselectedEventTypes]);
+
+  const toggleEventType = (type: string) => {
+    setDeselectedEventTypes((prev) => {
+      const next = prev.includes(type)
+        ? prev.filter((t) => t !== type)
+        : [...prev, type];
+      return next;
+    });
+  };
+
+  // Add effect to update marker visibility when deselected types change
+  useEffect(() => {
+    if (map.current) {
+      updateMarkerVisibility();
+      updateVisibleEvents();
+    }
+  }, [deselectedEventTypes, updateMarkerVisibility, updateVisibleEvents]);
+
+  // Modify the createMarkers function
+  const createMarkers = () => {
+    events.forEach((event) => {
+      if (event.longitude == null || event.latitude == null) return;
+      if (markersByEventId.current.has(event.id)) return;
+
+      // Create marker (existing marker creation code)
+      const markerEl = document.createElement("div");
+      markerEl.className = "relative group";
+
+      // Glow effect
+      const glow = document.createElement("div");
+      glow.className = `absolute -inset-4 rounded-full blur-md transition-opacity duration-300
+        ${
+          event === selectedEvent
+            ? "opacity-30"
+            : "opacity-0 group-hover:opacity-20"
+        }`;
+      glow.style.background = `radial-gradient(circle, ${
+        event.severity === "high"
+          ? "#ef4444"
+          : event.severity === "medium"
+          ? "#f59e0b"
+          : "#10b981"
+      }66, transparent)`;
+
+      // Pulse animation
+      const pulse = document.createElement("div");
+      pulse.className = `absolute -inset-6 rounded-full
+        ${
+          event === selectedEvent
+            ? ""
+            : "group-hover:animate-[pulseGlow_2s_ease-in-out_infinite]"
+        }`;
+      pulse.style.background = `radial-gradient(circle, ${
+        event.severity === "high"
+          ? "#ef4444"
+          : event.severity === "medium"
+          ? "#f59e0b"
+          : "#10b981"
+      }33, transparent)`;
+
+      // Main dot
+      const dot = document.createElement("div");
+      dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 relative
+        ${event === selectedEvent ? "scale-150" : "group-hover:scale-125"}
+        ring-1 ring-white/20 shadow-lg`;
+      dot.style.backgroundColor =
+        event.severity === "high"
+          ? "#ef4444"
+          : event.severity === "medium"
+          ? "#f59e0b"
+          : "#10b981";
+
+      markerEl.appendChild(pulse);
+      markerEl.appendChild(glow);
+      markerEl.appendChild(dot);
+
+      const marker = new mapboxgl.Marker({
+        element: markerEl,
+        anchor: "center",
+      }).setLngLat([event.longitude, event.latitude]);
+
+      // Store marker with event ID
+      markersByEventId.current.set(event.id, marker);
+
+      // Only add to map if event type is not deselected
+      if (!deselectedEventTypes.includes(event.type)) {
+        marker.addTo(map.current!);
+      }
+
+      // Reintroduce marker click to show popup
+      markerEl.addEventListener("click", () => {
+        if (popup.current) popup.current.remove();
+        setSelectedEvent(event);
+
+        const popupContent = `
+          <div class="p-4 min-w-[300px]">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-sm font-medium text-white/90">${event.title}</h3>
+              <span class="px-2 py-1 text-[11px] rounded-full font-medium ${
+                event.severity === "high"
+                  ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                  : event.severity === "medium"
+                  ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                  : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+              }">
+                ${event.severity.toUpperCase()}
+              </span>
+            </div>
+            <p class="text-sm text-white/70 mb-4 leading-relaxed">${
+              event.description
+            }</p>
+            <div class="grid grid-cols-2 gap-3 text-xs">
+              <div class="p-2 rounded-lg bg-white/5 border border-white/10">
+                <span class="block text-white/50 mb-1">Source</span>
+                <span class="text-white/90">${event.source || "N/A"}</span>
+              </div>
+              <div class="p-2 rounded-lg bg-white/5 border border-white/10">
+                <span class="block text-white/50 mb-1">Location</span>
+                <span class="text-white/90">${event.location || "N/A"}</span>
+              </div>
+            </div>
+          </div>
+        `;
+
+        popup.current = new mapboxgl.Popup({
+          closeButton: true,
+          closeOnClick: false,
+          className: "dark-theme-popup",
+          maxWidth: "400px",
+        })
+          .setLngLat([event.longitude, event.latitude])
+          .setHTML(popupContent)
+          .addTo(map.current!);
+
+        map.current?.flyTo({
+          center: [event.longitude, event.latitude],
+          zoom: 4,
+          duration: 1500,
+        });
+      });
+
+      // Hover effect
+      markerEl.addEventListener("mouseenter", () => {
+        hoveredMarker.current = event.id;
+        dot.style.transform = "scale(1.5)";
+        glow.style.opacity = "0.5";
+      });
+
+      markerEl.addEventListener("mouseleave", () => {
+        if (event !== selectedEvent) {
+          dot.style.transform = "scale(1)";
+          glow.style.opacity = "0";
+        }
+        hoveredMarker.current = null;
+      });
+
+      markers.current.push(marker);
+    });
+  };
+
+  const createFacilityMarkers = () => {
+    locations.forEach((location) => {
+      const markerEl = document.createElement("div");
+      markerEl.className = "facility-marker relative group";
+
+      // Main container - made more circular
+      const iconWrapper = document.createElement("div");
+      iconWrapper.className = `
+        w-8 h-8 rounded-full bg-gray-900/90 shadow-xl
+        flex items-center justify-center
+        border transition-all duration-300
+        transform group-hover:scale-110
+        group-hover:-translate-y-1
+      `;
+      iconWrapper.style.borderColor = getStatusColor(location.status);
+
+      // Status indicator - moved inside the circle
+      const statusIndicator = document.createElement("div");
+      statusIndicator.className = "absolute inset-0 rounded-full";
+      statusIndicator.style.background = `radial-gradient(circle at center, ${getStatusColor(
+        location.status
+      )}10, transparent 70%)`;
+
+      // Create SVG element manually with adjusted styling
+      const iconSvg = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "svg"
+      );
+      iconSvg.setAttribute("class", "w-4 h-4 relative z-10");
+      iconSvg.setAttribute("viewBox", "0 0 24 24");
+      iconSvg.setAttribute("fill", "none");
+      iconSvg.setAttribute("stroke", "currentColor");
+      iconSvg.setAttribute("stroke-width", "2");
+
+      // Keep the same switch case for SVG paths
+      switch (location.type) {
+        case "military":
+          iconSvg.innerHTML =
+            '<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>';
+          break;
+        case "economic":
+          iconSvg.innerHTML =
+            '<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H7"/>';
+          break;
+        case "political":
+          iconSvg.innerHTML =
+            '<path d="M2 20h20M4 20V4h16v16"/><path d="M7 8h.01M7 12h.01M7 16h.01M12 8h.01M12 12h.01M12 16h.01M17 8h.01M17 12h.01M17 16h.01"/>';
+          break;
+        case "infrastructure":
+          iconSvg.innerHTML =
+            '<path d="M12 22V2M2 12h20M17 7l-5-5-5 5M17 17l-5 5-5-5"/>';
+          break;
+        case "facility":
+          iconSvg.innerHTML =
+            '<path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16M3 21h18M9 7h.01M9 11h.01M9 15h.01M13 7h2M13 11h2M13 15h2"/>';
+          break;
+      }
+
+      // Add icon container with updated styling
+      const iconContainer = document.createElement("div");
+      iconContainer.className = "text-white/90 relative z-10";
+      iconContainer.appendChild(iconSvg);
+
+      iconWrapper.appendChild(statusIndicator);
+      iconWrapper.appendChild(iconContainer);
+      markerEl.appendChild(iconWrapper);
+
+      const marker = new mapboxgl.Marker({
+        element: markerEl,
+        anchor: "center",
+      })
+        .setLngLat([location.longitude, location.latitude])
+        .addTo(map.current!);
+
+      markerEl.addEventListener("click", () => {
+        if (popup.current) popup.current.remove();
+
+        const popupContent = `
+          <div class="p-4 min-w-[300px]">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-sm font-medium text-white/90">${
+                location.name
+              }</h3>
+              <span class="px-2 py-1 text-[11px] rounded-full font-medium
+                ${
+                  location.status === "active"
+                    ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                    : location.status === "inactive"
+                    ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                    : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                }">
+                ${location.status.toUpperCase()}
+              </span>
+            </div>
+            <p class="text-sm text-white/70 mb-4 leading-relaxed">${
+              location.description
+            }</p>
+            <div class="grid grid-cols-2 gap-3 text-xs">
+              <div class="p-2 rounded-lg bg-white/5 border border-white/10">
+                <span class="block text-white/50 mb-1">Type</span>
+                <span class="text-white/90">${location.type}</span>
+              </div>
+              <div class="p-2 rounded-lg bg-white/5 border border-white/10">
+                <span class="block text-white/50 mb-1">Country</span>
+                <span class="text-white/90">${location.countries.join(
+                  ", "
+                )}</span>
+              </div>
+            </div>
+          </div>
+        `;
+
+        popup.current = new mapboxgl.Popup({
+          closeButton: true,
+          closeOnClick: false,
+          className: "dark-theme-popup",
+          maxWidth: "400px",
+        })
+          .setLngLat([location.longitude, location.latitude])
+          .setHTML(popupContent)
+          .addTo(map.current!);
+      });
+
+      markers.current.push(marker);
+    });
   };
 
   useEffect(() => {
@@ -775,7 +1092,8 @@ const Dashboard = ({
 
     return () => {
       // Remove markers and popup then remove the map
-      markers.current.forEach((marker) => marker.remove());
+      markersByEventId.current.forEach((marker) => marker.remove());
+      markersByEventId.current.clear();
       if (popup.current) popup.current.remove();
       if (map.current) {
         map.current.remove();
@@ -896,7 +1214,33 @@ const Dashboard = ({
         <div ref={mapContainer} className="h-full" />
         <Legend>
           <div className="space-y-6">
-            {/* Events Section */}
+            {/* Sources Section - Add this before Events section */}
+            <div>
+              <h3 className="text-sm font-semibold text-white/90 mb-3">
+                Sources
+              </h3>
+              <div className="space-y-2 max-h-40 overflow-y-auto">
+                {eventTypes.map((type) => (
+                  <div
+                    key={type}
+                    onClick={() => toggleEventType(type)}
+                    className="flex items-center gap-3 cursor-pointer hover:bg-white/5 rounded px-2 py-1 transition-colors"
+                  >
+                    <div
+                      className={`text-xs text-white/70 ${
+                        deselectedEventTypes.includes(type)
+                          ? "line-through opacity-50"
+                          : ""
+                      }`}
+                    >
+                      {type}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Existing Events Section */}
             <div>
               <h3 className="text-sm font-semibold text-white/90 mb-3">
                 Events
@@ -935,7 +1279,7 @@ const Dashboard = ({
                           className="w-full h-full"
                         >
                           {type === "military" && (
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                            <path d="M12 2L2 7l10 5 10-5-10-5M2 17l10 5 10-5M2 12l10 5 10-5" />
                           )}
                           {type === "economic" && (
                             <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H7" />
@@ -1045,26 +1389,29 @@ function App() {
       it,
       (value) => {
         if (value.possibility) {
-          let body = { "question": value.title, "k": 3 }
-          fetch(
-            "http://localhost:5050/get_questions",
-            { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)}
-          ).then(res => res.json()).then(qs => {
-            // let ps = qs.map(q => q.p).sort((a, b) => a - b)
-            // const half = Math.floor(ps.length / 2);
-            // let median = ps.length % 2
-            //     ? ps[half]
-            //     : (ps[half - 1] + ps[half]) / 2;
-
-            // for (let q of qs) {
-            //   q.p = median + ((Math.random() / 5 - 0.1) * median)
-            // }
-
-            value.questions = qs
-            setEvents((prevEvents) => [value, ...prevEvents])
+          let body = { question: value.title, k: 3 };
+          fetch("http://localhost:5050/get_questions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
           })
+            .then((res) => res.json())
+            .then((qs) => {
+              // let ps = qs.map(q => q.p).sort((a, b) => a - b)
+              // const half = Math.floor(ps.length / 2);
+              // let median = ps.length % 2
+              //     ? ps[half]
+              //     : (ps[half - 1] + ps[half]) / 2;
+
+              // for (let q of qs) {
+              //   q.p = median + ((Math.random() / 5 - 0.1) * median)
+              // }
+
+              value.questions = qs;
+              setEvents((prevEvents) => [value, ...prevEvents]);
+            });
         } else {
-          setEvents((prevEvents) => [value, ...prevEvents])        
+          setEvents((prevEvents) => [value, ...prevEvents]);
         }
       },
       () => setLoading((_) => false)
