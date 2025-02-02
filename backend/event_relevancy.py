@@ -148,7 +148,6 @@ def assess_events_relevancy_batch(
     Takes a batch of events and uses a single API call to assess their relevancy.
     Returns a mapping from event id to its numeric Score.
     """
-    print(events_batch)
     prompt = (
         "For each of the following events, evaluate its relevance to the company's strategic decision-making "
         "particularly in the context of regulatory risk. Use the company context and query "
@@ -603,7 +602,7 @@ def stream_relevant_events(
 
     batches = batch_events(
         list(sorted(events.values(), key=lambda k: k.get("country_code") == "MAGIC")),
-        batch_size=100,
+        batch_size=5,
     )
 
     with ThreadPoolExecutor() as executor:
