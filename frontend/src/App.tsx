@@ -17,6 +17,7 @@ import { generateMockEvents, getRealEvents } from "./utils/mockDataGenerator";
 import { Event, GeoObject } from "./types/Event";
 import "mapbox-gl/dist/mapbox-gl.css";
 import EventsPane from "components/analytics/EventsPane";
+import { forEachStream, forEachStreamJson } from "utils/stream";
 import { checkEventInPolygon } from "./utils/geometry";
 import { generateMockLocations } from "utils/mockLocationsGenerator";
 import { PopupContent } from "./components/MapPopup";
@@ -1003,7 +1004,7 @@ function App() {
 
   // Fetch events asynchronously
 
-  let it;
+  let it: AsyncIterator<Event>;
   let k = 10;
   if (USE_REAL) {
     it = getRealEvents(companyContext, k);
@@ -1012,18 +1013,7 @@ function App() {
   }
 
   useEffect(() => {
-    const processNext = () => {
-      it.next().then(({ value, done }) => {
-        if (done) {
-          setLoading((_) => false);
-          return;
-        }
-        setEvents((prevEvents) => [value, ...prevEvents]);
-        processNext(); // recursively process next item
-      });
-    };
-
-    processNext();
+    forEachStream(it, value => setEvents((prevEvents) => [value, ...prevEvents]), () => setLoading(_ => false))
   }, []);
 
   useEffect(() => {

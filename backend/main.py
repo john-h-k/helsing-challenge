@@ -43,8 +43,8 @@ class DecisionsInput(BaseModel):
 
 @app.post("/decisions")
 def decisions(d: DecisionsInput):
-    decisions = decision_gen.generate_decisions(d.company_context, d.event)
-    return decisions
+    it = decision_gen.generate_decisions(d.company_context, d.event)
+    return StreamingResponse(it)
 
 
 # New endpoint for retrieving relevant events based on regulatory or news inputs.

@@ -30,7 +30,8 @@ def generate_decisions(
     "{event}"
     given this company context
     "{company_context}"
-    Output raw JSON only, that can be directly parsed as JSON
+    Output raw JSON only, that can be directly parsed as JSON.
+    The JSON should be SINGLE objects, seperated by the text 'NEWITEM' (without quotes). Do not output markdown, just plain text
     """
 
     response = client.chat.completions.create(
@@ -45,22 +46,41 @@ def generate_decisions(
                 "content": user_prompt,
             },
         ],
+        stream=True,
         # response_format={"type": "json_object"},
     )
 
-    content = response.choices[0].message.content
+    # content = response.choices[0].message.content
 
-    if content == None:
-        content = '["No decisions suggested"]'
+    buff = ""
+    for chunk in response:
+        chunk = chunk.choices[0].delta.content
 
-    if content.startswith("```json"):
-        content = content[7:]
-    if content.endswith("```"):
-        content = content[:-3]
+        if chunk is None or chunk.strip() == "":
+            continue
 
-    print(content)
-    decisions = json.loads(content)
-    return decisions
+        buff += chunk
+
+        items = buff.split("NEWITEM")
+
+        if len(items) > 1:
+            for item in items[:-1]:
+                print(item)
+                yield item
+                yield "\0"
+            buff = items[-1]
+
+    # if content == None:
+    #     content = '["No decisions suggested"]'
+
+    # if content.startswith("```json"):
+    #     content = content[7:]
+    # if content.endswith("```"):
+    #     content = content[:-3]
+
+    # print(content)
+    # decisions = json.loads(content)
+    # return decisions
 
 
 if __name__ == "__main__":

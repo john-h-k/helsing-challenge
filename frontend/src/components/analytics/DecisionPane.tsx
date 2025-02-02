@@ -14,6 +14,8 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { Event, Decision, Effect } from "../../types/Event";
+import { forEachStreamJson } from "utils/stream";
+import { Flipper, Flipped } from "react-flip-toolkit";
 
 // Custom node component
 const EffectNode = ({ data }) => {
@@ -208,6 +210,20 @@ interface DecisionPaneProps {
   onDecisionSelect: (decision: Decision | null) => void;
 }
 
+const reorderDecisions = (decisions) => {
+  const reordered = [...decisions];
+
+  // alternate insertion order: top-left, top-right, middle-left, middle-right
+  const sorted = [];
+  for (let i = 0; i < reordered.length; i += 2) {
+    if (reordered[i]) sorted.push(reordered[i]);
+    if (reordered[i + 1]) sorted.push(reordered[i + 1]);
+  }
+
+  return sorted;
+};
+
+
 const DecisionPane: React.FC<DecisionPaneProps> = ({
   event,
   // companyContext,
@@ -216,41 +232,43 @@ const DecisionPane: React.FC<DecisionPaneProps> = ({
 }) => {
   const companyContext = "UK manufacturing company";
 
+  const [loading, setLoading] = useState(false);
   const [inputText, setInputText] = useState("");
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   const [decisions, setDecisions] = useState<Decision[]>([])
 
-  React.useEffect(() => {
+  React.useEffect(() => {  
     if (event) {
       let body = { company_context: companyContext, event: event.title + "\n\n" + event.description }
       fetch(
         "http://localhost:8080/decisions",
         { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)}
-      ).then(res => res.json()).then(json => {
-        setDecisions(prev => json)
-      });
+      ).then(res =>
+        forEachStreamJson<Decision>(res, (decision) => setDecisions(prev => [...prev, decision]), () => setLoading(_ => false))
+      );
+    } else {
+      setDecisions(_ => [])
     }
   }, [event])
 
   // Update flow when decision changes
   React.useEffect(() => {
     if (selectedDecision) {
-      let body = { company_context: companyContext, : event.title + "\n\n" + event.description }
+      let body = { company_context: companyContext, decision: selectedDecision.description }
       fetch(
-        "http://localhost:8080/decisions",
+        "http://localhost:8080/effects",
         { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)}
-      ).then(res => res.json()).then(json => {
-        setDecisions(prev => json)
+      ).then(res => res.json()).then(effects => {
+        console.log(effects)
+        const { nodes: newNodes, edges: newEdges } = createFlowElements(
+          effects["effects"]
+        );
+        setNodes(newNodes);
+        setEdges(newEdges);
       });
 
-
-      const { nodes: newNodes, edges: newEdges } = createFlowElements(
-        selectedDecision.effects
-      );
-      setNodes(newNodes);
-      setEdges(newEdges);
     }
   }, [selectedDecision, setNodes, setEdges]);
 
@@ -283,8 +301,11 @@ const DecisionPane: React.FC<DecisionPaneProps> = ({
         <h3 className="text-md font-medium text-white/90 mb-6">
           Potential Decisions
         </h3>
+        <Flipper flipKey={decisions?.map((decision) => decision.id).join(",")}>
         <div className="grid grid-cols-2 gap-4">
-          {decisions?.map((decision) => (
+          {reorderDecisions(decisions).map((decision) => (
+            <Flipped key={decision.id} flipId={decision.id} stagger>
+            <div>
             <button
               key={decision.id}
               onClick={() => onDecisionSelect(decision)}
@@ -314,8 +335,12 @@ const DecisionPane: React.FC<DecisionPaneProps> = ({
                 {decision.description}
               </p>
             </button>
+            </div>
+            </Flipped>
           ))}
+
         </div>
+        </Flipper>
       </div>
     );
   };

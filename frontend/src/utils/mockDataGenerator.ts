@@ -1,5 +1,6 @@
 import { Event, PotentialEvent } from "../types/Event";
 import { addDays, subDays } from "date-fns";
+import { streamJson } from "./stream";
 
 const generateRandomCoordinate = () => {
   return Math.random() * 360 - 180;
@@ -165,39 +166,18 @@ export async function* getRealEvents(companyContext: string, count: number): Asy
     max_events: 10
   }
   let res = await fetch("http://localhost:8080/stream_relevant_events", { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)});
-  const reader = res.body.getReader();
 
-
-  let decoder = new TextDecoder();
-  let buffer = "";
-  
-  while (true) {
-    const { value, done } = await reader.read();
-    if (done) break;
-    
-
-    buffer += decoder.decode(value, { stream: true });
-    
-    let parts = buffer.split("\0");
-    buffer = parts.pop(); // last part may be incomplete, save for next loop
-    
-    for (let part of parts) {
-      try {
-        let e = JSON.parse(part);
-        yield {
-          id: e.id,
-          title: e.event_name,
-          description: e.blurb,
-          latitude: e.lat,
-          longitude: e.lon,
-          date: e.date ? new Date(e.date) : new Date(),
-          severity: "high",
-          objects: []
-        };
-      } catch (err) {
-        console.error("JSON parse error:", err);
-      }
-    }
+  for await (const e of streamJson(res)) {
+    yield {
+      id: e.id,
+      title: e.event_name,
+      description: e.blurb,
+      latitude: e.lat,
+      longitude: e.lon,
+      date: e.date ? new Date(e.date) : new Date(),
+      severity: "high",
+      objects: []
+    };
   }
 }
 
