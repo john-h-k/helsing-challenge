@@ -21,6 +21,7 @@ app.add_middleware(
     expose_headers=["*"],
 )
 
+
 @app.get("/")
 def read_root():
     return {"message": "hello, world!"}
@@ -50,7 +51,7 @@ def decisions(d: DecisionsInput):
 
 class RelevantEventsInput(BaseModel):
     company_context: str
-    country_codes: List[str]
+    country_codes: list[str]
     query: str
     max_events: int
 
@@ -77,6 +78,7 @@ class CompanyInfo(RootModel[Dict[str, Any]]):
     """
     A root model for an arbitrary JSON object representing company info.
     """
+
     pass
 
 

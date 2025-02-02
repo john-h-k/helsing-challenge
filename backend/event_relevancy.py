@@ -682,21 +682,22 @@ def stream_relevant_events(
             if "date" in event and event["date"].endswith("00:00:00.0"):
                 event["date"] = event["date"][:-10]
 
-                # iterate over infras and add nearby ones
-                event["infra"] = []
-                facilities = json.loads(open("company_site/company.json", "r").read())['locations']
-                
-                for facility in facilities:
-                    lat, lon = facility["latitude"], facility["longitude"]
-                    coords_1 = (lat, lon)
-                    coords_2 = (event["lat"], event["lon"])
-                    distance = geodesic(coords_1, coords_2)
-                    if distance.miles < 100:
-                        print("DISTANCE THRESHOLD")
-                        event["infra"].append(facility)
+            iterate over infras and add nearby ones
+            event["infra"] = []
+            facilities = json.loads(open("company_site/company.json", "r").read())[
+                "locations"
+            ]
 
-                yield json.dumps(event)
-                yield "\0"
+            for facility in facilities:
+                lat, lon = facility["latitude"], facility["longitude"]
+                coords_1 = (lat, lon)
+                coords_2 = (event["lat"], event["lon"])
+                distance = geodesic(coords_1, coords_2)
+                if distance.miles < 100:
+                    event["infra"].append(facility)
+
+            yield json.dumps(event)
+            yield "\0"
 
 
 def get_relevant_events(
