@@ -94,14 +94,20 @@ async def get_questions(q: GetQuestions):
     qs = []
 
     for source in hits:
+        print(f"Question: {q.question}\nMarket title: {source["title"]}")
         response = client.beta.chat.completions.parse(
-            model="gpt-4o-mini",  # Replace with the correct model if needed
+            model="gpt-4o",  # Replace with the correct model if needed
             messages=[
                 {
                     "role": "system",
                     "content": (
-                        "You are charged with determining whether a prediction market title is highly relevant to a question"
-                        "Respond with a single boolean value true/false plain text and nothing else"
+                        "You are a journalist charged with determining whether a prediction market title is highly relevant to a topic\n"
+                        "Prediction markets predicting the OPPOSITE are considered relevant, as they are still a signal\n"
+                        "Respond with a one of `positive`/`negative`/`null`.\n"
+                        "positive means it predicts the event, specifically, that `prob of this market` is the probability of that topic occurring\n"
+                        "negative means it predicts opposite and nothing else, specifically, that `1 - prob of this market` is the probability of that topic occurring\n"
+                        "Be careful to ensure positive/negative are the right way round\n"
+                        "Ensure markets that do not clearly and directly answer the question are given `null`"
                     ),
                 },
                 {
@@ -112,17 +118,21 @@ async def get_questions(q: GetQuestions):
             temperature=0,
         )
 
-        if response.choices[0].message.content.strip() != "true":
+        true = response.choices[0].message.content.strip() == "positive"
+        negate = response.choices[0].message.content.strip() == "negative"
+
+        if not true and not negate:
             continue
 
         try:
+            prob = get_market_prob(source)
             qs.append(
                 {
                     "id": source["id"],
                     "title": source["title"],
                     "market": source["market"],
                     "url": source["url"],
-                    "p": get_market_prob(source),
+                    "p": prob if true else 1.0 - prob,
                 }
             )
         except Exception as e:
