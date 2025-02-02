@@ -29,9 +29,7 @@
       "Sports": -0.009772000834345818,
       "Celebrity": 0.018349796533584595
     },
-    "score": 0.6738635144450448,
-    "semantic_score": 0.6379868388175964,
-    "fuzzy_score": 0.7575757575757575
+    "score": 0.6738635144450448
   },
   {
     "id": "0xb7d6906795d1da821a8983236ec893a702854f8ea893882e1f005408a3023f1c",
@@ -63,9 +61,7 @@
       "Sports": -0.04802811145782471,
       "Celebrity": -0.02622349001467228
     },
-    "score": 0.644695790608724,
-    "semantic_score": 0.6233749389648438,
-    "fuzzy_score": 0.6944444444444444
+    "score": 0.644695790608724
   },
   {
     "id": "0xc97f02a523c3a7e70c5fed5070db301967212cff9eb5abc30afd528e10b1ffb9",
@@ -97,9 +93,7 @@
       "Sports": -0.02548247016966343,
       "Celebrity": 0.008627839386463165
     },
-    "score": 0.6433068652947743,
-    "semantic_score": 0.6213907599449158,
-    "fuzzy_score": 0.6944444444444444
+    "score": 0.6433068652947743
   },
   {
     "id": "0x055ec29ffac03fbfef273267812139e07207d05a64ba6b9e39223eea331217ed",
@@ -131,9 +125,7 @@
       "Sports": -0.05706125497817993,
       "Celebrity": -0.02746058627963066
     },
-    "score": 0.6431141455968221,
-    "semantic_score": 0.6211154460906982,
-    "fuzzy_score": 0.6944444444444444
+    "score": 0.6431141455968221
   },
   {
     "id": "0xf020738dba678bedae04e8dec109bbaf1a48528af4833736b2f67c3586bf0b58",
@@ -165,9 +157,7 @@
       "Sports": -0.08052410930395126,
       "Celebrity": -0.01731342449784279
     },
-    "score": 0.6422957857449849,
-    "semantic_score": 0.6199463605880737,
-    "fuzzy_score": 0.6944444444444444
+    "score": 0.6422957857449849
   },
   {
     "id": "0x7decaf7834aa2fda896c60d72b0b41f487b34f04c4cd341e39a27402338585cd",
@@ -199,9 +189,7 @@
       "Sports": -0.001841365359723568,
       "Celebrity": 0.002916615456342697
     },
-    "score": 0.6417312385485722,
-    "semantic_score": 0.626649022102356,
-    "fuzzy_score": 0.676923076923077
+    "score": 0.6417312385485722
   },
   {
     "id": "0x27619d612e16ba61fd0c60000d6e1e17947f539bbd5fff7d08a1e0ecb3776462",
@@ -233,9 +221,7 @@
       "Sports": -0.027269504964351654,
       "Celebrity": 0.012132477015256882
     },
-    "score": 0.6380969729579863,
-    "semantic_score": 0.6726912260055542,
-    "fuzzy_score": 0.5573770491803278
+    "score": 0.6380969729579863
   },
   {
     "id": "0xaee97a6886a2f217c2965e472dd346ae3cd220568b29e6191c4bd9c326a2927b",
@@ -267,9 +253,7 @@
       "Sports": -0.0638631284236908,
       "Celebrity": -0.02552047371864319
     },
-    "score": 0.6301180203755696,
-    "semantic_score": 0.6025495529174805,
-    "fuzzy_score": 0.6944444444444444
+    "score": 0.6301180203755696
   },
   {
     "id": "0x34358ad0897f644fa89af707023b66b0193d964d75391420687712b9a9252252",
@@ -301,9 +285,7 @@
       "Sports": -0.046356748789548874,
       "Celebrity": -0.007779743522405624
     },
-    "score": 0.6277355392773946,
-    "semantic_score": 0.5991460084915161,
-    "fuzzy_score": 0.6944444444444444
+    "score": 0.6277355392773946
   },
   {
     "id": "0xa85516717dd49a6f88cb3364a1d272b47b952885a69721e647e116a44b7497a5",
@@ -335,9 +317,7 @@
       "Sports": -0.051914654672145844,
       "Celebrity": -0.014841809868812561
     },
-    "score": 0.6211467782656351,
-    "semantic_score": 0.6492573022842407,
-    "fuzzy_score": 0.5555555555555556
+    "score": 0.6211467782656351
   },
   {
     "id": "0x5fc69c6fa99972be65bd88aac43c6c1cbf5ddd434d66b8ae92c63e3d05e68556",
@@ -369,314 +349,6 @@
       "Sports": -0.022082282230257988,
       "Celebrity": -0.011191735044121742
     },
-    "score": 0.6173381050427754,
-    "semantic_score": 0.5842925310134888,
-    "fuzzy_score": 0.6944444444444444
-  },
-  {
-    "id": "0x9ad5ca3c48581fd02f3c98b645e97e8311a81abb7dd0dea4d90cc8182bd163e8",
-    "name": "Will Trump say 'tariff' 5+ times times during the 2025 State of the Union?",
-    "description": "Donald Trump is scheduled to deliver the 2025 State of the Union address on March 4, 2025, 9:00 PM ET.\n\nThis market will resolve to \"Yes\" if Donald Trump says the listed term during the 2025 State of the Union address. Otherwise, the market will resolve to \"No\".\n\nAny usage of the term regardless of context will count toward the resolution of this market.\n\nPluralization/possessive of the term will count toward the resolution of this market, however other forms will NOT count.\n\nCompound words will not count.\n\nIf the 2025 State of the Union does not happen by December 31, 2025, 11:59 PM ET, this market will resolve to \"No\". If Trump ceases to be President of the United States for any length of time by December 31, 2025, 11:59 PM ET, this market will resolve to \"No\".\n\nThe resolution source will be video and transcripts of the press briefing.",
-    "outcomes": [
-      {
-        "token_id": "113714685204212101661145984255350701089922800037883101558475549255282395451302",
-        "outcome": "Yes",
-        "price": 0.81,
-        "winner": false
-      },
-      {
-        "token_id": "88191582900268638214518548051919524747597247129002209213735659434866705334897",
-        "outcome": "No",
-        "price": 0.19,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-03-04",
-    "primary_category": "Economics",
-    "category_score": 0.19771963357925415,
-    "is_multi_category": false,
-    "secondary_category": null,
-    "category_scores": {
-      "Politics": 0.1053733080625534,
-      "Economics": 0.19771963357925415,
-      "Technology": 0.0664689838886261,
-      "Sports": -0.036094047129154205,
-      "Celebrity": 0.06241413950920105
-    },
-    "score": 0.5831191102663675,
-    "semantic_score": 0.6306463479995728,
-    "fuzzy_score": 0.4722222222222222
-  },
-  {
-    "id": "0xfc7f3404e1dd23b6d4753642cdaa43cdef1e85f34842a90c80c395d9f3189269",
-    "name": "Will America be profitable any month in 2025?",
-    "description": "This market will resolve to \"Yes\" if the Monthly Treasury Statement (MTS) reports a surplus for any month in 2025. Otherwise, this market will resolve to \"No.\"\n\nThe month surplus can be found in the column labeled \"Current Month Deficit Surplus Amount\" in the the table \"Summary of Receipts, Outlays, and Surplus or Deficit\u201d in the MTS (see: https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government). \n\nThe resolution source will be the Monthly Treasury Statement (MTS) published by the U.S. Department of the Treasury. If every month has not been published by February 28, 2026, 11:59 PM ET, another credible source will be used.",
-    "outcomes": [
-      {
-        "token_id": "35773816754173957642810433586961228669722350925786152855132327921509228802075",
-        "outcome": "Yes",
-        "price": 0.92,
-        "winner": false
-      },
-      {
-        "token_id": "97811814819447519743640066809850197625462107499077961092846334479919629284563",
-        "outcome": "No",
-        "price": 0.08,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-12-31",
-    "primary_category": "Economics",
-    "category_score": 0.3521183729171753,
-    "is_multi_category": false,
-    "secondary_category": null,
-    "category_scores": {
-      "Politics": 0.09041199088096619,
-      "Economics": 0.3521183729171753,
-      "Technology": 0.21536366641521454,
-      "Sports": 0.033462975174188614,
-      "Celebrity": 0.09023057669401169
-    },
-    "score": 0.5734280228614808,
-    "semantic_score": 0.5334686040878296,
-    "fuzzy_score": 0.6666666666666667
-  },
-  {
-    "id": "0xb3ea135352ea36f6c3098e729862d795d0f847df542dae31cee355d64d943aab",
-    "name": "Trump imposes 40% tariff on China in first 100 days?",
-    "description": "This market will resolve to \"Yes\" if Donald Trump signs any federal legislation or performs any executive action enacting a general 40% or greater tariff on imports in to the United States from the People's Republic of China by April 29, 2025, 11:59 PM ET. Otherwise, this market will resolve to \"No.\"\n\nA general tariff that includes item specific exceptions will still qualify, as long as a policy of a general 40% or greater tariff on imports in to the United States from People's Republic of China is enacted. \n\nAny tariff which is officially enacted within the market's time frame will qualify, regardless of when the tariff goes into effect.\n\nIf it becomes impossible for Trump to sign legislation/perform executive actions (e.g. he resigns), this market will resolve to \"No\".\n\nThis market's primary resolution source will be official information from the Trump administration, however a consensus of credible information will also be used.",
-    "outcomes": [
-      {
-        "token_id": "31615151084060966235369061443480426450332736371173456607919086388048126607917",
-        "outcome": "Yes",
-        "price": 0.0435,
-        "winner": false
-      },
-      {
-        "token_id": "29374354262380065839026580753091215357840578144582352942828982711065086210235",
-        "outcome": "No",
-        "price": 0.9565,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-04-29",
-    "primary_category": "Economics",
-    "category_score": 0.15249821543693542,
-    "is_multi_category": false,
-    "secondary_category": null,
-    "category_scores": {
-      "Politics": 0.12642982602119446,
-      "Economics": 0.15249821543693542,
-      "Technology": 0.08735040575265884,
-      "Sports": -0.07344061881303787,
-      "Celebrity": -0.020623790100216866
-    },
-    "score": 0.5608812093734741,
-    "semantic_score": 0.5334017276763916,
-    "fuzzy_score": 0.625
-  },
-  {
-    "id": "0x50b8b0f741566a420756d975faaf4cc4716229cd5183c3a35b3b20ac2b5050ef",
-    "name": "Will a new country buy Bitcoin in 2025?",
-    "description": "This market will resolve to \"Yes\" if the government of any sovereign UN member state announces between January 1 and December 31, 2025, 11:59 PM ET that they bought Bitcoin for the first time. Otherwise, this market will resolve to \"No\".\n\nThis announcement can pertain to a first purchase of Bitcoin outside of the timeframe of this market (e.g. if a country announces it made its first purchase of Bitcoin prior to this market's timeframe, but the announcement is made within the timeframe, this market will resolve to \"Yes\").\n\nThe primary resolution source will be official announcements from the governments of any purchasing UN member state, however a consensus of credible reporting will also be used.",
-    "outcomes": [
-      {
-        "token_id": "52696967762983156376661808083218380818225074723063198070857375460800745709299",
-        "outcome": "Yes",
-        "price": 0.655,
-        "winner": false
-      },
-      {
-        "token_id": "68828044399544708262191871118160142177815171872585044911093257854055272644515",
-        "outcome": "No",
-        "price": 0.345,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-12-31",
-    "primary_category": "Economics",
-    "category_score": 0.3113028407096863,
-    "is_multi_category": true,
-    "secondary_category": "Technology",
-    "category_scores": {
-      "Politics": 0.11494787782430649,
-      "Economics": 0.3113028407096863,
-      "Technology": 0.29924440383911133,
-      "Sports": -0.03999069333076477,
-      "Celebrity": 0.031065456569194794
-    },
-    "score": 0.559275816168104,
-    "semantic_score": 0.5540674924850464,
-    "fuzzy_score": 0.5714285714285714
-  },
-  {
-    "id": "0xfa48a99317daef1654d5b03e30557c4222f276657275628d9475e141c64b545d",
-    "name": "US recession in 2025?",
-    "description": "This market will resolve to \u201cYes\u201d, if either of the following conditions are met:\n\n1.  The National Bureau of Economic Research (NBER) publicly announces that a recession has occurred in the United States, at any point in 2025, with the announcement made by December 31, 2025, 11:59 PM ET.\n\n2.  The seasonally adjusted annualized percent change in quarterly U.S. real GDP from the previous quarter is less than 0.0 for two consecutive quarters between Q4 2024 and Q4 2025 (inclusive), as reported by the Bureau of Economic Analysis (BEA). \n\nOtherwise, this market will resolve to \"No\". \n\nNote that advance estimates will be considered. For example, if upon release, the advance estimate for Q2 2025 was negative, and the Q1 2025's most recent, up-to-date estimate was also negative, this market would resolve to \"Yes\". If on December 31, 2025 the latest estimate for quarterly GDP in Q3 2025 was negative, this market will stay open until the Advance estimate of Q4 2025 is published, at which point it will resolve to \"Yes\" if Q4 2025 was negative or if the NBER declares a recession by then.\n\nThe resolution source will be the official announcements from the NBER and the BEA\u2019s estimate of seasonally adjusted annualized percent change in quarterly US real GDP from previous quarters as released by the Bureau of Economic Analysis (BEA), https://www.bea.gov/data/gdp/gross-domestic-product",
-    "outcomes": [
-      {
-        "token_id": "104173557214744537570424345347209544585775842950109756851652855913015295701992",
-        "outcome": "Yes",
-        "price": 0.23,
-        "winner": false
-      },
-      {
-        "token_id": "44528029102356085806317866371026691780796471200782980570839327755136990994869",
-        "outcome": "No",
-        "price": 0.77,
-        "winner": false
-      }
-    ],
-    "end_date": "2026-02-28",
-    "primary_category": "Economics",
-    "category_score": 0.3456527590751648,
-    "is_multi_category": false,
-    "secondary_category": null,
-    "category_scores": {
-      "Politics": 0.11425375938415527,
-      "Economics": 0.3456527590751648,
-      "Technology": 0.17389939725399017,
-      "Sports": 0.05830582231283188,
-      "Celebrity": 0.10104627162218094
-    },
-    "score": 0.5572339856624604,
-    "semantic_score": 0.5603342652320862,
-    "fuzzy_score": 0.55
-  },
-  {
-    "id": "0xb608cf26e1081629f346a99372add130b2b97e7ff74d8396c5cba79e66e4c3bb",
-    "name": "Will Trump be impeached in 2025?",
-    "description": "This market will resolve to \u201cYes\u201c if the US House of Representatives by simple majority vote to approve or pass one or more articles of impeachment of President Donald Trump, between January 20 and December 31, 2025, 11:59 PM ET. Otherwise, this market will resolve to \"No\".\n\nNeither trial nor conviction by the US Senate, nor removal from office, is necessary to resolve this market to \u201cYes\u201c.\n\nThe primary resolution source for this market will be information from the federal government of the United States, however a consensus of credible reporting will be used.",
-    "outcomes": [
-      {
-        "token_id": "18052230577606093248149969614868413514328621185619579841964821235308576641973",
-        "outcome": "Yes",
-        "price": 0.105,
-        "winner": false
-      },
-      {
-        "token_id": "78979903932691084513467810605728687158169414566225121993969016655100163385229",
-        "outcome": "No",
-        "price": 0.895,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-12-31",
-    "primary_category": "Politics",
-    "category_score": 0.14882127940654755,
-    "is_multi_category": false,
-    "secondary_category": null,
-    "category_scores": {
-      "Politics": 0.14882127940654755,
-      "Economics": 0.07739856839179993,
-      "Technology": 0.07651173323392868,
-      "Sports": -0.09541024267673492,
-      "Celebrity": 0.05410913750529289
-    },
-    "score": 0.5479985576868057,
-    "semantic_score": 0.4685693681240082,
-    "fuzzy_score": 0.7333333333333334
-  },
-  {
-    "id": "0xd73154b2483025357f4f0a14474b8ab2f897f84448f40797409023d4e668da1f",
-    "name": "Will federal spending decrease by $500-750b between Q4 2024 and Q2 2025?",
-    "description": "This market will resolve based on federal government current expenditures as reported by the St. Louis Federal Reserve Bank, displayed here (https://fred.stlouisfed.org/series/FGEXPND).\n\nThis market will resolve to \u201cYes\u201d if federal government current expenditures decrease by between $500,000,000,000 (inclusive) and $750,000,000,000 (exclusive) between the Q4 2024 report and the Q2 2025 report. Otherwise, it will resolve to \"No\".\n\nThe difference will be calculated as the Q4 2024 value minus the Q2 2025 value. \n\nThe figures will be based on the initial Q4 2024 and Q2 2025 values as reported by the St. Louis Federal Reserve Bank. Revisions made to these figures will not be considered, only the values reported in the initial reports will be used. \n\nThe figures will be based on the Q4 2024 and Q2 2025 values as reported by the St. Louis Federal Reserve Bank as soon as the data for Q2 2025 becomes available, regardless of whether later revisions are made.\n\nThis market's resolution source is the Federal Government: Current Expenditures chart maintained by the St. Louis Federal Reserve Bank, displayed here (https://fred.stlouisfed.org/series/FGEXPND).",
-    "outcomes": [
-      {
-        "token_id": "77113878942146940401648290496324643930797233785910568689405787117282060888941",
-        "outcome": "Yes",
-        "price": 0.045,
-        "winner": false
-      },
-      {
-        "token_id": "100892797136325034298015344174854259368374555600696627425421680154129670552497",
-        "outcome": "No",
-        "price": 0.955,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-06-30",
-    "primary_category": "Economics",
-    "category_score": 0.2372472584247589,
-    "is_multi_category": false,
-    "secondary_category": null,
-    "category_scores": {
-      "Politics": 0.13130250573158264,
-      "Economics": 0.2372472584247589,
-      "Technology": 0.07887233793735504,
-      "Sports": -0.00558263435959816,
-      "Celebrity": 0.056006141006946564
-    },
-    "score": 0.5449786464373271,
-    "semantic_score": 0.5404456853866577,
-    "fuzzy_score": 0.5555555555555556
-  },
-  {
-    "id": "0xc41d3005202e546f1547a257677413f9a609489076b3a2dd114dfbfa23f7767b",
-    "name": "Will there be 200-250k jobs added in January 2025?",
-    "description": "Total nonfarm payroll employment rose by 256,000 in December 2024.\n\nThis market will resolve to \"Yes\" if the United States gains between 200,000 (inclusive) and 250,000 (exclusive) in nonfarm payroll employment according to the BLS \"Employment Situation Summary\" for January, scheduled to be released on February 7, 2025, 8:30 AM ET. Otherwise, this market will resolve to \"No\".\n\nThe BLS \"Employment Situation Summary\" may be found here: https://www.bls.gov/bls/newsrels.htm",
-    "outcomes": [
-      {
-        "token_id": "19607272679305276840771811742894150981729520598975515110609157912402496270275",
-        "outcome": "Yes",
-        "price": 0.19,
-        "winner": false
-      },
-      {
-        "token_id": "55491446746087529890151878003778889057356068115770523614659959703159395175660",
-        "outcome": "No",
-        "price": 0.81,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-02-07",
-    "primary_category": "Economics",
-    "category_score": 0.2330217808485031,
-    "is_multi_category": false,
-    "secondary_category": null,
-    "category_scores": {
-      "Politics": -0.03051900863647461,
-      "Economics": 0.2330217808485031,
-      "Technology": 0.17607441544532776,
-      "Sports": 0.016413163393735886,
-      "Celebrity": 0.07934603095054626
-    },
-    "score": 0.5430358866850535,
-    "semantic_score": 0.5376703143119812,
-    "fuzzy_score": 0.5555555555555556
-  },
-  {
-    "id": "0x6ee22365b6602d928aa7136f549cc0d718bb16b044a6d15191041b84b5f1f43d",
-    "name": "Will 5 Fed rate cuts happen in 2025?",
-    "description": "The FED interest rates are defined in this market by the upper bound of the target federal funds range. The decisions on the target federal fund range are made by the Federal Open Market Committee (FOMC) meetings.\n\nThis market will resolve to \u201cYes\u201d if the there are exactly 5 cuts of 25 basis points by the Fed's December meeting (including any cuts made during Dec meeting). Otherwise, this market will resolve to \u201cNo.\u201d\n\nThis market may resolve to \"Yes\" immediately after the statement from the Fed's December 2025 meeting has been released if there has been exactly 5 rate cuts by then.\n\nFor example, if the FED cuts rates by 50 bps after a meeting, it would be considered 2 cuts (of 25 bps each). If there are 6 or more rate cuts at any point before this market's resolution date, this market will resolve to \"No\".\n\nNote that cuts between 1-24 bps (inclusive) will also be considered 1 rate cut.\n\nThe resolution source for this market will be FOMC statements after meetings scheduled in 2025 according to the official calendar: https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm. The level and change of the target federal funds rate is also published at the official website of the Federal Reserve at https://www.federalreserve.gov/monetarypolicy/openmarket.htm.",
-    "outcomes": [
-      {
-        "token_id": "302273160494790559492931429044277112497487176914839291053945756072421867571",
-        "outcome": "Yes",
-        "price": 0.049,
-        "winner": false
-      },
-      {
-        "token_id": "71168072025438256100937333610884784661496543167790290367141049156834121296266",
-        "outcome": "No",
-        "price": 0.951,
-        "winner": false
-      }
-    ],
-    "end_date": "2025-12-10",
-    "primary_category": "Economics",
-    "category_score": 0.1862652599811554,
-    "is_multi_category": false,
-    "secondary_category": null,
-    "category_scores": {
-      "Politics": 0.04158186912536621,
-      "Economics": 0.1862652599811554,
-      "Technology": 0.11340764909982681,
-      "Sports": 0.017672132700681686,
-      "Celebrity": 0.05996977537870407
-    },
-    "score": 0.5424496032974937,
-    "semantic_score": 0.5281747579574585,
-    "fuzzy_score": 0.5757575757575757
+    "score": 0.6173381050427754
   }
 ]

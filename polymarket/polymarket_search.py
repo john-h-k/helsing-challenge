@@ -170,7 +170,7 @@ class PolymarketSearch:
             json.dump(self.processed_markets, f, indent=2)
 
     def search_markets(
-        self, query: str, num_results: int = 5, threshold: int = 50
+        self, query: str, num_results: int = 5, threshold: int = 0.6
     ) -> List[Dict]:
         print(f"\nSearching markets for: '{query}'")
 
@@ -220,10 +220,9 @@ class PolymarketSearch:
             {
                 **market,
                 "score": 0.7 * semantic_score + 0.003 * fuzzy_score,
-                "semantic_score": semantic_score,
-                "fuzzy_score": fuzzy_score / 100,
             }
             for market, semantic_score, fuzzy_score in combined_scores
+            if 0.7 * semantic_score + 0.003 * fuzzy_score >= threshold
         ]
 
         # Sort by combined score
