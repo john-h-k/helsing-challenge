@@ -182,7 +182,7 @@ export async function* getRealEvents(
     company_context: companyContext,
     // country_codes: ["CN", "GB"],
     country_codes: ["MAGIC", "GB", "SG", "US", "IN"],
-    query: "Arrow Electronics is expanding its businesses into AI services and is concerned about regulatory risks and tarrif risks.",
+    query: "Arrow Electronics is expanding its businesses into AI services and is concerned about regulatory risks here. It is also concerned about tarrif and regulatory risks with it's traditional IT distribution businesses.",
     max_events: 12
   }
 

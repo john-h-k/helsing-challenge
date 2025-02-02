@@ -725,6 +725,15 @@ def stream_relevant_events(
             )
 
             event["reasoning"] = response.choices[0].message.content.strip()
+            
+            if event['id'] == 'exec':
+                event['type'] = 'US Executive Order'
+            if event['id'] == 'repair':
+                event['type'] = 'FTC Action'
+            if event['id'] == 'british':
+                event['type'] == 'House of Commons'
+            if event['id'] == 'singa':
+                event['type'] == 'Parliament of Singapore'
 
             yield json.dumps(event)
             yield "\0"
