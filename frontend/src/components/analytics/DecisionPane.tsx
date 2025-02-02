@@ -67,18 +67,20 @@ const nodeTypes = {
 
 const getLayoutedElements = (nodes, edges, options, reactFlowInstance) => {
   const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
-  g.setGraph({ rankdir: options.direction, nodesep: 50, ranksep: 150 }); // spacing adjustments
+  g.setGraph({ rankdir: options.direction, nodesep: 100, ranksep: 250 }); // spacing adjustments
+
+  const SEP = 320
 
   edges.forEach((edge) => g.setEdge(edge.source, edge.target));
 
   // measure node dimensions
   const measuredNodes = nodes.map((node) => {
     const domNode = reactFlowInstance?.getNode(node.id)?.domNode;
-    const rect = domNode ? domNode.getBoundingClientRect() : { width: 220, height: 80 }; // default estimate
+    const rect = domNode ? domNode.getBoundingClientRect() : { width: SEP, height: 80 }; // default estimate
 
     return {
       ...node,
-      measured: { width: Math.max(rect.width, 220), height: Math.max(rect.height, 80) }, // enforce min size
+      measured: { width: Math.max(rect.width, SEP), height: Math.max(rect.height, 80) }, // enforce min size
     };
   });
 
@@ -115,7 +117,7 @@ const createFlowElements = (effects: Effect[]) => {
   });
 
   const LEVEL_VERTICAL_SPACING = 150;
-  const HORIZONTAL_SPACING = 200;
+  const HORIZONTAL_SPACING = 300;
 
   // Arrange nodes so that each effect level is a row (top to bottom)
   Object.entries(effectsByOrder).forEach(([order, orderEffects]) => {
@@ -131,7 +133,7 @@ const createFlowElements = (effects: Effect[]) => {
         id: effect.name,
         type: "effect",
         data: effect,
-        position: { x, y },
+        // position: { x, y },
         style:
           orderNum === 1
             ? {
