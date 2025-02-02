@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import List, Dict, Any
+from pydantic import RootModel, BaseModel
+from typing import Any, Dict, List
 import json
 import os
 
@@ -20,7 +20,6 @@ app.add_middleware(
     allow_headers=["*"],
     expose_headers=["*"],
 )
-
 
 @app.get("/")
 def read_root():
@@ -73,10 +72,12 @@ def post_stream_relevant_events(input: RelevantEventsInput):
     return StreamingResponse(it)
 
 
-# New endpoint for setting company info by overwriting company_info/company.json.
-# Since the JSON object can be arbitrary, we use a model with a root type of dict.
-class CompanyInfo(BaseModel):
-    __root__: Dict[str, Any]
+# Updated endpoint for setting company info using pydantic.RootModel.
+class CompanyInfo(RootModel[Dict[str, Any]]):
+    """
+    A root model for an arbitrary JSON object representing company info.
+    """
+    pass
 
 
 @app.post("/set_company")
@@ -88,9 +89,9 @@ def set_company(company: CompanyInfo):
     os.makedirs(directory, exist_ok=True)
 
     try:
+        # For a RootModel, the value is available via the `root` attribute.
         with open(file_path, "w") as f:
-            # company.__root__ contains the JSON object
-            json.dump(company.__root__, f, indent=4)
+            json.dump(company.root, f, indent=4)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error writing file: {e}")
 

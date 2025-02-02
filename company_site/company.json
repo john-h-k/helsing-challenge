@@ -1,0 +1,327 @@
+{
+  "name": "Amazon",
+  "summary": "Amazon.com, Inc. is a global technology and e-commerce leader known for revolutionizing online shopping, cloud computing, digital streaming, and artificial intelligence. With its expansive product catalog, efficient delivery network, and innovative technologies, Amazon has transformed retail and continues to set industry standards in logistics, customer service, and technological innovation. Its diversified portfolio includes the flagship e-commerce platform, Amazon Web Services (AWS), digital media offerings, and smart devices, making it a pivotal player in numerous industries worldwide.",
+  "country_list": [
+      "United States",
+      "Canada",
+      "Mexico",
+      "Brazil",
+      "United Kingdom",
+      "Germany",
+      "France",
+      "Spain",
+      "Italy",
+      "Netherlands",
+      "India",
+      "China",
+      "Japan",
+      "Australia",
+      "Singapore",
+      "United Arab Emirates",
+      "Sweden",
+      "Norway",
+      "Denmark"
+  ],
+  "locations": [
+    {
+      "id": "amazon-us-1",
+      "name": "Amazon Seattle Headquarters",
+      "type": "corporate_office",
+      "description": "Global headquarters overseeing e-commerce, AWS, and Amazon subsidiaries.",
+      "latitude": 47.6226,
+      "longitude": -122.3365,
+      "countries": ["United States"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-us-2",
+      "name": "HQ2 (Arlington)",
+      "type": "corporate_office",
+      "description": "Second headquarters focusing on policy, operations, and tech innovation.",
+      "latitude": 38.8804,
+      "longitude": -77.1133,
+      "countries": ["United States"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-us-3",
+      "name": "AWS US East (N. Virginia)",
+      "type": "data_center",
+      "description": "Largest AWS cloud region, supporting government and enterprise workloads.",
+      "latitude": 38.9047,
+      "longitude": -77.0507,
+      "countries": ["United States"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-ie-1",
+      "name": "AWS EU (Ireland)",
+      "type": "data_center",
+      "description": "Key European cloud hub for EMEA customers.",
+      "latitude": 53.3498,
+      "longitude": -6.2603,
+      "countries": ["Ireland"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-jp-1",
+      "name": "AWS Asia Pacific (Tokyo)",
+      "type": "data_center",
+      "description": "Major APAC cloud infrastructure hub.",
+      "latitude": 35.6895,
+      "longitude": 139.6917,
+      "countries": ["Japan"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-us-4",
+      "name": "Phoenix Fulfillment Center",
+      "type": "fulfillment_center",
+      "description": "Massive logistics hub for Southwestern U.S. order processing.",
+      "latitude": 33.4484,
+      "longitude": -112.0740,
+       "countries": ["United States"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-de-1",
+      "name": "Berlin Fulfillment Center",
+      "type": "fulfillment_center",
+      "description": "Central European hub for fast delivery across Germany and the EU.",
+      "latitude": 52.5200,
+      "longitude": 13.4050,
+      "countries": ["Germany"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-us-5",
+      "name": "Prime Air Hub (Hebron, KY)",
+      "type": "delivery_hub",
+      "description": "Air cargo hub for Amazon Prime Air fleet operations.",
+      "latitude": 39.0669,
+      "longitude": -84.6472,
+      "countries": ["United States"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-in-1",
+      "name": "Hyderabad Development Center",
+      "type": "research_lab",
+      "description": "Focuses on AI, machine learning, and AWS innovations for global markets.",
+      "latitude": 17.3850,
+      "longitude": 78.4867,
+      "countries": ["India"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-uk-1",
+      "name": "Cambridge AI Lab",
+      "type": "research_lab",
+      "description": "Specializes in Alexa NLP and autonomous systems R&D.",
+      "latitude": 52.2053,
+      "longitude": 0.1218,
+      "countries": ["United Kingdom"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-us-6",
+      "name": "Amazon Go (Seattle)",
+      "type": "retail_store",
+      "description": "Cashierless convenience store using Just Walk Out technology.",
+      "latitude": 47.6174,
+      "longitude": -122.3417,
+       "countries": ["United States"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-us-7",
+      "name": "Whole Foods HQ (Austin)",
+      "type": "corporate_office",
+      "description": "Headquarters for Whole Foods Market operations.",
+      "latitude": 30.2672,
+      "longitude": -97.7431,
+      "countries": ["United States"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-ca-1",
+      "name": "Solar Farm (Alberta)",
+      "type": "sustainability_site",
+      "description": "Renewable energy project supporting AWS carbon-neutral goals.",
+      "latitude": 53.9333,
+      "longitude": -116.5765,
+      "countries": ["Canada"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-za-1",
+      "name": "Cape Town Development Office",
+      "type": "engineering_office",
+      "description": "Software development center for AWS and e-commerce platforms.",
+      "latitude": -33.9249,
+      "longitude": 18.4241,
+      "countries": ["South Africa"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-sg-1",
+      "name": "AWS Asia Pacific (Singapore)",
+      "type": "data_center",
+      "description": "Critical cloud infrastructure for Southeast Asia.",
+      "latitude": 1.3521,
+      "longitude": 103.8198,
+      "countries": ["Singapore"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-br-1",
+      "name": "São Paulo Fulfillment Center",
+      "type": "fulfillment_center",
+      "description": "Primary logistics hub for Amazon Brazil operations.",
+      "latitude": -23.5505,
+      "longitude": -46.6333,
+      "countries": ["Brazil"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-au-1",
+      "name": "Sydney Robotics Hub",
+      "type": "research_lab",
+      "description": "Automation and warehouse robotics innovation center.",
+      "latitude": -33.8688,
+      "longitude": 151.2093,
+      "countries": ["Australia"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-fr-1",
+      "name": "Paris Machine Learning Lab",
+      "type": "research_lab",
+      "description": "Advances AWS AI services and recommendation systems.",
+      "latitude": 48.8566,
+      "longitude": 2.3522,
+      "countries": ["France"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-us-8",
+      "name": "Boston Robotics Facility",
+      "type": "research_lab",
+      "description": "Develops autonomous drones and warehouse robotics.",
+      "latitude": 42.3601,
+      "longitude": -71.0589,
+      "countries": ["United States"],
+      "status": "active"
+    },
+    {
+      "id": "amazon-ae-1",
+      "name": "AWS Middle East (Bahrain)",
+      "type": "data_center",
+      "description": "Cloud region serving the Middle East and North Africa.",
+      "latitude": 26.0667,
+      "longitude": 50.5577,
+      "countries": ["Bahrain"],
+       "status": "active"
+    },
+    {
+      "id": "amazon-mx-1",
+      "name": "Mexico City Fulfillment Center",
+      "type": "fulfillment_center",
+      "description": "Key hub for logistics and deliveries in Mexico.",
+       "latitude": 19.4326,
+       "longitude": -99.1332,
+       "countries": ["Mexico"],
+       "status": "active"
+    },
+    {
+      "id": "amazon-es-1",
+       "name": "Madrid Tech Hub",
+       "type": "engineering_office",
+       "description": "Focus on software engineering and infrastructure.",
+       "latitude": 40.4168,
+       "longitude": -3.7038,
+       "countries": ["Spain"],
+       "status":"active"
+      },
+    {
+       "id": "amazon-nl-1",
+       "name": "Amsterdam Data Center",
+       "type": "data_center",
+       "description": "Regional data center for the Benelux region.",
+       "latitude": 52.3676,
+       "longitude": 4.9041,
+       "countries": ["Netherlands"],
+       "status": "active"
+      },
+      {
+        "id": "amazon-ch-1",
+        "name": "Zurich Innovation Lab",
+        "type": "research_lab",
+        "description": "Research focusing on robotics and advanced materials.",
+        "latitude": 47.3769,
+        "longitude": 8.5417,
+        "countries": ["Switzerland"],
+        "status": "active"
+      },
+    {
+        "id": "amazon-se-1",
+        "name": "Stockholm Development Center",
+        "type": "engineering_office",
+        "description": "Software development focusing on cloud services.",
+        "latitude": 59.3293,
+        "longitude": 18.0686,
+        "countries": ["Sweden"],
+         "status": "active"
+     },
+     {
+        "id": "amazon-tr-1",
+        "name": "Istanbul Logistics Center",
+        "type": "fulfillment_center",
+        "description": "Strategic logistics hub connecting Europe and Asia.",
+        "latitude": 41.0082,
+        "longitude": 28.9784,
+        "countries": ["Turkey"],
+        "status": "active"
+      },
+     {
+      "id": "amazon-kr-1",
+      "name": "Seoul Tech Office",
+      "type": "engineering_office",
+      "description": "Software engineering focusing on mobile tech.",
+      "latitude": 37.5665,
+      "longitude": 126.9780,
+      "countries": ["South Korea"],
+      "status": "active"
+      },
+      {
+       "id": "amazon-ar-1",
+       "name": "Buenos Aires Software Lab",
+       "type": "research_lab",
+       "description": "Software development and research in machine learning.",
+        "latitude": -34.6037,
+       "longitude": -58.3816,
+       "countries": ["Argentina"],
+       "status": "active"
+     },
+      {
+        "id":"amazon-cl-1",
+        "name": "Santiago Data Center",
+        "type": "data_center",
+        "description": "Data center infrastructure for Latin America.",
+        "latitude":-33.4489,
+        "longitude": -70.6693,
+        "countries":["Chile"],
+        "status":"active"
+      },
+      {
+        "id":"amazon-nz-1",
+        "name": "Auckland Engineering Hub",
+        "type": "engineering_office",
+         "description": "Software development and cloud services innovation.",
+         "latitude": -36.8485,
+         "longitude": 174.7633,
+         "countries":["New Zealand"],
+         "status":"active"
+      }
+  ]
+}
