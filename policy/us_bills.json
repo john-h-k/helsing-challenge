@@ -24093,7 +24093,7 @@
             "bill_number": "107",
             "bill_type": "hr",
             "congress": 119,
-            "originChamber": "House",
+            "originChamber": "House", 
             "originChamberCode": "H",
             "updateDate": "2025-01-31",
             "updateDateIncludingText": "2025-01-31",
