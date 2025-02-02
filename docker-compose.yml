@@ -19,7 +19,7 @@ services:
     ports:
       - "5050:5050"
     volumes:
-      - .:/app
+      - ./forecast:/app
     command: ["uv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5050", "--reload"]
     env_file: .env
 

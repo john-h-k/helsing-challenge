@@ -12,9 +12,11 @@ client = OpenAI(
 
 @app.post("/get_questions")
 async def get_questions(question: str, k: int):
-    embedding = openai_client.embeddings.create(
-        model="text-embedding-ada-002", input=question
-    )["data"][0]["embedding"]
+    embedding = (
+        client.embeddings.create(model="text-embedding-ada-002", input=question)
+        .data[0]
+        .embedding
+    )
 
     query = {
         "bool": {
