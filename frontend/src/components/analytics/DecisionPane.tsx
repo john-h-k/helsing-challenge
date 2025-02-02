@@ -18,6 +18,8 @@ import "reactflow/dist/style.css";
 import { Event, Decision, Effect } from "../../types/Event";
 import { forEachStreamJson } from "utils/stream";
 import { Flipper, Flipped } from "react-flip-toolkit";
+import LoadingDots from 'components/LoadingDots';
+import LoadingDecision from 'components/LoadingDecision';
 
 // Custom node component
 const EffectNode = ({ data }) => {
@@ -346,6 +348,70 @@ const DecisionPane: React.FC<DecisionPaneProps> = ({
     </div>
   );
 
+  const renderDecisions = () => {
+    // Show loading placeholders
+    if (loading || (decisions.length === 0 && event)) {
+      return (
+        <div className="grid grid-cols-2 gap-4">
+          {[1, 2, 3, 4].map((i) => (
+            <LoadingDecision key={i} index={i} />
+          ))}
+        </div>
+      );
+    }
+
+    // Show actual decisions with stagger animation
+    return (
+      <Flipper flipKey={decisions?.map((decision) => decision.id).join(",")}>
+        <div className="grid grid-cols-2 gap-4">
+          {reorderDecisions(decisions).map((decision, index) => (
+            <Flipped key={decision.id} flipId={decision.id} stagger>
+              <div
+                style={{
+                  animation: `fadeInUp 0.6s ease-out forwards`,
+                  animationDelay: `${index * 0.1}s`,
+                  opacity: 0,
+                  transform: 'translateY(20px)',
+                }}
+              >
+                <button
+                  key={decision.id}
+                  onClick={() => onDecisionSelect(decision)}
+                  className="p-5 rounded-xl bg-emerald-950/30 border border-emerald-600/20 
+                hover:bg-emerald-900/30 hover:border-emerald-500/30
+                transition-all duration-300 text-left group relative overflow-hidden"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <h3 className="font-medium text-emerald-50/90 group-hover:text-emerald-50 transition-colors">
+                      {decision.title}
+                    </h3>
+                    <svg
+                      className="w-5 h-5 text-emerald-400/40 group-hover:text-emerald-400/60 transition-colors"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                  <p className="text-sm text-emerald-100/50 group-hover:text-emerald-100/70 transition-colors">
+                    {decision.description}
+                  </p>
+                </button>
+              </div>
+            </Flipped>
+          ))}
+
+        </div>
+      </Flipper>
+    );
+  };
+
   const renderContent = () => {
     if (!event) {
       return (
@@ -364,46 +430,7 @@ const DecisionPane: React.FC<DecisionPaneProps> = ({
         <h3 className="text-md font-medium text-white/90 mb-6">
           Potential Decisions
         </h3>
-        <Flipper flipKey={decisions?.map((decision) => decision.id).join(",")}>
-          <div className="grid grid-cols-2 gap-4">
-            {reorderDecisions(decisions).map((decision) => (
-              <Flipped key={decision.id} flipId={decision.id} stagger>
-                <div>
-                  <button
-                    key={decision.id}
-                    onClick={() => onDecisionSelect(decision)}
-                    className="p-5 rounded-xl bg-emerald-950/30 border border-emerald-600/20 
-                hover:bg-emerald-900/30 hover:border-emerald-500/30
-                transition-all duration-300 text-left group relative overflow-hidden"
-                  >
-                    <div className="flex items-start justify-between mb-3">
-                      <h3 className="font-medium text-emerald-50/90 group-hover:text-emerald-50 transition-colors">
-                        {decision.title}
-                      </h3>
-                      <svg
-                        className="w-5 h-5 text-emerald-400/40 group-hover:text-emerald-400/60 transition-colors"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </div>
-                    <p className="text-sm text-emerald-100/50 group-hover:text-emerald-100/70 transition-colors">
-                      {decision.description}
-                    </p>
-                  </button>
-                </div>
-              </Flipped>
-            ))}
-
-          </div>
-        </Flipper>
+        {renderDecisions()}
       </div>
     );
   };

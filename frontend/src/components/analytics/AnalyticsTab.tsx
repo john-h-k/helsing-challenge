@@ -40,6 +40,7 @@ const AnalyticsTab: React.FC<AnalyticsTabProps> = ({ events, loading }) => {
           selectedEvent={selectedEvent}
           onEventSelect={setSelectedEvent}
           loading={loading}
+          title={searchParams.get('polygon') ? "Selected Events" : "Events"}
         />
       </div>
 
