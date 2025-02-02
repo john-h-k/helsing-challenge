@@ -51,5 +51,5 @@ export interface Decision {
   id: string;
   title: string;
   description: string;
-  effects: Effect[];
+  // effects: Effect[];
 }

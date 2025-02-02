@@ -26,22 +26,24 @@ def read_root():
 
 
 class EffectsInput(BaseModel):
+    company_context: str
     decision: str
 
 
 @app.post("/effects")
 def effects(e: EffectsInput):
-    tree = effect_gen.generate_effects(e.decision)
+    tree = effect_gen.generate_effects(e.company_context, e.decision)
     return tree
 
 
 class DecisionsInput(BaseModel):
+    company_context: str
     event: str
 
 
 @app.post("/decisions")
 def decisions(d: DecisionsInput):
-    decisions = decision_gen.generate_decision(d.event)
+    decisions = decision_gen.generate_decisions(d.company_context, d.event)
     return decisions
 
 

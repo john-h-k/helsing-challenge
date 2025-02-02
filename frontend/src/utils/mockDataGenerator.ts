@@ -157,9 +157,9 @@ const generateRandomEvent = (index: number): Event => {
   };
 };
 
-export async function* getRealEvents(count: number): AsyncIterator<Event> {
+export async function* getRealEvents(companyContext: string, count: number): AsyncIterator<Event> {
   let body = {
-    company_context: "UK manufacturing company",
+    company_context: companyContext,
     country_codes: ["CN", "GB"],
     query: "Anything relating to UK manufacting, tariffs, tax, etc",
     max_events: 10

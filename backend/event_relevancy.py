@@ -112,7 +112,6 @@ def assess_events_relevancy_batch(
         "'relevant', or 'very relevant'.\n"
         "Return only valid JSON as an array of objects in the following format:\n"
         '[{"id": "E123", "relevancy_justification": "concise description of why this is relevant or not" "relevance_score": "relevant"}, ...]\n\n'
-        f'Company Context: "{company_context}"\n'
         f'Company Query: "{query}"\n\n'
         "Events:\n"
     )
@@ -134,6 +133,7 @@ def assess_events_relevancy_batch(
                     "content": (
                         "You are an expert in assessing regulatory risk relevance, accounting for straightforward regulatory "
                         "and supply chain risks, as well as more hidden tail risks. You must assess the relevance of every event."
+                        f"The company context is {company_context}{f'. The specific query involved is {query}' if query else ''}"
                     ),
                 },
                 {"role": "user", "content": prompt},

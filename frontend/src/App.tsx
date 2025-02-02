@@ -797,6 +797,8 @@ const Dashboard = ({
 const USE_REAL = true
 
 function App() {
+  const companyContext = "UK manufacturing company";
+
   const mapContainer = useRef<HTMLDivElement>(null);
   // Updated state initialization for asynchronous events load
   const [events, setEvents] = useState<Event[]>([]);
@@ -809,7 +811,7 @@ function App() {
   let it;
   let k = 10;
   if (USE_REAL) {
-    it = getRealEvents(k);
+    it = getRealEvents(companyContext, k);
   } else {
     it = generateMockEvents(k);
   }

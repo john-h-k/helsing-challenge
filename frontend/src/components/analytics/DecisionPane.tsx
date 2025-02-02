@@ -203,22 +203,49 @@ const FlowChart: React.FC<{
 
 interface DecisionPaneProps {
   event: Event | null;
+  // companyContext: string;
   selectedDecision: Decision | null;
   onDecisionSelect: (decision: Decision | null) => void;
 }
 
 const DecisionPane: React.FC<DecisionPaneProps> = ({
   event,
+  // companyContext,
   selectedDecision,
   onDecisionSelect,
 }) => {
+  const companyContext = "UK manufacturing company";
+
   const [inputText, setInputText] = useState("");
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
+  const [decisions, setDecisions] = useState<Decision[]>([])
+
+  React.useEffect(() => {
+    if (event) {
+      let body = { company_context: companyContext, event: event.title + "\n\n" + event.description }
+      fetch(
+        "http://localhost:8080/decisions",
+        { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)}
+      ).then(res => res.json()).then(json => {
+        setDecisions(prev => json)
+      });
+    }
+  }, [event])
+
   // Update flow when decision changes
   React.useEffect(() => {
     if (selectedDecision) {
+      let body = { company_context: companyContext, : event.title + "\n\n" + event.description }
+      fetch(
+        "http://localhost:8080/decisions",
+        { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)}
+      ).then(res => res.json()).then(json => {
+        setDecisions(prev => json)
+      });
+
+
       const { nodes: newNodes, edges: newEdges } = createFlowElements(
         selectedDecision.effects
       );
@@ -257,7 +284,7 @@ const DecisionPane: React.FC<DecisionPaneProps> = ({
           Potential Decisions
         </h3>
         <div className="grid grid-cols-2 gap-4">
-          {event.decisions?.map((decision) => (
+          {decisions?.map((decision) => (
             <button
               key={decision.id}
               onClick={() => onDecisionSelect(decision)}

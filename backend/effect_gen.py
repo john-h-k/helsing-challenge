@@ -1,28 +1,31 @@
 from openai import OpenAI
 
-client = OpenAI(api_key="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")
+client = OpenAI(
+    api_key="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"
+)
 from collections import defaultdict
 import json
 
 
-def generate_effects(policy_order, model="o1-mini", num_effects=3):
+def generate_effects(company_context, policy_order, model="o1-mini", num_effects=3):
     """
     Uses OpenAI's model to generate structured effects based on a policy order.
     """
-    system_prompt = """
+    system_prompt = f"""
     You are an expert policy analyst. Given a policy order, generate a set of cascading effects.
+    The company context is {company_context}
     Each effect should be structured as follows:
-    {
+    {{
         "name": string, /* succinct unique name for effect */
         "order": integer, /* first/second/third order effect */
         "parent": "root" | array[string], /* root for first order effect, else the "name"s of the effects it occurs from, */
         "description": string,
         "p_given_parent": map[string, float from 0..1] /* probability of occurrence given parent */
-    }
+    }}
     The top level structure should be:
-    {
+    {{
         effects: list[Effect]
-    }
+    }}
     """
 
     user_prompt = f"""
