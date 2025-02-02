@@ -521,12 +521,16 @@ def get_random_country_coordinate(country_code):
     raise RuntimeError("Failed to find valid coordinates after maximum attempts")
 
 
+def generate_relevant_latlong_single(event):
+    region = event["region_codes"]
+    lat, lon = get_random_country_coordinate(region)
+    event["lat"] = lat
+    event["lon"] = lon
+
+
 def generate_relevant_latlong(events):
     for event in events:
-        region = event["region_codes"]
-        lat, lon = get_random_country_coordinate(region)
-        event["lat"] = lat
-        event["lon"] = lon
+        generate_relevant_latlong_single(event)
     return events
 
 
@@ -563,6 +567,7 @@ def stream_relevant_events(
                 print("found event")
 
                 event = events[event_id]
+                generate_relevant_latlong_single(event)
                 yield json.dumps(event)
                 yield "\0"
 

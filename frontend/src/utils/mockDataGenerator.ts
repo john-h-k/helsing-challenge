@@ -188,9 +188,9 @@ export async function* getRealEvents(count: number): AsyncIterator<Event> {
           id: e.id,
           title: e.event_name,
           description: e.blurb,
-          latitude: 0,
-          longitude: 0,
-          date: e.date,
+          latitude: e.lat,
+          longitude: e.lon,
+          date: e.date ? new Date(e.date) : new Date(),
           severity: "high",
           objects: []
         };
