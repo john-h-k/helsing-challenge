@@ -8,7 +8,8 @@ interface EventsPaneProps {
   events: Event[];
   selectedEvent: Event | null;
   onEventSelect: (event: Event | null) => void;
-  loading: boolean
+  loading: boolean;
+  title?: string;  // Add this
 }
 
 const ObjectCard: React.FC<{ object: GeoObject }> = ({ object }) => (
@@ -99,11 +100,18 @@ const Toggle = ({ checked, onChange }) => (
   </div>
 );
 
+// Add this helper function at the top level
+const formatCoordinates = (lat: number | undefined, lng: number | undefined) => {
+  if (lat === undefined || lng === undefined) return 'Location unknown';
+  return `${lat.toFixed(3)}°N, ${lng.toFixed(3)}°E`;
+};
+
 const EventsPane: React.FC<EventsPaneProps> = ({
   events,
   selectedEvent,
   onEventSelect,
-  loading
+  loading,
+  title = "Events"  // Default to "Events" if not provided
 }) => {
   const [showMap, setShowMap] = useState(false);
 
@@ -132,7 +140,7 @@ const EventsPane: React.FC<EventsPaneProps> = ({
             </button>
           )}
           <h2 className="text-lg font-semibold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-            Events
+            {title}
           </h2>
         </div>
       </div>
@@ -163,7 +171,7 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                   <p className="text-white/70 mb-4 leading-relaxed">
                     {selectedEvent.description}
                   </p>
-                  <div className="grid grid-cols-3 gap-4 text-sm">
+                  <div className="grid grid-cols-2 gap-4 text-sm">
                     <div className="p-3 rounded-lg bg-white/5 border border-white/10">
                       <span className="text-white/40 block mb-1">Source</span>
                       <span className="text-white/90">
@@ -171,16 +179,21 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                       </span>
                     </div>
                     <div className="p-3 rounded-lg bg-white/5 border border-white/10">
-                      <span className="text-white/40 block mb-1">Location</span>
-                      <span className="text-white/90">
-                        {selectedEvent.location}
-                      </span>
-                    </div>
-                    <div className="p-3 rounded-lg bg-white/5 border border-white/10">
                       <span className="text-white/40 block mb-1">Date</span>
                       <span className="text-white/90">
                         {format(selectedEvent.date, "PPP")}
                       </span>
+                    </div>
+                    <div className="col-span-2 p-3 rounded-lg bg-white/5 border border-white/10">
+                      <span className="text-white/40 block mb-1">Location</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-white/90 font-mono">
+                          {formatCoordinates(selectedEvent.latitude, selectedEvent.longitude)}
+                        </span>
+                        {selectedEvent.location && (
+                          <span className="text-white/50">({selectedEvent.location})</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -247,9 +260,15 @@ const EventsPane: React.FC<EventsPaneProps> = ({
                       {event.severity.toUpperCase()}
                     </span>
                   </div>
-                  <p className="mt-2 text-sm text-white/60 leading-relaxed pl-5">
+                  <p className="mt-2 text-sm text-white/60 leading-relaxed pl-5 mb-2">
                     {event.description}
                   </p>
+                  <div className="mt-3 pl-5 flex items-center gap-2 text-xs">
+                    <span className="text-white/40">Location:</span>
+                    <span className="font-mono text-white/60">
+                      {formatCoordinates(event.latitude, event.longitude)}
+                    </span>
+                  </div>
                 </button>
               </li>
             </Flipped>

@@ -363,6 +363,38 @@ const Dashboard = ({
           if (popup.current) popup.current.remove();
           setSelectedEvent(event);
 
+          const popupContent = `
+            <div class="p-4 min-w-[300px]">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-sm font-medium text-white/90">${
+                  event.title
+                }</h3>
+                <span class="px-2 py-1 text-[11px] rounded-full font-medium ${
+                  event.severity === "high"
+                    ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                    : event.severity === "medium"
+                    ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                    : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                }">
+                  ${event.severity.toUpperCase()}
+                </span>
+              </div>
+              <p class="text-sm text-white/70 mb-4 leading-relaxed">${
+                event.description
+              }</p>
+              <div class="grid grid-cols-2 gap-3 text-xs">
+                <div class="p-2 rounded-lg bg-white/5 border border-white/10">
+                  <span class="block text-white/50 mb-1">Source</span>
+                  <span class="text-white/90">${event.source || "N/A"}</span>
+                </div>
+                <div class="p-2 rounded-lg bg-white/5 border border-white/10">
+                  <span class="block text-white/50 mb-1">Location</span>
+                  <span class="text-white/90">${event.location || "N/A"}</span>
+                </div>
+              </div>
+            </div>
+          `;
+
           popup.current = new mapboxgl.Popup({
             closeButton: true,
             closeOnClick: false,
@@ -370,11 +402,7 @@ const Dashboard = ({
             maxWidth: "400px",
           })
             .setLngLat([event.longitude, event.latitude])
-            .setHTML(
-              ReactDOMServer.renderToString(
-                <PopupContent item={event} type="event" />
-              )
-            )
+            .setHTML(popupContent)
             .addTo(map.current!);
 
           map.current?.flyTo({
@@ -673,9 +701,9 @@ const Dashboard = ({
         type: "line",
         source: "drawing-line",
         paint: {
-          "line-color": "#f59e0b",
+          "line-color": "#3b82f6", // Changed from #f59e0b to bright blue
           "line-width": 2,
-          "line-opacity": 0.7,
+          "line-opacity": 0.8, // Slightly increased opacity
         },
       });
 
@@ -685,7 +713,7 @@ const Dashboard = ({
         source: "drawing-points",
         paint: {
           "circle-radius": 5,
-          "circle-color": "#f59e0b",
+          "circle-color": "#3b82f6", // Changed from #f59e0b to match the blue
           "circle-stroke-width": 1,
           "circle-stroke-color": "#ffffff",
         },
@@ -710,7 +738,7 @@ const Dashboard = ({
         type: "line",
         source: "preview-line",
         paint: {
-          "line-color": "#f59e0b",
+          "line-color": "#3b82f6", // Changed from #f59e0b to match
           "line-width": 2,
           "line-opacity": 0.5,
           "line-dasharray": [2, 1],
@@ -736,8 +764,8 @@ const Dashboard = ({
         type: "fill",
         source: "polygon-fill",
         paint: {
-          "fill-color": "#f59e0b",
-          "fill-opacity": 0.2,
+          "fill-color": "#3b82f6", // Changed from #f59e0b to match
+          "fill-opacity": 0.15, // Adjusted for better visibility
         },
       });
     });
@@ -951,8 +979,8 @@ const Dashboard = ({
               Cancel Search
             </>
           ) : searchCoordinates ? (
-            <div className="flex items-center gap-4">
-              <div className="text-white/70">
+            <div className="flex items-center gap-4 min-w-[300px]">
+              <div className="text-white font-medium text-base">
                 {selectedEvents.length} events selected
               </div>
               <button
@@ -960,8 +988,8 @@ const Dashboard = ({
                   e.stopPropagation();
                   handleRemediate();
                 }}
-                className="ml-4 px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-lg 
-                  hover:bg-emerald-500/30 transition-colors"
+                className="ml-auto px-4 py-1.5 bg-blue-500/20 text-blue-300 rounded-lg 
+                  hover:bg-blue-500/30 transition-colors border border-blue-500/30"
               >
                 Remediate
               </button>
@@ -1013,7 +1041,11 @@ function App() {
   }
 
   useEffect(() => {
-    forEachStream(it, value => setEvents((prevEvents) => [value, ...prevEvents]), () => setLoading(_ => false))
+    forEachStream(
+      it,
+      (value) => setEvents((prevEvents) => [value, ...prevEvents]),
+      () => setLoading((_) => false)
+    );
   }, []);
 
   useEffect(() => {
@@ -1025,6 +1057,7 @@ function App() {
       .then(({ features }) => setCountries(features));
   }, []);
 
+  console.log(events);
   return (
     <ThemeProvider theme={darkTheme}>
       <Container>
