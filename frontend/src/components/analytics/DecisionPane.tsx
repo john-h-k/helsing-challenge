@@ -140,12 +140,17 @@ const FlowChart: React.FC<{
 }> = ({ nodes, edges, onNodesChange, onEdgesChange }) => {
   const onInit = useCallback(
     (reactFlowInstance) => {
+      const level1Nodes = nodes.filter(
+        (node) => (node.data as Effect).order === 1
+      );
+
       setTimeout(() => {
         reactFlowInstance.fitView({
           padding: 0.2,
           maxZoom: 1,
           minZoom: 2,
           duration: 800,
+          nodes: level1Nodes,
         });
 
         // Get current viewport state and only modify the zoom
