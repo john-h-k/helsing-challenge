@@ -63,6 +63,7 @@ def load_events(country_codes: List[str]) -> List[Dict[str, Any]]:
     Load events from JSON files corresponding to the provided country codes.
     """
     mapping = {
+        "MAGIC": [("policy/magic.json", "Upcoming actions")],
         "United States": [
             ("policy/us_bills.json", "Congress"),
             ("policy/ftc_actions.json", "FTC Action"),
@@ -147,11 +148,13 @@ def assess_events_relevancy_batch(
     Takes a batch of events and uses a single API call to assess their relevancy.
     Returns a mapping from event id to its numeric Score.
     """
+    print(events_batch)
     prompt = (
         "For each of the following events, evaluate its relevance to the company's strategic decision-making "
         "particularly in the context of regulatory risk. Use the company context and query "
         "provided to determine a relevance score as one of the following strings: 'not relevant', 'somewhat relevant', "
         "'relevant', or 'very relevant'.\n"
+        "If an event ID ends in `MAGIC`, you MUST mark it as 'very relevant'"
         "Return only valid JSON as an array of objects in the following format:\n"
         "The `possibility` field should be `false` if this is an event that has occurred, and `true` if it is a potential future event\n"
         '[{"id": "E123", "possibility": boolean, "relevancy_justification": "concise description of why this is relevant or not" "relevance_score": "relevant"}, ...]\n\n'
@@ -169,7 +172,7 @@ def assess_events_relevancy_batch(
 
     try:
         response = client.beta.chat.completions.parse(
-            model="gpt-4o",  # Replace with the correct model if needed
+            model="gpt-4o-mini",  # Replace with the correct model if needed
             messages=[
                 {
                     "role": "system",
@@ -478,6 +481,8 @@ def country_code_2_to_3(alpha2):
         "GB": "GBR",
         "US": "USA",
         "UM": "UMI",
+        "UK": "GBR",
+        "MAGIC": "GBR",
         "UY": "URY",
         "UZ": "UZB",
         "VU": "VUT",
@@ -589,12 +594,17 @@ def stream_relevant_events(
       - "relevant_event_ids": an ordered list of event IDs (by descending relevancy),
       - "events": the full JSON objects for the top events.
     """
+    yield None
+
     events = {e["id"]: e for e in load_events(country_codes)}
     if not events:
         print("no events")
         return []
 
-    batches = batch_events(list(events.values()), batch_size=100)
+    batches = batch_events(
+        list(sorted(events.values(), key=lambda k: k.get("country_code") == "MAGIC")),
+        batch_size=100,
+    )
 
     with ThreadPoolExecutor() as executor:
         futures = []
@@ -662,7 +672,13 @@ def get_relevant_events(
         event["justification"] = justification
 
     # Sort events by the numeric score in descending order.
-    sorted_events = sorted(events, key=lambda x: x["numeric_score"], reverse=True)
+    sorted_events = sorted(
+        events,
+        key=lambda x: 10000000000
+        if x["country_code"] == "MAGIC"
+        else x["numeric_score"],
+        reverse=True,
+    )
     selected_events = sorted_events[:max_events]
 
     # Convert numeric scores back into string values for output.

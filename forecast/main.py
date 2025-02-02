@@ -4,6 +4,7 @@ from elasticsearch import AsyncElasticsearch
 from openai import OpenAI
 from pydantic import BaseModel
 
+import json
 import re
 import requests
 
@@ -28,10 +29,12 @@ def get_market_prob(market_data):
     url = market_data["url"]
 
     if market == "metaculus":
-        question_id = re.search(r"questions/(\d+)/", url).group(1)
-        api_url = f"https://www.metaculus.com/api2/questions/{question_id}/"
-        response = requests.get(api_url).json()
-        return response.get("community_prediction", {}).get("full", {}).get("q2", None)
+        api_url = f"https://www.metaculus.com/api2/questions/{market_data["id"]}/"
+        res = requests.get(api_url).json()
+        print(res.keys())
+        return float(
+            res["question"]["aggregations"]["recency_weighted"]["latest"]["means"][0]
+        )
 
     elif market == "manifold":
         response = requests.get(url)
@@ -45,10 +48,10 @@ def get_market_prob(market_data):
         return response.get("yes_bid", None)
 
     elif market == "polymarket":
-        market_id = re.search(r"\/market\/([a-f0-9-]+)", url).group(1)
-        api_url = f"https://strapi-api.prod.polymarket.com/markets/{market_id}"
-        response = requests.get(api_url).json()
-        return response.get("probability", None)
+        cid = market_data["id"]
+        api_url = f"https://gamma-api.polymarket.com/markets?condition_ids={cid}"
+        price = json.loads(requests.get(api_url).json()[0]["outcomePrices"])[0]
+        return float(price)
 
     return None
 
@@ -66,36 +69,44 @@ async def get_questions(q: GetQuestions):
         .embedding
     )
 
-    query = {
-        "bool": {
-            "should": [
-                {"match": {"title": q.question}},
-                {
-                    "script_score": {
-                        "query": {"match_all": {}},
-                        "script": {
-                            "source": "cosineSimilarity(params.query_vector, 'title_vector') + 1.0",
-                            "params": {"query_vector": embedding},
-                        },
-                    }
-                },
-            ]
+    hits = []
+    for m in ("polymarket", "manifold", "metaculus"):
+        query = {
+            "bool": {
+                "must": {"match": {"market": m}},
+                "should": [
+                    {"match": {"title": q.question}},
+                    {
+                        "script_score": {
+                            "query": {"match_all": {}},
+                            "script": {
+                                "source": "cosineSimilarity(params.query_vector, 'title_vector') + 1.0",
+                                "params": {"query_vector": embedding},
+                            },
+                        }
+                    },
+                ],
+            }
         }
-    }
 
-    res = await es.search(index="markets", query=query, size=q.k)
+        res = await es.search(index="markets", query=query, size=1)
+        hits.extend(hit["_source"] for hit in res["hits"]["hits"])
+
     qs = []
 
-    for hit in res["hits"]["hits"]:
-        source = hit["_source"]
-        qs.append(
-            {
-                "id": source["id"],
-                "title": source["title"],
-                "market": source["market"],
-                "url": source["url"],
-                "p": get_market_prob(hit),
-            }
-        )
+    for source in hits:
+        try:
+            qs.append(
+                {
+                    "id": source["id"],
+                    "title": source["title"],
+                    "market": source["market"],
+                    "url": source["url"],
+                    "p": get_market_prob(source),
+                }
+            )
+        except Exception as e:
+            print(repr(e))
+            pass
 
     return qs

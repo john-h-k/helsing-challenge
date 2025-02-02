@@ -71,8 +71,8 @@ def relevant_events(input: RelevantEventsInput):
 
 @app.post("/stream_relevant_events")
 def post_stream_relevant_events(input: RelevantEventsInput):
-    return StreamingResponse(
-        stream_relevant_events(
-            input.company_context, input.country_codes, input.query, input.max_events
-        )
+    it = stream_relevant_events(
+        input.company_context, input.country_codes, input.query, input.max_events
     )
+    next(it)
+    return StreamingResponse(it)

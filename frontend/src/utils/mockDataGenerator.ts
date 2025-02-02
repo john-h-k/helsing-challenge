@@ -161,10 +161,12 @@ const generateRandomEvent = (index: number): Event => {
 export async function* getRealEvents(companyContext: string, count: number): AsyncIterator<Event> {
   let body = {
     company_context: companyContext,
-    country_codes: ["CN", "GB"],
+    // country_codes: ["CN", "GB"],
+    country_codes: ["MAGIC", "GB"],
     query: "Anything relating to UK manufacting, tariffs, tax, etc",
     max_events: 10
   }
+
   let res = await fetch("http://localhost:8080/stream_relevant_events", { method: "POST", headers: { "Content-Type": "application/json"}, body: JSON.stringify(body)});
   
   for await (const e of streamJson(res)) {
@@ -174,6 +176,7 @@ export async function* getRealEvents(companyContext: string, count: number): Asy
       description: e.blurb,
       latitude: e.lat,
       possibility: e.possibility,
+      questions: [],
       longitude: e.lon,
       date: e.date ? new Date(e.date) : new Date(),
       severity: "high",
