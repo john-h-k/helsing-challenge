@@ -682,11 +682,10 @@ def stream_relevant_events(
             if "date" in event and event["date"].endswith("00:00:00.0"):
                 event["date"] = event["date"][:-10]
 
-            iterate over infras and add nearby ones
+            # iterate over infras and add nearby ones
             event["infra"] = []
-            facilities = json.loads(open("company_site/company.json", "r").read())[
-                "locations"
-            ]
+            with open("company_site/company.json", "r") as file:
+                facilities = json.load(file)["locations"]
 
             for facility in facilities:
                 lat, lon = facility["latitude"], facility["longitude"]

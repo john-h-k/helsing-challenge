@@ -50,7 +50,7 @@ const EffectNode = ({ data }) => {
         <p className="text-xs text-white/70 mb-2">{data.description}</p>
         {Object.entries(data.p_given_parent).map(([parent, prob]) => (
           <div key={parent} className="text-xs text-white/50">
-            P({data.name}|{parent}): {(prob * 100).toFixed(1)}%
+            P({data.name}{parent && parent != "root" ? `|${parent}` : ''}): {(prob * 100).toFixed(1)}%
           </div>
         ))}
       </div>
