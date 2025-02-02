@@ -176,15 +176,15 @@ export async function* getRealEvents(
     companyContext: string,
     count: number
 ): AsyncIterator<Event> {
-    companyContext =
-        "UK supply chain & defence company. Needs bills related to logistics and national trade, as well as news articles about major political events"
-    let body = {
-        company_context: companyContext,
-        // country_codes: ["CN", "GB"],
-        country_codes: ["MAGIC", "GB", "SG", "US"],
-        query: "Arrow Electronics is expanding its businesses and is concerned about regulatory risks and tarrif risks. They are concerned more with regulatory and legal risk than news.",
-        max_events: 15
-    }
+  companyContext =
+    "Arrow Electronics is a global technology solutions provider specializing in electronic components distribution, enterprise computing solutions, and engineering services. The company supplies semiconductors, connectors, resistors, capacitors, microcontrollers, sensors, power solutions, and networking products. It also offers IT solutions, cloud computing, cybersecurity, AI, and IoT integration services. Arrow serves industries such as aerospace, automotive, industrial, healthcare, and consumer electronics. Arrow Electronics operates globally through various subsidiaries specializing in electronic components and computing solutions. Notable subsidiaries include Arrow Electronics (UK) Ltd., Arrow ECS GmbH (Germany), Arrow Electronics Canada Ltd., and Arrow ECS France SAS, each focusing on distribution and enterprise solutions in their respective regions. They have also recently began expanding into AI services.";
+  let body = {
+    company_context: companyContext,
+    // country_codes: ["CN", "GB"],
+    country_codes: ["MAGIC", "GB", "SG", "US", "IN"],
+    query: "Arrow Electronics is expanding its businesses into AI services and is concerned about regulatory risks and tarrif risks.",
+    max_events: 12
+  }
 
     let res = await fetch("http://localhost:8080/stream_relevant_events", {
         method: "POST",

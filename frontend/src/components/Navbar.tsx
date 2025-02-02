@@ -40,7 +40,7 @@ const Navbar = () => {
               A
             </div>
             <div className="hidden md:block text-left">
-              <p className="text-sm font-medium text-white">Amazon</p>
+              <p className="text-sm font-medium text-white">Arrow Electronics</p>
               <p className="text-xs text-gray-400">Client</p>
             </div>
           </button>
