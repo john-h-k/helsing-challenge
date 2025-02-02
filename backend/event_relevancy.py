@@ -686,7 +686,7 @@ def stream_relevant_events(
 
             if event is None or ("News" in event["type"] and random.random() < 0.5):
                 continue
-            
+
             if "FTC" in event["type"] and random.random() < 0.7:
                 continue
 
@@ -713,6 +713,7 @@ def stream_relevant_events(
 
             response = client.chat.completions.create(
                 model="o3-mini",
+                # model="o1-mini",
                 reasoning_effort="low",
                 messages=[
                     {
